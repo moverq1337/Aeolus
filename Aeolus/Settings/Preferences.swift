@@ -3,7 +3,7 @@ import Foundation
 enum Preferences {
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
-            "hoverDelay": 0.25,
+            "hoverDelay": 0.45,
             "hideInFullscreen": false,
             "batteryAlerts": true,
         ])

@@ -1,21 +1,27 @@
 import SwiftUI
 
 /// Раскрытый плеер в стиле нативного Now Playing попапа macOS (референс в спеке §4.1).
+/// Громкость скрыта за кнопкой-иконкой устройства (снизу справа, как в референсе);
+/// по нажатию остров дорастает и показывает слайдер.
 struct ExpandedPlayerView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
     let volume: VolumeController
+    let volumeShown: Bool
+    let onToggleVolume: () -> Void
     let notchHeight: CGFloat
 
     var body: some View {
         VStack(spacing: 10) {
             header
             progress
-            controls
-            VolumeSlider(
-                volume: volume.volume,
-                deviceIcon: volume.outputIcon,
-                onChange: volume.setVolume)
+            controlsRow
+            if volumeShown {
+                VolumeSlider(
+                    volume: volume.volume,
+                    onChange: volume.setVolume)
+                .transition(.opacity)
+            }
         }
         .padding(.top, notchHeight + 4)
         .padding(.horizontal, 22)
@@ -70,14 +76,24 @@ struct ExpandedPlayerView: View {
         }
     }
 
-    private var controls: some View {
-        HStack(spacing: 34) {
-            ControlButton(systemName: "backward.fill", action: media.previous)
-            ControlButton(
-                systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
-                size: 24,
-                action: media.toggle)
-            ControlButton(systemName: "forward.fill", action: media.next)
+    private var controlsRow: some View {
+        ZStack {
+            HStack(spacing: 34) {
+                ControlButton(systemName: "backward.fill", action: media.previous)
+                ControlButton(
+                    systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
+                    size: 24,
+                    action: media.toggle)
+                ControlButton(systemName: "forward.fill", action: media.next)
+            }
+            HStack {
+                Spacer()
+                ControlButton(
+                    systemName: volume.outputIcon,
+                    size: 13,
+                    action: onToggleVolume)
+                .opacity(volumeShown ? 1 : 0.6)
+            }
         }
     }
 }

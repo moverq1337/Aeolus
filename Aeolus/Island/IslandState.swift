@@ -17,6 +17,8 @@ struct IslandState: Equatable {
     var hasSession = false
     var isPlaying = false
     var pendingBattery: BatteryFlash?
+    /// Слайдер громкости раскрыт отдельной кнопкой внутри Expanded (решение 2026-08-14).
+    var volumeShown = false
 }
 
 enum IslandEvent: Equatable {
@@ -29,6 +31,7 @@ enum IslandEvent: Equatable {
     case clickedOutside
     case battery(BatteryFlash)
     case batteryFlashEnded
+    case volumeToggled
 }
 
 enum IslandEffect: Equatable {

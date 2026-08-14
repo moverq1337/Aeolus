@@ -3,10 +3,12 @@ import CoreGraphics
 struct IslandLayout: Equatable {
     var notchSize: CGSize
 
-    static let expandedSize = CGSize(width: 400, height: 210)
+    static let expandedSize = CGSize(width: 360, height: 178)
+    /// С раскрытым слайдером громкости остров дорастает вниз.
+    static let expandedVolumeSize = CGSize(width: 360, height: 206)
     static let earWidth: CGFloat = 44
     static let batteryEarWidth: CGFloat = 70
-    static let peekDelta = CGSize(width: 6, height: 2)
+    static let peekDelta = CGSize(width: 10, height: 3)
 
     func size(for state: IslandState) -> CGSize {
         switch state.surface {
@@ -17,7 +19,7 @@ struct IslandLayout: Equatable {
             return CGSize(width: base.width + Self.peekDelta.width,
                           height: base.height + Self.peekDelta.height)
         case .expanded:
-            return Self.expandedSize
+            return state.volumeShown ? Self.expandedVolumeSize : Self.expandedSize
         case .battery:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)

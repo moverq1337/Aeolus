@@ -2,7 +2,6 @@ import SwiftUI
 
 struct VolumeSlider: View {
     let volume: Float
-    let deviceIcon: String
     let onChange: (Float) -> Void
 
     var body: some View {
@@ -26,7 +25,7 @@ struct VolumeSlider: View {
                         })
             }
             .frame(height: 12)
-            Image(systemName: deviceIcon)
+            Image(systemName: "speaker.wave.3.fill")
                 .font(.system(size: 10))
                 .foregroundStyle(.white.opacity(0.55))
         }

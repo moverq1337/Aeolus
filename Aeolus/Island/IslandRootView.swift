@@ -13,32 +13,34 @@ struct IslandRootView: View {
         let size = layout.size(for: vm.state)
         let radii = layout.radii(for: vm.state)
 
-        NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom)
-            .fill(Color.black)
-            .overlay(alignment: .top) { islandContent }
-            .clipShape(NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom))
-            // 1px чёрная полоска у кромки — прячет шов между окном и бесселем (спека §6)
-            .overlay(alignment: .top) {
-                Rectangle().fill(Color.black)
-                    .frame(height: 1)
-                    .padding(.horizontal, radii.top)
-            }
-            .compositingGroup()
-            .shadow(
-                color: .black.opacity(vm.state.surface == .expanded ? 0.55 : 0),
-                radius: 6, y: 2)
-            .frame(width: size.width, height: size.height)
-            .contentShape(Rectangle())
-            .onHover { inside in
-                vm.handle(inside ? .hoverBegan : .hoverEnded)
-            }
-            .onTapGesture { vm.handle(.tapped) }
-            .animation(animation(for: vm.state.surface), value: vm.state)
-            .frame(
-                width: metrics.windowFrame.width,
-                height: metrics.windowFrame.height,
-                alignment: .top)
-            .environment(\.colorScheme, .dark)
+        ZStack(alignment: .top) {
+            NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom)
+                .fill(Color.black)
+            islandContent
+        }
+        .clipShape(NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom))
+        // 1px чёрная полоска у кромки — прячет шов между окном и бесселем (спека §6)
+        .overlay(alignment: .top) {
+            Rectangle().fill(Color.black)
+                .frame(height: 1)
+                .padding(.horizontal, radii.top)
+        }
+        .compositingGroup()
+        .shadow(
+            color: .black.opacity(vm.state.surface == .expanded ? 0.55 : 0),
+            radius: 6, y: 2)
+        .frame(width: size.width, height: size.height)
+        .contentShape(Rectangle())
+        .onHover { inside in
+            vm.handle(inside ? .hoverBegan : .hoverEnded)
+        }
+        .onTapGesture { vm.handle(.tapped) }
+        .animation(animation(for: vm.state.surface), value: vm.state)
+        .frame(
+            width: metrics.windowFrame.width,
+            height: metrics.windowFrame.height,
+            alignment: .top)
+        .environment(\.colorScheme, .dark)
     }
 
     @ViewBuilder private var islandContent: some View {
@@ -51,18 +53,16 @@ struct IslandRootView: View {
                     isPlaying: vm.state.isPlaying)
             }
         case .expanded:
-            expandedContent
+            ExpandedPlayerView(
+                nowPlaying: nowPlaying,
+                media: media,
+                volume: volume,
+                volumeShown: vm.state.volumeShown,
+                onToggleVolume: { vm.handle(.volumeToggled) },
+                notchHeight: metrics.closedSize.height)
         case .battery(let flash):
             batteryContent(flash)
         }
-    }
-
-    @ViewBuilder private var expandedContent: some View {
-        ExpandedPlayerView(
-            nowPlaying: nowPlaying,
-            media: media,
-            volume: volume,
-            notchHeight: metrics.closedSize.height)
     }
 
     // Заглушка — Task 11 заменяет на BatteryActivityView.

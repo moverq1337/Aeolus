@@ -24,13 +24,20 @@ struct IslandLayoutTests {
 
     @Test func peekAddsBreath() {
         #expect(layout.size(for: state(.peek, session: false))
-                == CGSize(width: 210, height: 34)) // +6 / +2
+                == CGSize(width: 214, height: 35)) // +10 / +3
         #expect(layout.size(for: state(.peek))
-                == CGSize(width: 204 + 88 + 6, height: 34))
+                == CGSize(width: 204 + 88 + 10, height: 35))
     }
 
     @Test func expandedUsesFixedSize() {
         #expect(layout.size(for: state(.expanded)) == IslandLayout.expandedSize)
+    }
+
+    @Test func expandedGrowsWhenVolumeShown() {
+        var s = state(.expanded)
+        s.volumeShown = true
+        #expect(layout.size(for: s) == IslandLayout.expandedVolumeSize)
+        #expect(IslandLayout.expandedVolumeSize.height > IslandLayout.expandedSize.height)
     }
 
     @Test func batteryAddsWideEars() {

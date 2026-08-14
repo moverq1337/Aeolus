@@ -43,7 +43,7 @@ final class PanelController {
                 auxLeftWidth: screen.auxiliaryTopLeftArea?.width,
                 auxRightWidth: screen.auxiliaryTopRightArea?.width,
                 safeAreaTop: screen.safeAreaInsets.top,
-                expandedSize: IslandLayout.expandedSize)
+                expandedSize: IslandLayout.expandedVolumeSize)
         else { return } // клемшелл или экран без выреза — острова нет
 
         metrics = m
@@ -65,6 +65,8 @@ final class PanelController {
         p.setFrame(m.windowFrame, display: true)
         panel = p
         if !hidden { p.orderFrontRegardless() }
+        // Собственное CGS-пространство: остров неподвижен при свайпах между Spaces.
+        NotchSpace.shared.attach(p)
     }
 
     func setHidden(_ value: Bool) {

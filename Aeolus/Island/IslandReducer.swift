@@ -8,6 +8,7 @@ enum IslandReducer {
                 switch s.surface {
                 case .expanded:
                     s.surface = .collapsed
+                    s.volumeShown = false
                     return [.cancelCloseDebounce]
                 case .peek:
                     s.surface = .collapsed
@@ -57,6 +58,7 @@ enum IslandReducer {
 
         case .closeDebounceFired, .clickedOutside:
             guard s.surface == .expanded else { return [] }
+            s.volumeShown = false
             if let flash = s.pendingBattery {
                 s.pendingBattery = nil
                 s.surface = .battery(flash)
@@ -82,6 +84,11 @@ enum IslandReducer {
             guard case .battery = s.surface else { return [] }
             s.surface = .collapsed
             return []
+
+        case .volumeToggled:
+            guard s.surface == .expanded else { return [] }
+            s.volumeShown.toggle()
+            return [.haptic]
         }
     }
 }

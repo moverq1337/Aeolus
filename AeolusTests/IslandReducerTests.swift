@@ -106,6 +106,28 @@ struct IslandReducerTests {
         #expect(fx == [.cancelDwellTimer, .scheduleBatteryEnd])
     }
 
+    @Test func volumeTogglesOnlyWhileExpanded() {
+        var s = playingState()
+        #expect(IslandReducer.reduce(&s, .volumeToggled).isEmpty) // collapsed — игнор
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        #expect(IslandReducer.reduce(&s, .volumeToggled) == [.haptic])
+        #expect(s.volumeShown)
+        _ = IslandReducer.reduce(&s, .volumeToggled)
+        #expect(!s.volumeShown)
+    }
+
+    @Test func collapseResetsVolumeShown() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        _ = IslandReducer.reduce(&s, .volumeToggled)
+        _ = IslandReducer.reduce(&s, .hoverEnded)
+        _ = IslandReducer.reduce(&s, .closeDebounceFired)
+        #expect(s.surface == .collapsed)
+        #expect(!s.volumeShown)
+    }
+
     @Test func clickOutsideCollapsesExpanded() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)

@@ -8,10 +8,10 @@ struct CollapsedEarsView: View {
     var body: some View {
         HStack(spacing: 0) {
             artworkThumb
-                .padding(.leading, 7)
+                .padding(.leading, 13)
             Spacer(minLength: notchSize.width)
             EqualizerBars(animating: isPlaying)
-                .padding(.trailing, 9)
+                .padding(.trailing, 14)
         }
         .frame(height: notchSize.height)
     }
