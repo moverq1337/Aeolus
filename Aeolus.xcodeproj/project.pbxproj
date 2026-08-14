@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2046EFB185B9E729150F12ED /* mediaremote-adapter.pl in Resources */ = {isa = PBXBuildFile; fileRef = FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */; };
 		6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A21F134414CA75739DEDDE6 /* AppServices.swift */; };
 		7FAE763B6E2CCB122AA5618C /* NotchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */; };
 		8309F4AF47BB6C70B82D3759 /* PanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED545AD1604AB0DEAC93B92 /* PanelController.swift */; };
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
+		B33C8D7CBA041DBF8E56746F /* MediaRemoteAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; };
 		B95DB3D25F02DC52219FEF57 /* NotchShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C96177058A338C5B463E2C /* NotchShape.swift */; };
+		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DEEEE638577ECC37D488E9AC /* IslandRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E255473532B6C7B4CB412A /* IslandRootView.swift */; };
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
@@ -28,12 +31,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E4A2920CC0201DA3EDEA3C0B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchPanel.swift; sourceTree = "<group>"; };
 		47CDBB4D7704F30EE08D8A43 /* Aeolus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aeolus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		5A21F134414CA75739DEDDE6 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
+		7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemoteAdapter.framework; path = "Vendor/mediaremote-adapter/MediaRemoteAdapter.framework"; sourceTree = "<group>"; };
 		AFE10EFA83D4848598448303 /* SmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTests.swift; sourceTree = "<group>"; };
 		C6E255473532B6C7B4CB412A /* IslandRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandRootView.swift; sourceTree = "<group>"; };
 		C7C96177058A338C5B463E2C /* NotchShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShape.swift; sourceTree = "<group>"; };
@@ -41,9 +59,29 @@
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
 		CED545AD1604AB0DEAC93B92 /* PanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelController.swift; sourceTree = "<group>"; };
 		D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometryTests.swift; sourceTree = "<group>"; };
+		FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = "mediaremote-adapter.pl"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		21C71917CFBE584AE4EC66BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B33C8D7CBA041DBF8E56746F /* MediaRemoteAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
+		043FB2751EA5D1699BC718AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		126FF3ABED3D00A4F792B15F /* AeolusTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -68,8 +106,26 @@
 			children = (
 				39F2635100F6ACC0EBA4F637 /* Aeolus */,
 				126FF3ABED3D00A4F792B15F /* AeolusTests */,
+				74A413F301E0968497B1DF64 /* Vendor */,
+				043FB2751EA5D1699BC718AD /* Frameworks */,
 				819FAEDF32A11B95A183573C /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		74A413F301E0968497B1DF64 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				7A8D4827EA9686A111AEAF53 /* mediaremote-adapter */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		7A8D4827EA9686A111AEAF53 /* mediaremote-adapter */ = {
+			isa = PBXGroup;
+			children = (
+				FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */,
+			);
+			path = "mediaremote-adapter";
 			sourceTree = "<group>";
 		};
 		819FAEDF32A11B95A183573C /* Products */ = {
@@ -110,6 +166,9 @@
 			buildConfigurationList = 0C00549FE9D4CA23E4B89D8B /* Build configuration list for PBXNativeTarget "Aeolus" */;
 			buildPhases = (
 				FC3B1C2083BAD230D1A93370 /* Sources */,
+				4BB866B500F620B191818848 /* Resources */,
+				21C71917CFBE584AE4EC66BE /* Frameworks */,
+				E4A2920CC0201DA3EDEA3C0B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -177,6 +236,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4BB866B500F620B191818848 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2046EFB185B9E729150F12ED /* mediaremote-adapter.pl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		620F1C62BE34FB85DAABC339 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -219,6 +289,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor/mediaremote-adapter\"",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Aeolus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -300,6 +374,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor/mediaremote-adapter\"",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Aeolus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -19,6 +19,12 @@ targets:
     platform: macOS
     sources:
       - Aeolus
+      - path: Vendor/mediaremote-adapter/mediaremote-adapter.pl
+        buildPhase: resources
+    dependencies:
+      - framework: Vendor/mediaremote-adapter/MediaRemoteAdapter.framework
+        embed: true
+        codeSign: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.moverq1337.aeolus
