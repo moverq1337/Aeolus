@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install xcodegen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate
+      - name: Test
+        run: |
+          xcodebuild -project Aeolus.xcodeproj -scheme Aeolus \
+            -destination 'platform=macOS' -derivedDataPath build test
+      - name: Release build
+        run: |
+          xcodebuild -project Aeolus.xcodeproj -scheme Aeolus \
+            -configuration Release -derivedDataPath build build
