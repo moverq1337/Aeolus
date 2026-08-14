@@ -18,4 +18,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppServices.shared.start()
     }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        // Без этого perl-процесс адаптера пережил бы выход из приложения (спека §5.5).
+        Task { @MainActor in
+            await AppServices.shared.engine?.stop()
+            sender.reply(toApplicationShouldTerminate: true)
+        }
+        return .terminateLater
+    }
 }

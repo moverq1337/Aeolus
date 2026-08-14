@@ -12,15 +12,20 @@
 		23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */; };
 		6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A21F134414CA75739DEDDE6 /* AppServices.swift */; };
 		7FAE763B6E2CCB122AA5618C /* NotchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */; };
+		801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E684A040C402F9C991448B41 /* MediaEngine.swift */; };
 		8309F4AF47BB6C70B82D3759 /* PanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED545AD1604AB0DEAC93B92 /* PanelController.swift */; };
 		85ED1676CFF7C9FAB120FEB2 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32878FBAB612692AC6652F9E /* NowPlaying.swift */; };
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
+		B2C661978466F31D4E03154C /* AdapterPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EE347A5AC93DF0B267570B /* AdapterPaths.swift */; };
 		B33C8D7CBA041DBF8E56746F /* MediaRemoteAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; };
 		B95DB3D25F02DC52219FEF57 /* NotchShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C96177058A338C5B463E2C /* NotchShape.swift */; };
+		BDF3D3D1559CD6670A577370 /* RestartPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A7D5B222D0A8E685892C5E /* RestartPolicyTests.swift */; };
 		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DDD6912FB0EB9A1C0DA663BF /* RestartPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190A429536053029AA5FF651 /* RestartPolicy.swift */; };
 		DEEEE638577ECC37D488E9AC /* IslandRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E255473532B6C7B4CB412A /* IslandRootView.swift */; };
 		E0C192966439D5662EA27100 /* LineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3BA73B412631507638371E /* LineBufferTests.swift */; };
+		E89A8D6DC8F95BB0AF3A62AC /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */; };
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
 /* End PBXBuildFile section */
@@ -52,7 +57,10 @@
 /* Begin PBXFileReference section */
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchPanel.swift; sourceTree = "<group>"; };
+		190A429536053029AA5FF651 /* RestartPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartPolicy.swift; sourceTree = "<group>"; };
+		31A7D5B222D0A8E685892C5E /* RestartPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartPolicyTests.swift; sourceTree = "<group>"; };
 		32878FBAB612692AC6652F9E /* NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
+		33EE347A5AC93DF0B267570B /* AdapterPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterPaths.swift; sourceTree = "<group>"; };
 		3A3BA73B412631507638371E /* LineBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBufferTests.swift; sourceTree = "<group>"; };
 		47CDBB4D7704F30EE08D8A43 /* Aeolus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aeolus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
@@ -66,7 +74,9 @@
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
 		CED545AD1604AB0DEAC93B92 /* PanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelController.swift; sourceTree = "<group>"; };
 		D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometryTests.swift; sourceTree = "<group>"; };
+		E684A040C402F9C991448B41 /* MediaEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaEngine.swift; sourceTree = "<group>"; };
 		F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBuffer.swift; sourceTree = "<group>"; };
+		F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = "mediaremote-adapter.pl"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +106,7 @@
 				3A3BA73B412631507638371E /* LineBufferTests.swift */,
 				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */,
+				31A7D5B222D0A8E685892C5E /* RestartPolicyTests.swift */,
 				AFE10EFA83D4848598448303 /* SmokeTests.swift */,
 			);
 			path = AeolusTests;
@@ -142,8 +153,12 @@
 		7C4C853154BB9374C5972370 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				33EE347A5AC93DF0B267570B /* AdapterPaths.swift */,
 				F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */,
+				E684A040C402F9C991448B41 /* MediaEngine.swift */,
 				32878FBAB612692AC6652F9E /* NowPlaying.swift */,
+				F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */,
+				190A429536053029AA5FF651 /* RestartPolicy.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -275,6 +290,7 @@
 				E0C192966439D5662EA27100 /* LineBufferTests.swift in Sources */,
 				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */,
+				BDF3D3D1559CD6670A577370 /* RestartPolicyTests.swift in Sources */,
 				8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,15 +299,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2C661978466F31D4E03154C /* AdapterPaths.swift in Sources */,
 				96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */,
 				6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */,
 				DEEEE638577ECC37D488E9AC /* IslandRootView.swift in Sources */,
 				23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */,
+				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
 				EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */,
 				7FAE763B6E2CCB122AA5618C /* NotchPanel.swift in Sources */,
 				B95DB3D25F02DC52219FEF57 /* NotchShape.swift in Sources */,
 				85ED1676CFF7C9FAB120FEB2 /* NowPlaying.swift in Sources */,
+				E89A8D6DC8F95BB0AF3A62AC /* NowPlayingStore.swift in Sources */,
 				8309F4AF47BB6C70B82D3759 /* PanelController.swift in Sources */,
+				DDD6912FB0EB9A1C0DA663BF /* RestartPolicy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
