@@ -5,6 +5,7 @@ struct IslandRootView: View {
     let vm: IslandViewModel
     let nowPlaying: NowPlayingStore
     let media: MediaActions
+    let volume: VolumeController
 
     private var layout: IslandLayout { IslandLayout(notchSize: metrics.closedSize) }
 
@@ -60,6 +61,7 @@ struct IslandRootView: View {
         ExpandedPlayerView(
             nowPlaying: nowPlaying,
             media: media,
+            volume: volume,
             notchHeight: metrics.closedSize.height)
     }
 

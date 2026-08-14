@@ -6,6 +6,7 @@ final class AppServices {
     var panelController: PanelController?
     let nowPlaying = NowPlayingStore()
     let islandVM = IslandViewModel()
+    let volume = VolumeController()
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
 
@@ -13,6 +14,7 @@ final class AppServices {
 
     func start() {
         Preferences.registerDefaults()
+        volume.start()
 
         if let paths = AdapterPaths.bundled() {
             let engine = MediaEngine(paths: paths, store: nowPlaying)
@@ -36,7 +38,8 @@ final class AppServices {
                 metrics: metrics,
                 vm: islandVM,
                 nowPlaying: nowPlaying,
-                media: mediaActions))
+                media: mediaActions,
+                volume: volume))
         }
     }
 

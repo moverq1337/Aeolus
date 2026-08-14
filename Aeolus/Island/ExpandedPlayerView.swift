@@ -4,6 +4,7 @@ import SwiftUI
 struct ExpandedPlayerView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
+    let volume: VolumeController
     let notchHeight: CGFloat
 
     var body: some View {
@@ -11,6 +12,10 @@ struct ExpandedPlayerView: View {
             header
             progress
             controls
+            VolumeSlider(
+                volume: volume.volume,
+                deviceIcon: volume.outputIcon,
+                onChange: volume.setVolume)
         }
         .padding(.top, notchHeight + 4)
         .padding(.horizontal, 22)
