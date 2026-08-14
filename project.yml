@@ -1,0 +1,51 @@
+name: Aeolus
+options:
+  bundleIdPrefix: io.github.moverq1337
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    ARCHS: arm64
+    MACOSX_DEPLOYMENT_TARGET: "15.0"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_HARDENED_RUNTIME: NO
+    DEAD_CODE_STRIPPING: YES
+targets:
+  Aeolus:
+    type: application
+    platform: macOS
+    sources:
+      - Aeolus
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.moverq1337.aeolus
+        PRODUCT_NAME: Aeolus
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Aeolus/Info.plist
+        ENABLE_TESTABILITY: YES
+  AeolusTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - AeolusTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: Aeolus
+schemes:
+  Aeolus:
+    build:
+      targets:
+        Aeolus: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - AeolusTests
