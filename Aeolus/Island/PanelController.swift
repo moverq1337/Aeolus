@@ -72,8 +72,3 @@ final class PanelController {
         if value { panel?.orderOut(nil) } else { panel?.orderFrontRegardless() }
     }
 }
-
-/// Константы раскладки; наполняется в Task 8, здесь — только размер окна.
-enum IslandLayout {
-    static let expandedSize = CGSize(width: 400, height: 210)
-}
