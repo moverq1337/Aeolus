@@ -212,6 +212,12 @@ CoreAudio listener ───────────────────▶ 
   `kAudioHardwareServiceDeviceProperty_VirtualMainVolume` чтение/запись,
   `AudioObjectAddPropertyListenerBlock` для внешних изменений (клавиши,
   Control Center). Слушатель смены default device.
+- Иконка устройства вывода (решение 2026-08-14): правая иконка слайдера
+  громкости отражает реальное устройство — AirPods Pro/Max/обычные, Beats,
+  прочие BT-наушники, встроенный динамик. Маппинг по имени устройства
+  (kAudioObjectPropertyName) и транспорту (kAudioDevicePropertyTransportType)
+  на SF Symbols: airpods.pro / airpods.max / airpods / beats.headphones /
+  headphones / speaker.wave.3.fill. Как в Control Center.
 
 ### 5.8 Меню-бар и настройки
 
