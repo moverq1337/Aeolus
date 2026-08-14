@@ -73,4 +73,10 @@ final class PanelController {
         hidden = value
         if value { panel?.orderOut(nil) } else { panel?.orderFrontRegardless() }
     }
+
+    func updateVisibility(locked: Bool) {
+        let shouldHide = locked
+            || (Preferences.hideInFullscreen && FullscreenDetector.isBuiltInScreenFullscreen())
+        setHidden(shouldHide)
+    }
 }

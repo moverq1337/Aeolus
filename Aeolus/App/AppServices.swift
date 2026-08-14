@@ -10,6 +10,7 @@ final class AppServices {
     let power = PowerMonitor()
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
+    private var observers: SystemObservers?
 
     private init() {}
 
@@ -47,6 +48,19 @@ final class AppServices {
                 media: mediaActions,
                 volume: volume))
         }
+
+        observers = SystemObservers(
+            onSleep: { [weak self] in
+                Task { await self?.engine?.stop() }
+            },
+            onWake: { [weak self] in
+                Task { await self?.engine?.start() }
+            },
+            onVisibilityCheckNeeded: { [weak self] in
+                guard let self else { return }
+                self.panelController?.updateVisibility(
+                    locked: self.observers?.isLocked ?? false)
+            })
     }
 
     func stopEngine() {
