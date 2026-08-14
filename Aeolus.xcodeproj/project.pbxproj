@@ -17,6 +17,7 @@
 		208E8914616075D6EFC43AF9 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773966156F4CAB653EAE5FE6 /* Preferences.swift */; };
 		23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */; };
 		25848C2BC8B9ACEDA082E993 /* FullscreenDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883D2C4C6E8ADB7F7BE5CD52 /* FullscreenDetector.swift */; };
+		33B131D5A946F2C97DCF3D78 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */; };
 		3702FBB2ACA438555FFCEBB6 /* ExpandedPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027307A2D113FC420C515B8 /* ExpandedPlayerView.swift */; };
 		39343A94260F2D35250D02FF /* IslandReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526FD550ADF94130B64E139F /* IslandReducerTests.swift */; };
 		45F18A364D1E6447B47FA5A4 /* IslandState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D67F7D5B4A7AA99343B0B8 /* IslandState.swift */; };
@@ -32,6 +33,8 @@
 		801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E684A040C402F9C991448B41 /* MediaEngine.swift */; };
 		8309F4AF47BB6C70B82D3759 /* PanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED545AD1604AB0DEAC93B92 /* PanelController.swift */; };
 		85ED1676CFF7C9FAB120FEB2 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32878FBAB612692AC6652F9E /* NowPlaying.swift */; };
+		8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */; };
+		8841BF3D2A3B593E3284ECA3 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */; };
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
 		A20D68DCA5BCEB6CEC6823CB /* IslandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B267B6E5A6F144ADF093B /* IslandViewModel.swift */; };
@@ -88,6 +91,7 @@
 		0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedEarsView.swift; sourceTree = "<group>"; };
 		055B267B6E5A6F144ADF093B /* IslandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandViewModel.swift; sourceTree = "<group>"; };
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchPanel.swift; sourceTree = "<group>"; };
 		0FB545E21797CD145F71834D /* IslandLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLayout.swift; sourceTree = "<group>"; };
 		190A429536053029AA5FF651 /* RestartPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartPolicy.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 		3EE2ED84E6EF68711511FC63 /* OutputDeviceIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDeviceIcon.swift; sourceTree = "<group>"; };
 		409D1BAE9229009395399A91 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
 		444C642D23B30971D52C3407 /* BatteryActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryActivityView.swift; sourceTree = "<group>"; };
+		46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		47CDBB4D7704F30EE08D8A43 /* Aeolus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aeolus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48234AFCC8CA67291AB791D3 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
@@ -111,6 +116,7 @@
 		61311880734F4A47D102F3DB /* TimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatterTests.swift; sourceTree = "<group>"; };
 		64F2D0947F722887D56FB659 /* NotchSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchSpace.swift; sourceTree = "<group>"; };
 		6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerMonitor.swift; sourceTree = "<group>"; };
+		71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		773966156F4CAB653EAE5FE6 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemoteAdapter.framework; path = "Vendor/mediaremote-adapter/MediaRemoteAdapter.framework"; sourceTree = "<group>"; };
 		8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerEventDetectorTests.swift; sourceTree = "<group>"; };
@@ -302,7 +308,10 @@
 		E622A9AC9816E5D62A92DB9B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */,
 				773966156F4CAB653EAE5FE6 /* Preferences.swift */,
+				71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */,
+				0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -435,6 +444,7 @@
 				DEEEE638577ECC37D488E9AC /* IslandRootView.swift in Sources */,
 				45F18A364D1E6447B47FA5A4 /* IslandState.swift in Sources */,
 				A20D68DCA5BCEB6CEC6823CB /* IslandViewModel.swift in Sources */,
+				8841BF3D2A3B593E3284ECA3 /* LaunchAtLogin.swift in Sources */,
 				23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
@@ -451,6 +461,8 @@
 				ED35270A08203A03873DA4E9 /* PowerSnapshot.swift in Sources */,
 				208E8914616075D6EFC43AF9 /* Preferences.swift in Sources */,
 				DDD6912FB0EB9A1C0DA663BF /* RestartPolicy.swift in Sources */,
+				8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */,
+				33B131D5A946F2C97DCF3D78 /* SettingsWindowController.swift in Sources */,
 				74656EC835C29815D0233821 /* SystemObservers.swift in Sources */,
 				1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */,
 				552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */,

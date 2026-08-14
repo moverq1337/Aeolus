@@ -8,6 +8,7 @@ final class AppServices {
     let islandVM = IslandViewModel()
     let volume = VolumeController()
     let power = PowerMonitor()
+    let settingsWindow = SettingsWindowController()
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
     private var observers: SystemObservers?

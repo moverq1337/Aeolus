@@ -6,6 +6,15 @@ struct AeolusApp: App {
 
     var body: some Scene {
         MenuBarExtra("Aeolus", systemImage: "wind") {
+            Button("Settings…") {
+                AppServices.shared.settingsWindow.show(
+                    nowPlaying: AppServices.shared.nowPlaying)
+            }
+            .keyboardShortcut(",")
+            Toggle("Launch at Login", isOn: Binding(
+                get: { LaunchAtLogin.isEnabled },
+                set: { LaunchAtLogin.set(enabled: $0) }))
+            Divider()
             Button("Quit Aeolus") { NSApp.terminate(nil) }
                 .keyboardShortcut("q")
         }
