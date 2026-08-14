@@ -12,6 +12,7 @@
 		07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */; };
 		08AA5524C2AC28B8DC96F160 /* IslandLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB545E21797CD145F71834D /* IslandLayout.swift */; };
 		0C05CB3CC66EE5D44E1FFACC /* FullscreenDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270CF2EF436AA3E178AD642F /* FullscreenDetectorTests.swift */; };
+		140EE9C9BD6DE0D2664A2799 /* PrivateSymbolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784D320A6215B2E4860191C /* PrivateSymbolsTests.swift */; };
 		1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0049E01094AEA82F486D63F /* TimeFormatter.swift */; };
 		2046EFB185B9E729150F12ED /* mediaremote-adapter.pl in Resources */ = {isa = PBXBuildFile; fileRef = FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */; };
 		208E8914616075D6EFC43AF9 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773966156F4CAB653EAE5FE6 /* Preferences.swift */; };
@@ -32,6 +33,7 @@
 		7E477DF18E0F5711ECF4D736 /* VolumeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA2D5EEB3530AC56D9A5335 /* VolumeController.swift */; };
 		7FAE763B6E2CCB122AA5618C /* NotchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */; };
 		801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E684A040C402F9C991448B41 /* MediaEngine.swift */; };
+		80750D8766B419696300057D /* PrivateSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA6B1632D9FA676DABDFF01 /* PrivateSymbols.swift */; };
 		8309F4AF47BB6C70B82D3759 /* PanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED545AD1604AB0DEAC93B92 /* PanelController.swift */; };
 		85ED1676CFF7C9FAB120FEB2 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32878FBAB612692AC6652F9E /* NowPlaying.swift */; };
 		8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */; };
@@ -124,6 +126,7 @@
 		8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerEventDetectorTests.swift; sourceTree = "<group>"; };
 		883D2C4C6E8ADB7F7BE5CD52 /* FullscreenDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenDetector.swift; sourceTree = "<group>"; };
 		90D67F7D5B4A7AA99343B0B8 /* IslandState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandState.swift; sourceTree = "<group>"; };
+		9784D320A6215B2E4860191C /* PrivateSymbolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateSymbolsTests.swift; sourceTree = "<group>"; };
 		9AF98799C089CBFD5671263E /* SystemObservers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemObservers.swift; sourceTree = "<group>"; };
 		A0049E01094AEA82F486D63F /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
 		AAA2D5EEB3530AC56D9A5335 /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 		EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProgressBar.swift; sourceTree = "<group>"; };
 		F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBuffer.swift; sourceTree = "<group>"; };
 		F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
+		FAA6B1632D9FA676DABDFF01 /* PrivateSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateSymbols.swift; sourceTree = "<group>"; };
 		FD8923BEAF3CB48647995900 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerSnapshotTests.swift; sourceTree = "<group>"; };
 		FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = "mediaremote-adapter.pl"; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */,
 				8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */,
 				FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */,
+				9784D320A6215B2E4860191C /* PrivateSymbolsTests.swift */,
 				31A7D5B222D0A8E685892C5E /* RestartPolicyTests.swift */,
 				AFE10EFA83D4848598448303 /* SmokeTests.swift */,
 				61311880734F4A47D102F3DB /* TimeFormatterTests.swift */,
@@ -199,6 +204,7 @@
 				97F0248C372FF98415453BE2 /* Island */,
 				7C4C853154BB9374C5972370 /* Media */,
 				41B26EF00389CAE382D19EE0 /* Power */,
+				FABAB35562B67FA86AC4BBE2 /* Private */,
 				BB5506B8EAA0EA51C8AE81FA /* Resources */,
 				E622A9AC9816E5D62A92DB9B /* Settings */,
 			);
@@ -329,6 +335,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		FABAB35562B67FA86AC4BBE2 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				FAA6B1632D9FA676DABDFF01 /* PrivateSymbols.swift */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -438,6 +452,7 @@
 				BDEF0BD692855C0DC44FFD2D /* OutputDeviceIconTests.swift in Sources */,
 				54AB4EE1C99E551D43C9CD48 /* PowerEventDetectorTests.swift in Sources */,
 				D7A63E2BBDCC1BDF7E80A8A4 /* PowerSnapshotTests.swift in Sources */,
+				140EE9C9BD6DE0D2664A2799 /* PrivateSymbolsTests.swift in Sources */,
 				BDF3D3D1559CD6670A577370 /* RestartPolicyTests.swift in Sources */,
 				8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */,
 				E5556594EF4A0B76F4A66844 /* TimeFormatterTests.swift in Sources */,
@@ -478,6 +493,7 @@
 				017DF393AB7CB253C8EFCA81 /* PowerMonitor.swift in Sources */,
 				ED35270A08203A03873DA4E9 /* PowerSnapshot.swift in Sources */,
 				208E8914616075D6EFC43AF9 /* Preferences.swift in Sources */,
+				80750D8766B419696300057D /* PrivateSymbols.swift in Sources */,
 				DDD6912FB0EB9A1C0DA663BF /* RestartPolicy.swift in Sources */,
 				8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */,
 				33B131D5A946F2C97DCF3D78 /* SettingsWindowController.swift in Sources */,
