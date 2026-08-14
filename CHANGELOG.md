@@ -2,7 +2,7 @@
 
 All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog.com).
 
-## [Unreleased]
+## [0.1.0] — 2026-08-15
 
 ### Added
 - Now Playing island: universal media detection, hover/click-to-expand player

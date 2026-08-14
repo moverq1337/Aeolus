@@ -25,6 +25,7 @@
 		54AB4EE1C99E551D43C9CD48 /* PowerEventDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */; };
 		552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */; };
 		560EEDD7F5FCC018FC174B5C /* EqualizerBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */; };
+		6EB4D71F1D0E44D665EADDC4 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = FD8923BEAF3CB48647995900 /* AppIcon.icns */; };
 		6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A21F134414CA75739DEDDE6 /* AppServices.swift */; };
 		74656EC835C29815D0233821 /* SystemObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF98799C089CBFD5671263E /* SystemObservers.swift */; };
 		76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B06033138DF2421186F2B37 /* MediaActions.swift */; };
@@ -143,6 +144,7 @@
 		EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProgressBar.swift; sourceTree = "<group>"; };
 		F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBuffer.swift; sourceTree = "<group>"; };
 		F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
+		FD8923BEAF3CB48647995900 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerSnapshotTests.swift; sourceTree = "<group>"; };
 		FE201688A8A4B54FED32043E /* mediaremote-adapter.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = "mediaremote-adapter.pl"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +199,7 @@
 				97F0248C372FF98415453BE2 /* Island */,
 				7C4C853154BB9374C5972370 /* Media */,
 				41B26EF00389CAE382D19EE0 /* Power */,
+				BB5506B8EAA0EA51C8AE81FA /* Resources */,
 				E622A9AC9816E5D62A92DB9B /* Settings */,
 			);
 			path = Aeolus;
@@ -295,6 +298,14 @@
 				AAA2D5EEB3530AC56D9A5335 /* VolumeController.swift */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		BB5506B8EAA0EA51C8AE81FA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FD8923BEAF3CB48647995900 /* AppIcon.icns */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		BD7458B05117159923807B01 /* App */ = {
@@ -405,6 +416,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EB4D71F1D0E44D665EADDC4 /* AppIcon.icns in Resources */,
 				2046EFB185B9E729150F12ED /* mediaremote-adapter.pl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
