@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
+		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
+		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,15 +26,18 @@
 /* Begin PBXFileReference section */
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CDBB4D7704F30EE08D8A43 /* Aeolus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aeolus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		AFE10EFA83D4848598448303 /* SmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTests.swift; sourceTree = "<group>"; };
 		C86645998989D59D5427741C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
+		D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		126FF3ABED3D00A4F792B15F /* AeolusTests */ = {
 			isa = PBXGroup;
 			children = (
+				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				AFE10EFA83D4848598448303 /* SmokeTests.swift */,
 			);
 			path = AeolusTests;
@@ -43,6 +48,7 @@
 			children = (
 				C86645998989D59D5427741C /* Info.plist */,
 				BD7458B05117159923807B01 /* App */,
+				97F0248C372FF98415453BE2 /* Island */,
 			);
 			path = Aeolus;
 			sourceTree = "<group>";
@@ -63,6 +69,14 @@
 				0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		97F0248C372FF98415453BE2 /* Island */ = {
+			isa = PBXGroup;
+			children = (
+				511C243A4D79FA48028D0101 /* NotchGeometry.swift */,
+			);
+			path = Island;
 			sourceTree = "<group>";
 		};
 		BD7458B05117159923807B01 /* App */ = {
@@ -153,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */,
+				EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
