@@ -56,9 +56,11 @@ struct IslandRootView: View {
         }
     }
 
-    // Заглушка — Task 9 заменяет на ExpandedPlayerView.
     @ViewBuilder private var expandedContent: some View {
-        Color.clear
+        ExpandedPlayerView(
+            nowPlaying: nowPlaying,
+            media: media,
+            notchHeight: metrics.closedSize.height)
     }
 
     // Заглушка — Task 11 заменяет на BatteryActivityView.
