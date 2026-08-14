@@ -7,6 +7,7 @@ final class AppServices {
     let nowPlaying = NowPlayingStore()
     let islandVM = IslandViewModel()
     let volume = VolumeController()
+    let power = PowerMonitor()
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
 
@@ -32,6 +33,11 @@ final class AppServices {
         nowPlaying.onSessionChange = { [islandVM] hasSession, playing in
             islandVM.handle(.musicChanged(playing: playing, hasSession: hasSession))
         }
+
+        power.onFlash = { [islandVM] flash in
+            islandVM.handle(.battery(flash))
+        }
+        power.start()
 
         panelController = PanelController { [self] metrics in
             AnyView(IslandRootView(

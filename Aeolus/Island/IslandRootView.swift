@@ -65,9 +65,8 @@ struct IslandRootView: View {
         }
     }
 
-    // Заглушка — Task 11 заменяет на BatteryActivityView.
     @ViewBuilder private func batteryContent(_ flash: BatteryFlash) -> some View {
-        Color.clear
+        BatteryActivityView(flash: flash, notchSize: metrics.closedSize)
     }
 
     private func animation(for surface: IslandState.Surface) -> Animation {
