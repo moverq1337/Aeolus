@@ -21,8 +21,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         // Без этого perl-процесс адаптера пережил бы выход из приложения (спека §5.5).
+        // Таймаут 2 с — выход не должен зависеть от занятости актора движка.
         Task { @MainActor in
-            await AppServices.shared.engine?.stop()
+            let engine = AppServices.shared.engine
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { await engine?.stop() }
+                group.addTask { try? await Task.sleep(for: .seconds(2)) }
+                await group.next()
+                group.cancelAll()
+            }
             sender.reply(toApplicationShouldTerminate: true)
         }
         return .terminateLater
