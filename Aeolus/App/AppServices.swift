@@ -1,4 +1,5 @@
 import SwiftUI
+import Sparkle
 
 @MainActor
 final class AppServices {
@@ -9,6 +10,8 @@ final class AppServices {
     let volume = VolumeController()
     let power = PowerMonitor()
     let settingsWindow = SettingsWindowController()
+    let updater = SPUStandardUpdaterController(
+        startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
     private var observers: SystemObservers?

@@ -24,5 +24,11 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 moverq1337. MIT License.</string>
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/moverq1337/Aeolus/main/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>T2mOMO2/1aqBiJU+gKJl1l7kX1ed3Fx6IZb0FEse5qY=</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 </dict>
 </plist>

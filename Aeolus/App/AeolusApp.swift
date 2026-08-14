@@ -14,6 +14,9 @@ struct AeolusApp: App {
             Toggle("Launch at Login", isOn: Binding(
                 get: { LaunchAtLogin.isEnabled },
                 set: { LaunchAtLogin.set(enabled: $0) }))
+            Button("Check for Updates…") {
+                AppServices.shared.updater.checkForUpdates(nil)
+            }
             Divider()
             Button("Quit Aeolus") { NSApp.terminate(nil) }
                 .keyboardShortcut("q")

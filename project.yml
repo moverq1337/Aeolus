@@ -1,4 +1,8 @@
 name: Aeolus
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.7.0"
 options:
   bundleIdPrefix: io.github.moverq1337
   deploymentTarget:
@@ -25,6 +29,7 @@ targets:
       - framework: Vendor/mediaremote-adapter/MediaRemoteAdapter.framework
         embed: true
         codeSign: true
+      - package: Sparkle
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.moverq1337.aeolus

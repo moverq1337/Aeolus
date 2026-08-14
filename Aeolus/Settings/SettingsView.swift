@@ -19,6 +19,9 @@ struct SettingsView: View {
                     }
                 Toggle("Hide in full screen", isOn: $hideInFullscreen)
                 Toggle("Battery alerts", isOn: $batteryAlerts)
+                Toggle("Check for updates automatically", isOn: Binding(
+                    get: { AppServices.shared.updater.updater.automaticallyChecksForUpdates },
+                    set: { AppServices.shared.updater.updater.automaticallyChecksForUpdates = $0 }))
             }
             Section {
                 VStack(alignment: .leading) {
