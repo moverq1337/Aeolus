@@ -1,0 +1,41 @@
+struct BatteryFlash: Equatable, Sendable {
+    enum Kind: Equatable, Sendable {
+        case pluggedIn, unplugged, low, critical
+    }
+    var kind: Kind
+    var percentage: Int
+}
+
+struct IslandState: Equatable {
+    enum Surface: Equatable {
+        case collapsed
+        case peek
+        case expanded
+        case battery(BatteryFlash)
+    }
+    var surface: Surface = .collapsed
+    var hasSession = false
+    var isPlaying = false
+    var pendingBattery: BatteryFlash?
+}
+
+enum IslandEvent: Equatable {
+    case musicChanged(playing: Bool, hasSession: Bool)
+    case hoverBegan
+    case hoverEnded
+    case dwellFired
+    case closeDebounceFired
+    case tapped
+    case clickedOutside
+    case battery(BatteryFlash)
+    case batteryFlashEnded
+}
+
+enum IslandEffect: Equatable {
+    case startDwellTimer
+    case cancelDwellTimer
+    case startCloseDebounce
+    case cancelCloseDebounce
+    case scheduleBatteryEnd
+    case haptic
+}

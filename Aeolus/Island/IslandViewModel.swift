@@ -1,0 +1,51 @@
+import AppKit
+import Observation
+
+@MainActor
+@Observable
+final class IslandViewModel {
+    private(set) var state = IslandState()
+
+    @ObservationIgnored private var dwellTask: Task<Void, Never>?
+    @ObservationIgnored private var closeTask: Task<Void, Never>?
+    @ObservationIgnored private var batteryTask: Task<Void, Never>?
+
+    func handle(_ event: IslandEvent) {
+        for effect in IslandReducer.reduce(&state, event) {
+            run(effect)
+        }
+    }
+
+    private func run(_ effect: IslandEffect) {
+        switch effect {
+        case .startDwellTimer:
+            dwellTask?.cancel()
+            dwellTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(Preferences.hoverDelay))
+                guard !Task.isCancelled else { return }
+                self?.handle(.dwellFired)
+            }
+        case .cancelDwellTimer:
+            dwellTask?.cancel()
+        case .startCloseDebounce:
+            closeTask?.cancel()
+            closeTask = Task { [weak self] in
+                try? await Task.sleep(for: .milliseconds(100))
+                guard !Task.isCancelled else { return }
+                self?.handle(.closeDebounceFired)
+            }
+        case .cancelCloseDebounce:
+            closeTask?.cancel()
+        case .scheduleBatteryEnd:
+            batteryTask?.cancel()
+            batteryTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(2.5))
+                guard !Task.isCancelled else { return }
+                self?.handle(.batteryFlashEnded)
+            }
+        case .haptic:
+            NSHapticFeedbackManager.defaultPerformer
+                .perform(.alignment, performanceTime: .default)
+        }
+    }
+}
