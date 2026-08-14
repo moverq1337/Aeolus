@@ -3,9 +3,9 @@ import CoreGraphics
 struct IslandLayout: Equatable {
     var notchSize: CGSize
 
-    static let expandedSize = CGSize(width: 360, height: 178)
+    static let expandedSize = CGSize(width: 360, height: 166)
     /// С раскрытым слайдером громкости остров дорастает вниз.
-    static let expandedVolumeSize = CGSize(width: 360, height: 206)
+    static let expandedVolumeSize = CGSize(width: 360, height: 194)
     static let earWidth: CGFloat = 44
     static let batteryEarWidth: CGFloat = 70
     static let peekDelta = CGSize(width: 10, height: 3)

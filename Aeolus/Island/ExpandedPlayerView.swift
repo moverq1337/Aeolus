@@ -12,7 +12,7 @@ struct ExpandedPlayerView: View {
     let notchHeight: CGFloat
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             header
             progress
             controlsRow
@@ -23,9 +23,9 @@ struct ExpandedPlayerView: View {
                 .transition(.opacity)
             }
         }
-        .padding(.top, notchHeight + 4)
+        .padding(.top, notchHeight - 2)
         .padding(.horizontal, 22)
-        .padding(.bottom, 14)
+        .padding(.bottom, 12)
     }
 
     private var header: some View {
