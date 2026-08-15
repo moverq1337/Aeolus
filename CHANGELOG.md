@@ -2,6 +2,23 @@
 
 All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog.com).
 
+## [0.3.0] — 2026-08-15
+
+### Added
+- Two-finger swipes on the island: horizontal switches tracks with a
+  directional artwork carousel, vertical adjusts system volume with subtle
+  haptic steps (firm tick at 0%/100%).
+- Live volume bar slides into the expanded player while the vertical gesture
+  is active and hides on release; volume slider now shows the percentage.
+- Track intro: when a new track starts, the island briefly grows into a pill
+  with artwork, title and artist.
+- "Expand on hover" setting — turn it off to open the island by click only.
+
+### Fixed
+- Title, artist and artwork now update atomically — no more mismatched
+  artwork after switching tracks.
+- Album artwork is downsampled at decode; smoother springs on track changes.
+
 ## [0.2.0] — 2026-08-15
 
 ### Added
