@@ -55,7 +55,7 @@ struct IslandLayoutTests {
     @Test func trackIntroSitsBetweenCollapsedAndExpanded() {
         let intro = layout.size(for: state(.trackIntro))
         let playing = layout.size(for: state(.collapsed))
-        #expect(intro == CGSize(width: 340, height: 32 + 44))
+        #expect(intro == CGSize(width: 340, height: 32 + 56))
         #expect(intro.width * intro.height > playing.width * playing.height)
         #expect(intro.width * intro.height
                 < IslandLayout.expandedSize.width * IslandLayout.expandedSize.height)

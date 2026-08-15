@@ -26,7 +26,7 @@ struct IslandLayout: Equatable {
                           height: notchSize.height)
         case .trackIntro:
             // «Стикер из сторис»: между свёрнутым и раскрытым.
-            return CGSize(width: 340, height: notchSize.height + 44)
+            return CGSize(width: 340, height: notchSize.height + 56)
         }
     }
 

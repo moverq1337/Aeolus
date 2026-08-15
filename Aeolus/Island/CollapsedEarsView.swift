@@ -9,12 +9,16 @@ struct CollapsedEarsView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            artworkThumb
-                // Карусель: вперёд — новая въезжает справа, назад — слева.
-                .id(trackKey)
-                .transition(.push(from: direction == .forward ? .trailing : .leading))
-                .animation(.spring(response: 0.42, dampingFraction: 0.8), value: trackKey)
-                .padding(.leading, 13)
+            // Карусель: вперёд — новая въезжает справа, назад — слева.
+            // ZStack-обёртка живёт всегда — анимация insert/remove работает на ней.
+            ZStack {
+                artworkThumb
+                    .id(trackKey)
+                    .transition(.push(from: direction == .forward ? .trailing : .leading))
+            }
+            .animation(.spring(response: 0.42, dampingFraction: 0.8), value: trackKey)
+            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            .padding(.leading, 13)
             Spacer(minLength: notchSize.width)
             EqualizerBars(animating: isPlaying)
                 .padding(.trailing, 14)
