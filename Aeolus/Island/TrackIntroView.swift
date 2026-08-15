@@ -17,7 +17,7 @@ struct TrackIntroView: View {
                 EqualizerBars(animating: true, tint: nowPlaying.displayAccent)
                     .frame(height: notchSize.height)
             }
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 20)
 
             // Центральная строка под вырезом
             VStack(spacing: 0) {
