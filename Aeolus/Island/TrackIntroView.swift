@@ -10,15 +10,8 @@ struct TrackIntroView: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer().frame(height: notchSize.height)
-            ZStack {
-                content
-                    .id(nowPlaying.displayTitle ?? "")
-                    .transition(.carousel(nowPlaying.lastNavigationDirection))
-            }
-            .animation(
-                .spring(response: 0.42, dampingFraction: 0.8),
-                value: nowPlaying.displayTitle)
-            .frame(maxHeight: .infinity)
+            content
+                .frame(maxHeight: .infinity)
         }
         .padding(.horizontal, 24)
     }
