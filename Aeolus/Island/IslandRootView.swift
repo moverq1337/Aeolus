@@ -36,9 +36,6 @@ struct IslandRootView: View {
             vm.handle(inside ? .hoverBegan : .hoverEnded)
         }
         .onTapGesture { vm.handle(.tapped) }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.5)
-                .onEnded { _ in vm.handle(.longPressed) })
         .animation(animation(for: vm.state.surface), value: vm.state)
         .frame(
             width: metrics.windowFrame.width,

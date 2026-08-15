@@ -142,6 +142,13 @@ struct ExpandedPlayerView: View {
         (nowPlaying.state?.shuffleMode ?? 1) >= 2
     }
 
+    /// Первое слово имени устройства с троеточием, если слов больше.
+    private func shortName(_ name: String) -> String {
+        let words = name.split(separator: " ")
+        guard let first = words.first else { return name }
+        return words.count > 1 ? first + "…" : String(first)
+    }
+
     /// Свитчер аудио-выхода: ряд иконок устройств в нашем стиле (не NSMenu).
     private var outputPickerRow: some View {
         HStack(spacing: 18) {
@@ -149,17 +156,23 @@ struct ExpandedPlayerView: View {
                 let icon = OutputDeviceIcon.symbol(
                     deviceName: device.name, transportType: 0)
                 let isCurrent = device.name == volume.currentDeviceName
-                ControlButton(
-                    systemName: icon == "speaker.wave.3.fill" ? "hifispeaker" : icon,
-                    size: 14,
-                    tint: isCurrent ? nowPlaying.displayAccent : .white
-                ) {
-                    volume.setDefaultOutput(device.id)
-                    withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) {
-                        showOutputPicker = false
+                VStack(spacing: 1) {
+                    ControlButton(
+                        systemName: icon == "speaker.wave.3.fill" ? "hifispeaker" : icon,
+                        size: 14,
+                        tint: isCurrent ? nowPlaying.displayAccent : .white
+                    ) {
+                        volume.setDefaultOutput(device.id)
+                        withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) {
+                            showOutputPicker = false
+                        }
                     }
+                    Text(shortName(device.name))
+                        .font(.system(size: 8, weight: .medium))
+                        .foregroundStyle(.white.opacity(isCurrent ? 0.8 : 0.45))
+                        .lineLimit(1)
                 }
-                .opacity(isCurrent ? 1 : 0.55)
+                .opacity(isCurrent ? 1 : 0.6)
                 .help(device.name)
             }
             Spacer()

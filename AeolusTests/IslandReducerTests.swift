@@ -281,14 +281,6 @@ struct IslandReducerTests {
         #expect(s.surface == .collapsed)
     }
 
-    @Test func longPressExpandsWithVolume() {
-        var s = playingState()
-        let fx = IslandReducer.reduce(&s, .longPressed)
-        #expect(s.surface == .expanded)
-        #expect(s.volumeShown)
-        #expect(fx == [.haptic, .cancelDwellTimer])
-    }
-
     @Test func clickOutsideCollapsesExpanded() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)

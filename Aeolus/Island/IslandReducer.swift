@@ -64,16 +64,6 @@ enum IslandReducer {
                 return []
             }
 
-        case .longPressed:
-            switch s.surface {
-            case .collapsed, .peek, .trackIntro:
-                guard s.hasSession else { return [] }
-                s.surface = .expanded
-                s.volumeShown = true
-                return [.haptic, .cancelDwellTimer]
-            default:
-                return []
-            }
 
         case .closeDebounceFired, .clickedOutside:
             guard s.surface == .expanded else { return [] }

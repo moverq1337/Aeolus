@@ -9,9 +9,9 @@ struct PowerEventDetectorTests {
     @Test func plugAndUnplugEmitEvents() {
         var d = PowerEventDetector()
         _ = d.events(from: nil, to: snap(80, plugged: false))
-        #expect(d.events(from: snap(80, plugged: false), to: snap(80, plugged: true, charging: true))
-                == [.pluggedIn(percentage: 80)])
-        #expect(d.events(from: snap(80, plugged: true), to: snap(80, plugged: false))
+        #expect(d.events(from: snap(79, plugged: false), to: snap(80, plugged: true, charging: true))
+                == [.pluggedIn(percentage: 79)]) // стабильный ДО-событийный процент
+        #expect(d.events(from: snap(80, plugged: true), to: snap(81, plugged: false))
                 == [.unplugged(percentage: 80)])
     }
 
@@ -44,7 +44,7 @@ struct PowerEventDetectorTests {
         _ = d.events(from: snap(19, plugged: false), to: snap(60, plugged: true, charging: true))
         // Снова разрядились ниже порога — предупреждение должно повториться.
         let events = d.events(from: snap(60, plugged: true), to: snap(19, plugged: false))
-        #expect(events.contains(.unplugged(percentage: 19)))
+        #expect(events.contains(.unplugged(percentage: 60)))
         #expect(events.contains(.lowBattery(percentage: 19, critical: false)))
     }
 }

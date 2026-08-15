@@ -14,11 +14,14 @@ struct PowerEventDetector {
         var out: [PowerEvent] = []
 
         if let old {
+            // Процент берём из СТАБИЛЬНОГО до-событийного снапшота: в момент
+            // подключения powerd отдаёт переходный мусор (наблюдали 2% и 8%
+            // при реальных 48-52%).
             if !old.isPluggedIn, new.isPluggedIn {
-                out.append(.pluggedIn(percentage: new.percentage))
+                out.append(.pluggedIn(percentage: old.percentage))
             }
             if old.isPluggedIn, !new.isPluggedIn {
-                out.append(.unplugged(percentage: new.percentage))
+                out.append(.unplugged(percentage: old.percentage))
             }
         }
 
