@@ -108,9 +108,12 @@ final class LockWidgetController {
         // Непрерывная история разблокировки: замок открывается НА МЕСТЕ,
         // держится мгновение, затем пилюля всасывается в вырез.
         notchPresentation.opened = true
-        // «Тсык» в момент открытия дужки.
-        let sound = NSSound(named: "Tink")
-        sound?.volume = 0.4
+        // «Тсык» в момент открытия дужки — родной системный звук замка
+        // (тот же, что у замочка в Системных настройках). Нет файла — тишина.
+        let path = "/System/Library/Frameworks/SecurityInterface.framework"
+            + "/Versions/A/Resources/lockOpening.aif"
+        let sound = NSSound(contentsOfFile: path, byReference: true)
+        sound?.volume = 0.6
         unlockSound = sound
         sound?.play()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
