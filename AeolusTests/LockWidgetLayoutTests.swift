@@ -12,34 +12,33 @@ struct LockWidgetLayoutTests {
         #expect(f.size == LockWidgetLayout.cardSize)
     }
 
-    @Test func topEdgeSixtyBelowCenterAtZeroOffset() {
+    @Test func defaultSitsJustAbovePasswordZone() {
         let f = LockWidgetLayout.frame(screenFrame: screen, userOffset: 0)
-        // midY=491; верхний край = 491-60 = 431; origin.y = 431-150 = 281
-        #expect(f.maxY == screen.midY - 60)
-        #expect(f.origin.y == 281)
+        #expect(f.origin.y == 240) // baseBottomMargin
     }
 
-    @Test func positiveOffsetMovesUp() {
+    @Test func offsetRaisesCard() {
         let f = LockWidgetLayout.frame(screenFrame: screen, userOffset: 160)
-        #expect(f.origin.y == 441) // 281 + 160
-    }
-
-    @Test func bottomClearanceClampAtMaxDownOffset() {
-        // Смещение вниз ограничено зазором ≥220pt от низа экрана.
-        let f = LockWidgetLayout.frame(screenFrame: screen, userOffset: -160)
-        #expect(f.origin.y == screen.minY + 220) // 281-160=121 < 220 -> клампится к 220
+        #expect(f.origin.y == 400) // 240 + 160
     }
 
     @Test func offsetClampedToRange() {
-        // Значения за пределами ±160 усекаются перед расчётом.
-        let f = LockWidgetLayout.frame(screenFrame: screen, userOffset: 999)
-        #expect(f.origin.y == 441) // 281 + 160
+        let high = LockWidgetLayout.frame(screenFrame: screen, userOffset: 999)
+        #expect(high.origin.y == 560) // 240 + 320 (верх диапазона)
+        let low = LockWidgetLayout.frame(screenFrame: screen, userOffset: -50)
+        #expect(low.origin.y == 240) // отрицательное усечено к 0
+    }
+
+    @Test func bottomClearanceGuardHolds() {
+        // Даже при нулевом offset нижний зазор не меньше защитного минимума.
+        let f = LockWidgetLayout.frame(screenFrame: screen, userOffset: 0)
+        #expect(f.origin.y >= screen.minY + LockWidgetLayout.minBottomClearance)
     }
 
     @Test func offsetOriginRespected() {
         let offsetScreen = CGRect(x: 100, y: -50, width: 1512, height: 982)
         let f = LockWidgetLayout.frame(screenFrame: offsetScreen, userOffset: 0)
         #expect(f.midX == offsetScreen.midX)
-        #expect(f.maxY == offsetScreen.midY - 60)
+        #expect(f.origin.y == offsetScreen.minY + 240)
     }
 }

@@ -46,14 +46,14 @@ struct SettingsView: View {
                     .disabled(!lockScreenAvailable)
                 if lockScreenWidget && lockScreenAvailable {
                     VStack(alignment: .leading) {
-                        Slider(value: $lockScreenOffset, in: -160...160, step: 10) {
-                            Text("Vertical offset")
+                        Slider(value: $lockScreenOffset, in: 0...320, step: 10) {
+                            Text("Raise widget")
                         } minimumValueLabel: {
-                            Image(systemName: "arrow.down")
+                            Text("0")
                         } maximumValueLabel: {
-                            Image(systemName: "arrow.up")
+                            Text("320")
                         }
-                        Text("Move the widget up or down from its default spot")
+                        Text("Raise the widget above its spot near the password field")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
