@@ -79,6 +79,7 @@
 		E5556594EF4A0B76F4A66844 /* TimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61311880734F4A47D102F3DB /* TimeFormatterTests.swift */; };
 		E89A8D6DC8F95BB0AF3A62AC /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */; };
 		E916AA4C8F15C398170B02A3 /* BatteryActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444C642D23B30971D52C3407 /* BatteryActivityView.swift */; };
+		ECA096D0765A6B9B7B489C96 /* SpaceToggleHotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D66F50AFA420F9FE17466 /* SpaceToggleHotKey.swift */; };
 		ED35270A08203A03873DA4E9 /* PowerSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E136054B173458593C199362 /* PowerSnapshot.swift */; };
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
@@ -149,6 +150,7 @@
 		6B47E5DD201447FBB955857C /* ScrollGestureRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollGestureRecognizerTests.swift; sourceTree = "<group>"; };
 		6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerMonitor.swift; sourceTree = "<group>"; };
 		71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		734D66F50AFA420F9FE17466 /* SpaceToggleHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceToggleHotKey.swift; sourceTree = "<group>"; };
 		7728F5E423124B4EF6FB30C1 /* MediaSourceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSourceFilter.swift; sourceTree = "<group>"; };
 		773966156F4CAB653EAE5FE6 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpace.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				64F2D0947F722887D56FB659 /* NotchSpace.swift */,
 				CED545AD1604AB0DEAC93B92 /* PanelController.swift */,
 				3D428198FAF9B6AED0080D2D /* ScrollGestureRecognizer.swift */,
+				734D66F50AFA420F9FE17466 /* SpaceToggleHotKey.swift */,
 				0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */,
 				EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */,
 				561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */,
@@ -579,6 +582,7 @@
 				8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */,
 				33B131D5A946F2C97DCF3D78 /* SettingsWindowController.swift in Sources */,
 				C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */,
+				ECA096D0765A6B9B7B489C96 /* SpaceToggleHotKey.swift in Sources */,
 				74656EC835C29815D0233821 /* SystemObservers.swift in Sources */,
 				1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */,
 				2AA21D6CFBB9E37934D202B4 /* TrackIntroView.swift in Sources */,

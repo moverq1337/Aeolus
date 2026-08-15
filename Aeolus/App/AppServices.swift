@@ -17,6 +17,7 @@ final class AppServices {
     private var observers: SystemObservers?
     private var lockWidget: LockWidgetController?
     private var scrollRecognizer = ScrollGestureRecognizer()
+    private let spaceHotKey = SpaceToggleHotKey()
     private var lastVolumeHapticBucket = -1
 
     private init() {}
@@ -67,6 +68,19 @@ final class AppServices {
 
         nowPlaying.onTrackChange = { [islandVM] in
             islandVM.handle(.trackChanged)
+        }
+
+        spaceHotKey.onPressed = { [weak self] in
+            self?.mediaActions.toggle()
+            NSHapticFeedbackManager.defaultPerformer
+                .perform(.alignment, performanceTime: .now)
+        }
+        islandVM.onSurfaceChange = { [spaceHotKey] surface in
+            if case .expanded = surface {
+                spaceHotKey.register()
+            } else {
+                spaceHotKey.unregister()
+            }
         }
 
         power.onFlash = { [islandVM] flash in

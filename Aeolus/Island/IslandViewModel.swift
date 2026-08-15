@@ -5,6 +5,8 @@ import Observation
 @Observable
 final class IslandViewModel {
     private(set) var state = IslandState()
+    /// Уведомление о смене surface (для скоуп-хоткея пробела и т.п.).
+    @ObservationIgnored var onSurfaceChange: ((IslandState.Surface) -> Void)?
 
     @ObservationIgnored private var dwellTask: Task<Void, Never>?
     @ObservationIgnored private var closeTask: Task<Void, Never>?
@@ -13,8 +15,12 @@ final class IslandViewModel {
     @ObservationIgnored private var trackIntroTask: Task<Void, Never>?
 
     func handle(_ event: IslandEvent) {
+        let before = state.surface
         for effect in IslandReducer.reduce(&state, event) {
             run(effect)
+        }
+        if state.surface != before {
+            onSurfaceChange?(state.surface)
         }
     }
 
