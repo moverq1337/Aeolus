@@ -18,15 +18,17 @@ final class LockWidgetController {
         self.hasSession = hasSession
     }
 
-    /// Короткое окно опроса после системного события: события врут по времени,
-    /// поэтому 5 c опрашиваем сессию каждые 500 мс, затем тишина (инвариант простоя).
+    /// Короткое окно опроса после системного события: события врут по времени
+    /// (unlock после Touch ID запаздывает), поэтому первую секунду тикаем каждые
+    /// 100 мс — чтобы карточка не висела после разблокировки, — затем ещё 4 с
+    /// по 500 мс, и тишина (инвариант простоя).
     func beginPollWindow() {
         pollTask?.cancel()
         pollTask = Task { [weak self] in
-            for _ in 0..<10 {
+            for tick in 0..<18 {
                 guard !Task.isCancelled else { return }
                 self?.refresh()
-                try? await Task.sleep(for: .milliseconds(500))
+                try? await Task.sleep(for: .milliseconds(tick < 10 ? 100 : 500))
             }
         }
     }

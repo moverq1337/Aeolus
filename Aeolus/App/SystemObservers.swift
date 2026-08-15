@@ -27,6 +27,11 @@ final class SystemObservers {
         workspace.addObserver(
             forName: NSWorkspace.activeSpaceDidChangeNotification, object: nil, queue: .main
         ) { _ in MainActor.assumeIsolated { self.onVisibilityCheckNeeded() } }
+        // Срабатывает раньше, чем com.apple.screenIsUnlocked (лаг после Touch ID) —
+        // локскрин-виджет прячется без «лишней полсекунды».
+        workspace.addObserver(
+            forName: NSWorkspace.sessionDidBecomeActiveNotification, object: nil, queue: .main
+        ) { _ in MainActor.assumeIsolated { self.onVisibilityCheckNeeded() } }
 
         let dnc = DistributedNotificationCenter.default()
         dnc.addObserver(
