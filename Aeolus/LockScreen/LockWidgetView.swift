@@ -8,20 +8,22 @@ struct LockWidgetView: View {
     let media: MediaActions
 
     var body: some View {
-        HStack(spacing: 12) {
-            artwork
-            VStack(alignment: .leading, spacing: 3) {
-                Text(nowPlaying.state?.title ?? "")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                Text(nowPlaying.state?.artist ?? "")
-                    .font(.system(size: 12))
-                    .foregroundStyle(.white.opacity(0.55))
-                    .lineLimit(1)
-                progress
+        VStack(spacing: 4) {
+            HStack(spacing: 12) {
+                artwork
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(nowPlaying.state?.title ?? "")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                    Text(nowPlaying.state?.artist ?? "")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .lineLimit(1)
+                    progress
+                }
+                Spacer(minLength: 0)
             }
-            Spacer(minLength: 10)
             controls
         }
         .padding(.horizontal, 14)
@@ -38,12 +40,12 @@ struct LockWidgetView: View {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 64, height: 64)
+                .frame(width: 56, height: 56)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         } else {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(.white.opacity(0.15))
-                .frame(width: 64, height: 64)
+                .frame(width: 56, height: 56)
                 .overlay {
                     Image(systemName: "music.note")
                         .foregroundStyle(.white.opacity(0.4))
@@ -73,7 +75,7 @@ struct LockWidgetView: View {
     }
 
     private var controls: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 28) {
             ControlButton(systemName: "backward.fill", size: 12, action: media.previous)
             ControlButton(
                 systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
