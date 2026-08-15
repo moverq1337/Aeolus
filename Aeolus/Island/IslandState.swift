@@ -61,6 +61,7 @@ enum IslandEvent: Equatable {
     case screenUnlocked
     case deviceConnected(DeviceFlash)
     case deviceFlashEnded
+    case longPressed
 }
 
 enum IslandEffect: Equatable {

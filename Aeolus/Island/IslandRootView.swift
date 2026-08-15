@@ -7,6 +7,7 @@ struct IslandRootView: View {
     let media: MediaActions
     let volume: VolumeController
     let lyrics: LyricsEngine
+    let privacy: PrivacyMonitor
 
     private var layout: IslandLayout { IslandLayout(notchSize: metrics.closedSize) }
 
@@ -37,6 +38,21 @@ struct IslandRootView: View {
                 .frame(height: 1)
                 .padding(.horizontal, radii.top)
         }
+        .overlay(alignment: .topTrailing) {
+            if !vm.state.suppressed, privacy.cameraActive || privacy.micActive {
+                HStack(spacing: 3) {
+                    if privacy.cameraActive {
+                        Circle().fill(.green).frame(width: 4, height: 4)
+                    }
+                    if privacy.micActive {
+                        Circle().fill(.orange).frame(width: 4, height: 4)
+                    }
+                }
+                .padding(.top, 6)
+                .padding(.trailing, 7)
+                .transition(.opacity)
+            }
+        }
         .compositingGroup()
         .shadow(
             color: .black.opacity(vm.state.surface == .expanded ? 0.55 : 0),
@@ -47,6 +63,7 @@ struct IslandRootView: View {
             vm.handle(inside ? .hoverBegan : .hoverEnded)
         }
         .onTapGesture { vm.handle(.tapped) }
+        .onLongPressGesture(minimumDuration: 0.5) { vm.handle(.longPressed) }
         .animation(animation(for: vm.state.surface), value: vm.state)
         .frame(
             width: metrics.windowFrame.width,

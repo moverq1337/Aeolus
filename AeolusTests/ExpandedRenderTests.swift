@@ -27,7 +27,7 @@ struct ExpandedRenderTests {
         let view = IslandRootView(
             metrics: metrics, vm: vm, nowPlaying: store,
             media: MediaActions(), volume: VolumeController(),
-            lyrics: LyricsEngine())
+            lyrics: LyricsEngine(), privacy: PrivacyMonitor())
 
         let renderer = ImageRenderer(content: view)
         renderer.proposedSize = ProposedViewSize(metrics.windowFrame.size)

@@ -6,6 +6,8 @@ struct VolumeSlider: View {
     var deviceIcon = "speaker.wave.3.fill"
     /// −1…1: упругое растяжение шкалы при упоре в края (rubber-band).
     var overshoot: Double = 0
+    /// Клик по иконке устройства — свитчер выхода (nil = не интерактивно).
+    var onDeviceTap: (() -> Void)? = nil
     let onChange: (Float) -> Void
 
     var body: some View {
@@ -36,7 +38,9 @@ struct VolumeSlider: View {
             .animation(.spring(response: 0.3, dampingFraction: 0.55), value: overshoot)
             Image(systemName: deviceIcon)
                 .font(.system(size: 10))
-                .foregroundStyle(.white.opacity(0.55))
+                .foregroundStyle(.white.opacity(onDeviceTap != nil ? 0.8 : 0.55))
+                .contentShape(Rectangle())
+                .onTapGesture { onDeviceTap?() }
             if showPercent {
                 Text("\(Int((volume * 100).rounded()))")
                     .font(.system(size: 10, weight: .medium).monospacedDigit())

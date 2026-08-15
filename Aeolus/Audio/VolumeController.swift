@@ -39,6 +39,63 @@ final class VolumeController {
         }
     }
 
+    /// Список устройств вывода: (id, имя) — для свитчера.
+    func outputDevices() -> [(id: AudioObjectID, name: String)] {
+        var addr = AudioObjectPropertyAddress(
+            mSelector: kAudioHardwarePropertyDevices,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain)
+        var size: UInt32 = 0
+        guard AudioObjectGetPropertyDataSize(
+            AudioObjectID(kAudioObjectSystemObject), &addr, 0, nil, &size) == noErr
+        else { return [] }
+        let count = Int(size) / MemoryLayout<AudioObjectID>.size
+        var ids = [AudioObjectID](repeating: 0, count: count)
+        guard AudioObjectGetPropertyData(
+            AudioObjectID(kAudioObjectSystemObject), &addr, 0, nil, &size, &ids) == noErr
+        else { return [] }
+        var result: [(AudioObjectID, String)] = []
+        for id in ids {
+            // только устройства с выходными каналами
+            var outAddr = AudioObjectPropertyAddress(
+                mSelector: kAudioDevicePropertyStreamConfiguration,
+                mScope: kAudioDevicePropertyScopeOutput,
+                mElement: kAudioObjectPropertyElementMain)
+            var confSize: UInt32 = 0
+            guard AudioObjectGetPropertyDataSize(id, &outAddr, 0, nil, &confSize) == noErr,
+                  confSize > 0 else { continue }
+            let bufferList = UnsafeMutablePointer<AudioBufferList>
+                .allocate(capacity: Int(confSize))
+            defer { bufferList.deallocate() }
+            guard AudioObjectGetPropertyData(
+                id, &outAddr, 0, nil, &confSize, bufferList) == noErr,
+                bufferList.pointee.mNumberBuffers > 0 else { continue }
+            var nameAddr = AudioObjectPropertyAddress(
+                mSelector: kAudioObjectPropertyName,
+                mScope: kAudioObjectPropertyScopeGlobal,
+                mElement: kAudioObjectPropertyElementMain)
+            var name: CFString = "" as CFString
+            var nameSize = UInt32(MemoryLayout<CFString>.size)
+            let ok = withUnsafeMutablePointer(to: &name) { ptr in
+                AudioObjectGetPropertyData(id, &nameAddr, 0, nil, &nameSize, ptr) == noErr
+            }
+            guard ok else { continue }
+            result.append((id, name as String))
+        }
+        return result
+    }
+
+    func setDefaultOutput(_ id: AudioObjectID) {
+        var addr = AudioObjectPropertyAddress(
+            mSelector: kAudioHardwarePropertyDefaultOutputDevice,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain)
+        var device = id
+        AudioObjectSetPropertyData(
+            AudioObjectID(kAudioObjectSystemObject), &addr, 0, nil,
+            UInt32(MemoryLayout<AudioObjectID>.size), &device)
+    }
+
     func setVolume(_ value: Float) {
         guard deviceID != kAudioObjectUnknown else { return }
         var v = min(max(value, 0), 1)

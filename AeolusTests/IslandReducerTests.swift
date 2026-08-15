@@ -265,6 +265,30 @@ struct IslandReducerTests {
         #expect(s.surface == .collapsed)
     }
 
+    @Test func tapDismissesTransients() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .battery(BatteryFlash(kind: .pluggedIn, percentage: 50)))
+        _ = IslandReducer.reduce(&s, .tapped)
+        #expect(s.surface == .collapsed)
+
+        _ = IslandReducer.reduce(&s, .volumeGesture(40))
+        _ = IslandReducer.reduce(&s, .tapped)
+        #expect(s.surface == .collapsed)
+
+        _ = IslandReducer.reduce(&s, .deviceConnected(DeviceFlash(
+            icon: "airpodspro", name: "AirPods", percentage: 80)))
+        _ = IslandReducer.reduce(&s, .tapped)
+        #expect(s.surface == .collapsed)
+    }
+
+    @Test func longPressExpandsWithVolume() {
+        var s = playingState()
+        let fx = IslandReducer.reduce(&s, .longPressed)
+        #expect(s.surface == .expanded)
+        #expect(s.volumeShown)
+        #expect(fx == [.haptic, .cancelDwellTimer])
+    }
+
     @Test func clickOutsideCollapsesExpanded() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)

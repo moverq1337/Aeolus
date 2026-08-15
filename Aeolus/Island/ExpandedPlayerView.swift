@@ -25,6 +25,7 @@ struct ExpandedPlayerView: View {
                     showPercent: true,
                     deviceIcon: volume.outputIcon,
                     overshoot: volumeOvershoot,
+                    onDeviceTap: { showOutputMenu() },
                     onChange: volume.setVolume)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -126,5 +127,18 @@ struct ExpandedPlayerView: View {
 
     private var shuffleOn: Bool {
         (nowPlaying.state?.shuffleMode ?? 1) >= 2
+    }
+
+    /// Свитчер аудио-выхода: системное меню у курсора со списком устройств.
+    private func showOutputMenu() {
+        let menu = NSMenu()
+        for device in volume.outputDevices() {
+            let item = NSMenuItem(title: device.name, action: nil, keyEquivalent: "")
+            item.representedObject = device.id
+            let id = device.id
+            item.setAction { [weak volume] in volume?.setDefaultOutput(id) }
+            menu.addItem(item)
+        }
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
     }
 }

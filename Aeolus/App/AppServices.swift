@@ -10,6 +10,8 @@ final class AppServices {
     let volume = VolumeController()
     let power = PowerMonitor()
     let lyrics = LyricsEngine()
+    let focus = FocusMonitor()
+    let privacy = PrivacyMonitor()
     let settingsWindow = SettingsWindowController()
     let updater = SPUStandardUpdaterController(
         startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -28,6 +30,14 @@ final class AppServices {
         volume.onExternalChange = { [islandVM] value in
             islandVM.handle(.volumeGesture(Int((value * 100).rounded())))
         }
+        focus.onChange = { [islandVM] active in
+            islandVM.handle(.deviceConnected(DeviceFlash(
+                icon: active ? "moon.fill" : "moon",
+                name: "Focus", percentage: nil)))
+        }
+        focus.start()
+        privacy.start()
+
         volume.onDeviceChange = { [islandVM] name, icon in
             let levels = BluetoothAudioBattery.levels(matchingName: name)
             islandVM.handle(.deviceConnected(DeviceFlash(
@@ -105,7 +115,8 @@ final class AppServices {
                 nowPlaying: nowPlaying,
                 media: mediaActions,
                 volume: volume,
-                lyrics: lyrics))
+                lyrics: lyrics,
+                privacy: privacy))
         }
 
         panelController?.onScroll = { [weak self] event in
