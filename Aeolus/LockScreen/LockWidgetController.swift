@@ -89,17 +89,32 @@ final class LockWidgetController {
         notchVisible = true
         panel.alphaValue = 0
         panel.orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = 0.3
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            panel.animator().alphaValue = 1
+        // Хореография блокировки: остров дорастворяется (~0.5 с), пауза,
+        // и только затем замочек проявляется очень мягко.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, self.notchVisible else { return }
+                NSAnimationContext.runAnimationGroup { ctx in
+                    ctx.duration = 0.7
+                    ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
+                    panel.animator().alphaValue = 1
+                }
+            }
         }
     }
 
     private func hideNotchLock() {
         guard notchVisible else { return }
         notchVisible = false
-        notchPanel?.orderOut(nil)
+        guard let notchPanel else { return }
+        NSAnimationContext.runAnimationGroup({ ctx in
+            ctx.duration = 0.2
+            ctx.timingFunction = CAMediaTimingFunction(name: .easeIn)
+            notchPanel.animator().alphaValue = 0
+        }, completionHandler: { [weak self] in
+            guard let self, !self.notchVisible else { return }
+            notchPanel.orderOut(nil)
+        })
     }
 
     private func ensureNotchPanel() -> LockWidgetPanel {

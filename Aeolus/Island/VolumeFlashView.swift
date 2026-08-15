@@ -23,8 +23,6 @@ struct VolumeFlashView: View {
                 Text("\(percent)")
                     .font(.system(size: 11, weight: .semibold).monospacedDigit())
                     .foregroundStyle(.white)
-                    .contentTransition(.numericText(value: Double(percent)))
-                    .animation(.snappy(duration: 0.2), value: percent)
             }
         }
         .padding(.horizontal, 14)

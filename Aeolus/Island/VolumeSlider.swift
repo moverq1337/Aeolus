@@ -34,8 +34,6 @@ struct VolumeSlider: View {
                 Text("\(Int((volume * 100).rounded()))")
                     .font(.system(size: 10, weight: .medium).monospacedDigit())
                     .foregroundStyle(.white.opacity(0.55))
-                    .contentTransition(.numericText(value: Double(volume)))
-                    .animation(.snappy(duration: 0.2), value: volume)
                     .frame(width: 24, alignment: .trailing)
             }
         }
