@@ -8,7 +8,7 @@ struct LockWidgetView: View {
     let media: MediaActions
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 6) {
             HStack(spacing: 12) {
                 artwork
                 VStack(alignment: .leading, spacing: 3) {
@@ -40,12 +40,12 @@ struct LockWidgetView: View {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 56, height: 56)
+                .frame(width: 64, height: 64)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         } else {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(.white.opacity(0.15))
-                .frame(width: 56, height: 56)
+                .frame(width: 64, height: 64)
                 .overlay {
                     Image(systemName: "music.note")
                         .foregroundStyle(.white.opacity(0.4))
@@ -75,13 +75,13 @@ struct LockWidgetView: View {
     }
 
     private var controls: some View {
-        HStack(spacing: 28) {
-            ControlButton(systemName: "backward.fill", size: 12, action: media.previous)
+        HStack(spacing: 34) {
+            ControlButton(systemName: "backward.fill", action: media.previous)
             ControlButton(
                 systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
-                size: 17,
+                size: 24,
                 action: media.toggle)
-            ControlButton(systemName: "forward.fill", size: 12, action: media.next)
+            ControlButton(systemName: "forward.fill", action: media.next)
         }
     }
 }

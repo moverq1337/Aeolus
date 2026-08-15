@@ -5,7 +5,7 @@ import CoreGraphics
 /// (фидбек владельца 2026-08-15); слайдер только поднимает. Жёсткий нижний
 /// зазор защищает зону пароля (класс багов Alcove #555).
 enum LockWidgetLayout {
-    static let cardSize = CGSize(width: 320, height: 116)
+    static let cardSize = CGSize(width: 300, height: 140)
     /// Дефолтный отступ нижнего края карточки от низа экрана.
     static let baseBottomMargin: CGFloat = 240
     static let minBottomClearance: CGFloat = 220
