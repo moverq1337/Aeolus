@@ -46,6 +46,7 @@
 		8805AD39E818CF02BEFE630D /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 69EAB8D8ABC8504ED58B4A67 /* Sparkle */; };
 		8841BF3D2A3B593E3284ECA3 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */; };
 		8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */; };
+		8B9737F6D483798375397C23 /* MediaSourceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7728F5E423124B4EF6FB30C1 /* MediaSourceFilter.swift */; };
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
 		9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */; };
@@ -66,6 +67,7 @@
 		C2B8612B71D847A036CCCB3F /* IslandLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */; };
 		C7045CF80DB79C987A4008D0 /* ExpandedRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */; };
 		C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */; };
+		D1B9BAA2A1E6C83E3F253223 /* MediaSourceFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32BD8AB55D10B02DBD665F9 /* MediaSourceFilterTests.swift */; };
 		D6024E3D65B900B1E8AF1156 /* CarouselTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD571C72B0878636452A6D5 /* CarouselTransition.swift */; };
 		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D7A63E2BBDCC1BDF7E80A8A4 /* PowerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */; };
@@ -147,6 +149,7 @@
 		6B47E5DD201447FBB955857C /* ScrollGestureRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollGestureRecognizerTests.swift; sourceTree = "<group>"; };
 		6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerMonitor.swift; sourceTree = "<group>"; };
 		71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7728F5E423124B4EF6FB30C1 /* MediaSourceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSourceFilter.swift; sourceTree = "<group>"; };
 		773966156F4CAB653EAE5FE6 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpace.swift; sourceTree = "<group>"; };
 		7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemoteAdapter.framework; path = "Vendor/mediaremote-adapter/MediaRemoteAdapter.framework"; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 		A0049E01094AEA82F486D63F /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
 		AAA2D5EEB3530AC56D9A5335 /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
 		AFE10EFA83D4848598448303 /* SmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTests.swift; sourceTree = "<group>"; };
+		B32BD8AB55D10B02DBD665F9 /* MediaSourceFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSourceFilterTests.swift; sourceTree = "<group>"; };
 		B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLayoutTests.swift; sourceTree = "<group>"; };
 		B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMergeTests.swift; sourceTree = "<group>"; };
 		C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDeviceIconTests.swift; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 				23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */,
 				C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */,
 				CFA6CFE1CD1CED7D530CCF72 /* LockWidgetRenderTests.swift */,
+				B32BD8AB55D10B02DBD665F9 /* MediaSourceFilterTests.swift */,
 				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */,
 				C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */,
@@ -295,6 +300,7 @@
 				F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */,
 				1B06033138DF2421186F2B37 /* MediaActions.swift */,
 				E684A040C402F9C991448B41 /* MediaEngine.swift */,
+				7728F5E423124B4EF6FB30C1 /* MediaSourceFilter.swift */,
 				32878FBAB612692AC6652F9E /* NowPlaying.swift */,
 				F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */,
 				190A429536053029AA5FF651 /* RestartPolicy.swift */,
@@ -509,6 +515,7 @@
 				9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */,
 				8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */,
 				64901DAFA5FDD5A5294415F5 /* LockWidgetRenderTests.swift in Sources */,
+				D1B9BAA2A1E6C83E3F253223 /* MediaSourceFilterTests.swift in Sources */,
 				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */,
 				BDEF0BD692855C0DC44FFD2D /* OutputDeviceIconTests.swift in Sources */,
@@ -553,6 +560,7 @@
 				49C554BF477174848D74575E /* LockWidgetView.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
+				8B9737F6D483798375397C23 /* MediaSourceFilter.swift in Sources */,
 				EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */,
 				7FAE763B6E2CCB122AA5618C /* NotchPanel.swift in Sources */,
 				B95DB3D25F02DC52219FEF57 /* NotchShape.swift in Sources */,

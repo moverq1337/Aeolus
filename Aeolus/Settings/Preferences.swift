@@ -35,4 +35,8 @@ enum Preferences {
     static var lockScreenOffset: Double {
         UserDefaults.standard.double(forKey: "lockScreenOffset")
     }
+
+    static var ignoredBundleIDs: [String] {
+        UserDefaults.standard.stringArray(forKey: "ignoredBundleIDs") ?? []
+    }
 }
