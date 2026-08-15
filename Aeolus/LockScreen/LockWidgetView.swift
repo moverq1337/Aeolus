@@ -1,38 +1,47 @@
 import SwiftUI
 
-/// Карточка Now Playing для экрана блокировки: длинная и тонкая, как
-/// лайв-активити (фидбек владельца 2026-08-15). Прогресс — только отображение;
-/// кнопки работают до аутентификации.
+/// Плеер на экране блокировки в стиле нативного iOS-виджета (референс #11):
+/// морозное стекло с тонированием акцентом обложки, крупная обложка,
+/// прогресс с временами по краям, пять контролов внизу.
 struct LockWidgetView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
 
     var body: some View {
-        VStack(spacing: 6) {
-            HStack(spacing: 12) {
-                artwork
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(nowPlaying.displayTitle ?? "")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
-                    Text(nowPlaying.displayArtist ?? "")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.white.opacity(0.55))
-                        .lineLimit(1)
-                    progress
-                }
-                Spacer(minLength: 0)
-            }
+        VStack(spacing: 10) {
+            header
+            progress
             controls
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
         .frame(width: LockWidgetLayout.cardSize.width,
                height: LockWidgetLayout.cardSize.height)
-        .background(Color.black.opacity(0.85))
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .background {
+            ZStack {
+                VisualEffectBackground()
+                nowPlaying.displayAccent.opacity(0.12)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .environment(\.colorScheme, .dark)
+    }
+
+    private var header: some View {
+        HStack(spacing: 12) {
+            artwork
+            VStack(alignment: .leading, spacing: 2) {
+                Text(nowPlaying.displayTitle ?? "")
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                Text(nowPlaying.displayArtist ?? "")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.6))
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 8)
+        }
     }
 
     @ViewBuilder private var artwork: some View {
@@ -40,48 +49,91 @@ struct LockWidgetView: View {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 64, height: 64)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .frame(width: 56, height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
         } else {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(.white.opacity(0.15))
-                .frame(width: 64, height: 64)
+            RoundedRectangle(cornerRadius: 13, style: .continuous)
+                .fill(.white.opacity(0.18))
+                .frame(width: 56, height: 56)
                 .overlay {
                     Image(systemName: "music.note")
-                        .foregroundStyle(.white.opacity(0.4))
+                        .foregroundStyle(.white.opacity(0.45))
                 }
         }
     }
 
     @ViewBuilder private var progress: some View {
-        if let state = nowPlaying.state, let duration = state.duration {
-            TimelineView(.animation(minimumInterval: 0.5, paused: !state.playing)) { ctx in
-                let fraction = duration > 0
-                    ? min(state.position(at: ctx.date) / duration, 1) : 0
+        let state = nowPlaying.state
+        let duration = state?.duration
+        TimelineView(.animation(minimumInterval: 0.5, paused: !(state?.playing ?? false))) { ctx in
+            let position = state.map { $0.position(at: ctx.date) } ?? 0
+            HStack(spacing: 8) {
+                timeLabel(duration != nil ? TimeFormatter.clock(position) : "-:--")
                 Capsule().fill(.white.opacity(0.25))
-                    .frame(height: 3)
+                    .frame(height: 4)
                     .overlay(alignment: .leading) {
                         GeometryReader { geo in
-                            Capsule().fill(.white.opacity(0.85))
-                                .frame(width: max(2, geo.size.width * fraction))
+                            if let duration, duration > 0 {
+                                Capsule().fill(.white.opacity(0.9))
+                                    .frame(width: max(3, geo.size.width
+                                        * min(position / duration, 1)))
+                            }
                         }
                     }
+                timeLabel(duration != nil
+                    ? "-" + TimeFormatter.clock(max((duration ?? 0) - position, 0))
+                    : "-:--")
             }
-            .frame(height: 3)
-            .padding(.top, 3)
-        } else {
-            Spacer().frame(height: 6)
         }
+        .frame(height: 14)
+    }
+
+    private func timeLabel(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 11, weight: .medium).monospacedDigit())
+            .foregroundStyle(.white.opacity(0.6))
+            .frame(minWidth: 34)
     }
 
     private var controls: some View {
-        HStack(spacing: 34) {
-            ControlButton(systemName: "backward.fill", action: media.previous)
+        HStack {
+            ControlButton(
+                systemName: "shuffle", size: 15,
+                tint: shuffleOn ? nowPlaying.displayAccent : .white,
+                action: media.toggleShuffle)
+                .opacity(shuffleOn ? 1 : 0.45)
+            Spacer()
+            ControlButton(systemName: "backward.fill", size: 19, action: media.previous)
+            Spacer()
             ControlButton(
                 systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
-                size: 24,
+                size: 25,
                 action: media.toggle)
-            ControlButton(systemName: "forward.fill", action: media.next)
+            Spacer()
+            ControlButton(systemName: "forward.fill", size: 19, action: media.next)
+            Spacer()
+            Image(systemName: "macbook")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.45))
+                .frame(width: 40, height: 32)
         }
+        .padding(.horizontal, 4)
     }
+
+    private var shuffleOn: Bool {
+        (nowPlaying.state?.shuffleMode ?? 1) >= 2
+    }
+}
+
+/// Морозное стекло: системный материал за окном (лок-скрин размывает обои сам).
+struct VisualEffectBackground: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .hudWindow
+        view.blendingMode = .behindWindow
+        view.state = .active
+        return view
+    }
+
+    func updateNSView(_ view: NSVisualEffectView, context: Context) {}
 }
