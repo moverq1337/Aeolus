@@ -9,7 +9,6 @@ final class LockWidgetController {
 
     private var panel: LockWidgetPanel?
     private var visible = false
-    private var hideTask: Task<Void, Never>?
     private var pollTask: Task<Void, Never>?
 
     init(content: @escaping @MainActor () -> AnyView,
@@ -34,16 +33,16 @@ final class LockWidgetController {
     }
 
     func refresh() {
+        let session = LockSession.current()
         let decision = LockWidgetDecision.shouldShow(
             enabled: Preferences.lockScreenWidget,
-            session: LockSession.current(),
+            session: session,
             hasSession: hasSession(),
             spaceAvailable: space != nil)
-        if decision { show() } else { scheduleHide() }
+        if decision { show() } else { hideNow() }
     }
 
     private func show() {
-        hideTask?.cancel()
         let panel = ensurePanel()
         reposition(panel)
         guard !visible else { return }
@@ -57,16 +56,14 @@ final class LockWidgetController {
         }
     }
 
-    private func scheduleHide() {
+    private func hideNow() {
+        // Мгновенно: истина блокировки уже сверена по CGSession-словарю, а нашу
+        // панель не нужно выдёргивать из пространства (в отличие от boring.notch,
+        // чья 150-мс задержка страхует undelegate) — просто прячем. Ложное
+        // срабатывание самоизлечивается ближайшим тиком опроса (~100 мс).
         guard visible else { return }
-        hideTask?.cancel()
-        // 150 мс — анти-мерцание на кроссфейде разблокировки (проверено boring.notch).
-        hideTask = Task { [weak self] in
-            try? await Task.sleep(for: .milliseconds(150))
-            guard !Task.isCancelled else { return }
-            self?.visible = false
-            self?.panel?.orderOut(nil)
-        }
+        visible = false
+        panel?.orderOut(nil)
     }
 
     private func ensurePanel() -> LockWidgetPanel {
