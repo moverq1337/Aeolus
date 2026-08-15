@@ -99,7 +99,11 @@ final class AppServices {
                 self.lockWidget?.beginPollWindow()
             },
             onUnlocked: { [islandVM] in
-                islandVM.handle(.unlockFlash)
+                // Даём панели острова вернуться на экран, потом здороваемся.
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(250))
+                    islandVM.handle(.unlockFlash)
+                }
             })
     }
 
