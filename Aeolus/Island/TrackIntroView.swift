@@ -9,14 +9,15 @@ struct TrackIntroView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            // Уголки на уровне выреза
-            HStack {
+            // Обложка крупно в верхнем-левом углу (референс #13), эквалайзер справа
+            HStack(alignment: .top) {
                 artwork
+                    .padding(.top, 9)
                 Spacer(minLength: notchSize.width)
                 EqualizerBars(animating: true, tint: nowPlaying.displayAccent)
+                    .frame(height: notchSize.height)
             }
             .padding(.horizontal, 12)
-            .frame(height: notchSize.height)
 
             // Центральная строка под вырезом
             VStack(spacing: 0) {
@@ -39,7 +40,7 @@ struct TrackIntroView: View {
                 }
                 .frame(maxHeight: .infinity)
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 56)
         }
     }
 
@@ -48,12 +49,12 @@ struct TrackIntroView: View {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 20, height: 20)
-                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                .frame(width: 36, height: 36)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         } else {
-            RoundedRectangle(cornerRadius: 5, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(.white.opacity(0.15))
-                .frame(width: 20, height: 20)
+                .frame(width: 36, height: 36)
         }
     }
 }
