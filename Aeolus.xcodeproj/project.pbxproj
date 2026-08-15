@@ -10,10 +10,12 @@
 		00CA852B4F95FCD3FAC88D3D /* LockWidgetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */; };
 		017DF393AB7CB253C8EFCA81 /* PowerMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */; };
 		01E64FD639416137629A70AF /* PowerEventDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26671F348319AD7AC26BFD9C /* PowerEventDetector.swift */; };
+		04EE4AB521E31D296AAC2437 /* LyricsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94214E200C1F9EA4BFC3C158 /* LyricsEngine.swift */; };
 		07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */; };
 		07A8F82B052C985D4285E2FF /* BluetoothAudioBattery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89ECEDCB3C118A9426BEC0 /* BluetoothAudioBattery.swift */; };
 		08AA5524C2AC28B8DC96F160 /* IslandLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB545E21797CD145F71834D /* IslandLayout.swift */; };
 		0C05CB3CC66EE5D44E1FFACC /* FullscreenDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270CF2EF436AA3E178AD642F /* FullscreenDetectorTests.swift */; };
+		0C74FB17BAA2FD07572D9E41 /* LyricsParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28F62FB5A47E7C89314312 /* LyricsParserTests.swift */; };
 		140EE9C9BD6DE0D2664A2799 /* PrivateSymbolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784D320A6215B2E4860191C /* PrivateSymbolsTests.swift */; };
 		192A24368610EC7412AECD20 /* DeviceFlashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA116340484B06489ED84FCA /* DeviceFlashView.swift */; };
 		1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0049E01094AEA82F486D63F /* TimeFormatter.swift */; };
@@ -69,6 +71,7 @@
 		C2B8612B71D847A036CCCB3F /* IslandLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */; };
 		C7045CF80DB79C987A4008D0 /* ExpandedRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */; };
 		C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */; };
+		D17D5598DC340B3A78E72419 /* LyricsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD44CD6EA6338F050823562 /* LyricsParser.swift */; };
 		D1B9BAA2A1E6C83E3F253223 /* MediaSourceFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32BD8AB55D10B02DBD665F9 /* MediaSourceFilterTests.swift */; };
 		D6024E3D65B900B1E8AF1156 /* CarouselTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD571C72B0878636452A6D5 /* CarouselTransition.swift */; };
 		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -120,6 +123,7 @@
 		0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchPanel.swift; sourceTree = "<group>"; };
 		0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackIntroView.swift; sourceTree = "<group>"; };
+		0F28F62FB5A47E7C89314312 /* LyricsParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsParserTests.swift; sourceTree = "<group>"; };
 		0FB545E21797CD145F71834D /* IslandLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLayout.swift; sourceTree = "<group>"; };
 		190A429536053029AA5FF651 /* RestartPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartPolicy.swift; sourceTree = "<group>"; };
 		1B06033138DF2421186F2B37 /* MediaActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaActions.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 		46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		47CDBB4D7704F30EE08D8A43 /* Aeolus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aeolus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48234AFCC8CA67291AB791D3 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
+		4BD44CD6EA6338F050823562 /* LyricsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsParser.swift; sourceTree = "<group>"; };
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		526FD550ADF94130B64E139F /* IslandReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducerTests.swift; sourceTree = "<group>"; };
 		53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetController.swift; sourceTree = "<group>"; };
@@ -160,6 +165,7 @@
 		8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerEventDetectorTests.swift; sourceTree = "<group>"; };
 		883D2C4C6E8ADB7F7BE5CD52 /* FullscreenDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenDetector.swift; sourceTree = "<group>"; };
 		90D67F7D5B4A7AA99343B0B8 /* IslandState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandState.swift; sourceTree = "<group>"; };
+		94214E200C1F9EA4BFC3C158 /* LyricsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsEngine.swift; sourceTree = "<group>"; };
 		9784D320A6215B2E4860191C /* PrivateSymbolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateSymbolsTests.swift; sourceTree = "<group>"; };
 		9AF98799C089CBFD5671263E /* SystemObservers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemObservers.swift; sourceTree = "<group>"; };
 		9C89ECEDCB3C118A9426BEC0 /* BluetoothAudioBattery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAudioBattery.swift; sourceTree = "<group>"; };
@@ -229,6 +235,7 @@
 				23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */,
 				C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */,
 				CFA6CFE1CD1CED7D530CCF72 /* LockWidgetRenderTests.swift */,
+				0F28F62FB5A47E7C89314312 /* LyricsParserTests.swift */,
 				B32BD8AB55D10B02DBD665F9 /* MediaSourceFilterTests.swift */,
 				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */,
@@ -305,6 +312,8 @@
 			children = (
 				33EE347A5AC93DF0B267570B /* AdapterPaths.swift */,
 				F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */,
+				94214E200C1F9EA4BFC3C158 /* LyricsEngine.swift */,
+				4BD44CD6EA6338F050823562 /* LyricsParser.swift */,
 				1B06033138DF2421186F2B37 /* MediaActions.swift */,
 				E684A040C402F9C991448B41 /* MediaEngine.swift */,
 				7728F5E423124B4EF6FB30C1 /* MediaSourceFilter.swift */,
@@ -524,6 +533,7 @@
 				9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */,
 				8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */,
 				64901DAFA5FDD5A5294415F5 /* LockWidgetRenderTests.swift in Sources */,
+				0C74FB17BAA2FD07572D9E41 /* LyricsParserTests.swift in Sources */,
 				D1B9BAA2A1E6C83E3F253223 /* MediaSourceFilterTests.swift in Sources */,
 				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */,
@@ -569,6 +579,8 @@
 				FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */,
 				ADF2586912FBB18932AB5420 /* LockWidgetPanel.swift in Sources */,
 				49C554BF477174848D74575E /* LockWidgetView.swift in Sources */,
+				04EE4AB521E31D296AAC2437 /* LyricsEngine.swift in Sources */,
+				D17D5598DC340B3A78E72419 /* LyricsParser.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
 				8B9737F6D483798375397C23 /* MediaSourceFilter.swift in Sources */,

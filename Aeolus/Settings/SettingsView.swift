@@ -24,6 +24,9 @@ struct SettingsView: View {
                     }
                 Toggle("Hide in full screen", isOn: $hideInFullscreen)
                 Toggle("Battery alerts", isOn: $batteryAlerts)
+                Toggle("Synced lyrics", isOn: Binding(
+                    get: { UserDefaults.standard.bool(forKey: "syncedLyrics") },
+                    set: { UserDefaults.standard.set($0, forKey: "syncedLyrics") }))
                 Toggle("Check for updates automatically", isOn: Binding(
                     get: { AppServices.shared.updater.updater.automaticallyChecksForUpdates },
                     set: { AppServices.shared.updater.updater.automaticallyChecksForUpdates = $0 }))
@@ -73,6 +76,9 @@ struct SettingsView: View {
                 }
             }
             Section {
+                Text("Synced lyrics sends the track title, artist and duration to lrclib.net")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 LabeledContent(
                     "Media engine",
                     value: nowPlaying.mediaAvailable ? "Active" : "Unavailable on this macOS")

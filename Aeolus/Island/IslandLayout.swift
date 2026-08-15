@@ -20,8 +20,10 @@ struct IslandLayout: Equatable {
             return CGSize(width: base.width + Self.peekDelta.width,
                           height: base.height + Self.peekDelta.height)
         case .expanded:
-            return (state.volumeShown || state.volumeOverlay)
+            let lyricsExtra: CGFloat = Preferences.syncedLyrics ? 20 : 0
+            let base = (state.volumeShown || state.volumeOverlay)
                 ? Self.expandedVolumeSize : Self.expandedSize
+            return CGSize(width: base.width, height: base.height + lyricsExtra)
         case .battery, .volume, .device:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)

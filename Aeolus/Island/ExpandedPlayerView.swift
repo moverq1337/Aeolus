@@ -7,6 +7,7 @@ struct ExpandedPlayerView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
     let volume: VolumeController
+    let lyrics: LyricsEngine
     let volumeShown: Bool
     var volumeOvershoot: Double = 0
     let onToggleVolume: () -> Void
@@ -15,6 +16,7 @@ struct ExpandedPlayerView: View {
     var body: some View {
         VStack(spacing: 8) {
             header
+            lyricsLine
             progress
             controlsRow
             if volumeShown {
@@ -65,6 +67,24 @@ struct ExpandedPlayerView: View {
                     Image(systemName: "music.note")
                         .foregroundStyle(.white.opacity(0.4))
                 }
+        }
+    }
+
+    @ViewBuilder private var lyricsLine: some View {
+        if Preferences.syncedLyrics, !lyrics.lines.isEmpty,
+           let state = nowPlaying.state, state.playing {
+            TimelineView(.animation(minimumInterval: 0.5, paused: !state.playing)) { ctx in
+                let line = LyricsParser.currentLine(
+                    lyrics.lines, at: state.position(at: ctx.date))
+                Text(line?.text ?? "…")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(nowPlaying.displayAccent.opacity(0.9))
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity)
+                    .contentTransition(.opacity)
+                    .animation(.easeInOut(duration: 0.25), value: line?.text)
+            }
+            .frame(height: 14)
         }
     }
 

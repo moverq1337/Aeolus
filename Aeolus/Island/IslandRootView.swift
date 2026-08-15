@@ -6,6 +6,7 @@ struct IslandRootView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
     let volume: VolumeController
+    let lyrics: LyricsEngine
 
     private var layout: IslandLayout { IslandLayout(notchSize: metrics.closedSize) }
 
@@ -78,6 +79,7 @@ struct IslandRootView: View {
                     nowPlaying: nowPlaying,
                     media: media,
                     volume: volume,
+                    lyrics: lyrics,
                     volumeShown: vm.state.volumeShown || vm.state.volumeOverlay,
                     volumeOvershoot: vm.state.volumeOvershoot,
                     onToggleVolume: { vm.handle(.volumeToggled) },

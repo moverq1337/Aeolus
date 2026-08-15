@@ -9,6 +9,7 @@ enum Preferences {
             "batteryAlerts": true,
             "lockScreenWidget": false,
             "lockScreenOffset": 0.0,
+            "syncedLyrics": false,
         ])
     }
 
@@ -34,6 +35,10 @@ enum Preferences {
 
     static var lockScreenOffset: Double {
         UserDefaults.standard.double(forKey: "lockScreenOffset")
+    }
+
+    static var syncedLyrics: Bool {
+        UserDefaults.standard.bool(forKey: "syncedLyrics")
     }
 
     static var ignoredBundleIDs: [String] {

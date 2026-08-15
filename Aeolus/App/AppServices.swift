@@ -9,6 +9,7 @@ final class AppServices {
     let islandVM = IslandViewModel()
     let volume = VolumeController()
     let power = PowerMonitor()
+    let lyrics = LyricsEngine()
     let settingsWindow = SettingsWindowController()
     let updater = SPUStandardUpdaterController(
         startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -71,8 +72,12 @@ final class AppServices {
             lockWidget?.refresh()
         }
 
-        nowPlaying.onTrackChange = { [islandVM] in
+        nowPlaying.onTrackChange = { [islandVM, nowPlaying, lyrics] in
             islandVM.handle(.trackChanged)
+            lyrics.trackChanged(
+                title: nowPlaying.displayTitle,
+                artist: nowPlaying.displayArtist,
+                duration: nowPlaying.state?.duration)
         }
 
         spaceHotKey.onPressed = { [weak self] in
@@ -99,7 +104,8 @@ final class AppServices {
                 vm: islandVM,
                 nowPlaying: nowPlaying,
                 media: mediaActions,
-                volume: volume))
+                volume: volume,
+                lyrics: lyrics))
         }
 
         panelController?.onScroll = { [weak self] event in
