@@ -43,7 +43,7 @@ struct ExpandedPlayerView: View {
                     .lineLimit(1)
             }
             Spacer(minLength: 8)
-            EqualizerBars(animating: nowPlaying.state?.playing ?? false)
+            EqualizerBars(animating: nowPlaying.state?.playing ?? false, tint: nowPlaying.displayAccent)
         }
     }
 

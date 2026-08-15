@@ -51,6 +51,7 @@ struct IslandRootView: View {
                     notchSize: metrics.closedSize,
                     artwork: nowPlaying.displayArtwork,
                     isPlaying: vm.state.isPlaying,
+                    accent: nowPlaying.displayAccent,
                     trackKey: nowPlaying.displayTitle ?? "",
                     direction: nowPlaying.lastNavigationDirection)
             }

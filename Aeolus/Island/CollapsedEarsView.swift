@@ -4,6 +4,7 @@ struct CollapsedEarsView: View {
     let notchSize: CGSize
     let artwork: NSImage?
     let isPlaying: Bool
+    var accent: Color = .white
     var trackKey: String = ""
     var direction: TrackDirection = .forward
 
@@ -20,7 +21,7 @@ struct CollapsedEarsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
             .padding(.leading, 13)
             Spacer(minLength: notchSize.width)
-            EqualizerBars(animating: isPlaying)
+            EqualizerBars(animating: isPlaying, tint: accent)
                 .padding(.trailing, 14)
         }
         .frame(height: notchSize.height)
