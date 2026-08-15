@@ -6,7 +6,11 @@ struct SettingsView: View {
     @AppStorage("hoverDelay") private var hoverDelay = 0.45
     @AppStorage("hideInFullscreen") private var hideInFullscreen = false
     @AppStorage("batteryAlerts") private var batteryAlerts = true
+    @AppStorage("lockScreenWidget") private var lockScreenWidget = false
+    @AppStorage("lockScreenOffset") private var lockScreenOffset = 0.0
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
+
+    private var lockScreenAvailable: Bool { SkyLightSpace.shared != nil }
     @Environment(\.appearsActive) private var appearsActive
 
     var body: some View {
@@ -33,6 +37,29 @@ struct SettingsView: View {
                         Text("1s")
                     }
                     Text(String(format: "Open after %.2f s of hover", hoverDelay))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Section("Lock Screen") {
+                Toggle("Lock Screen widget", isOn: $lockScreenWidget)
+                    .disabled(!lockScreenAvailable)
+                if lockScreenWidget && lockScreenAvailable {
+                    VStack(alignment: .leading) {
+                        Slider(value: $lockScreenOffset, in: -160...160, step: 10) {
+                            Text("Vertical offset")
+                        } minimumValueLabel: {
+                            Image(systemName: "arrow.down")
+                        } maximumValueLabel: {
+                            Image(systemName: "arrow.up")
+                        }
+                        Text("Move the widget up or down from its default spot")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                if !lockScreenAvailable {
+                    Text("Unavailable on this macOS")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
