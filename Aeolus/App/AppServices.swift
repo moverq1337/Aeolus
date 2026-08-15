@@ -20,6 +20,9 @@ final class AppServices {
     private var scrollRecognizer = ScrollGestureRecognizer()
     private let spaceHotKey = SpaceToggleHotKey()
     private var lastVolumeHapticBucket = -1
+    /// Накопленный ход пальцев за краем шкалы (в поинтах жеста) — сырьё
+    /// для асимптотического сопротивления rubber-band.
+    private var overshootPoints: Double = 0
 
     private init() {}
 
@@ -184,16 +187,17 @@ final class AppServices {
             let newValue = min(max(raw, 0), 1)
             volume.setVolume(newValue)
             islandVM.handle(.volumeGesture(Int((newValue * 100).rounded())))
-            // Rubber-band: упёрлись в край — копим овершут с затуханием (iOS-физика).
+            // Rubber-band: за краем копим ход пальцев в поинтах и жмём
+            // асимптотой Apple — сопротивление растёт, предел недостижим.
             if raw < 0 || raw > 1 {
-                let past = raw < 0 ? Double(raw) : Double(raw - 1)
-                let current = islandVM.state.volumeOvershoot
-                let dampened = current + past * 0.35 * (1 - abs(current))
-                islandVM.handle(.volumeOvershoot(max(-1, min(1, dampened))))
+                let past = Double(raw < 0 ? raw : raw - 1)
+                    / Double(ScrollGestureRecognizer.volumePerPoint)
+                overshootPoints += past
+                islandVM.handle(.volumeOvershoot(
+                    RubberBandMath.dampedFraction(excessPoints: overshootPoints)))
             } else if islandVM.state.volumeOvershoot != 0 {
-                // Плавное затухание вместо мгновенного сброса.
-                let decayed = islandVM.state.volumeOvershoot * 0.5
-                islandVM.handle(.volumeOvershoot(abs(decayed) < 0.02 ? 0 : decayed))
+                overshootPoints = 0
+                islandVM.handle(.volumeOvershoot(0)) // пружина отыграет во вьюхе
             }
             // Тактильные «ступеньки»: каждые 5%, на краях — чётче.
             let bucket = Int(newValue * 20)
@@ -210,6 +214,7 @@ final class AppServices {
             mediaActions.previous()
             haptics.perform(.alignment, performanceTime: .now)
         case .verticalGestureEnded:
+            overshootPoints = 0
             islandVM.handle(.volumeGestureEnded)
         }
     }

@@ -21,6 +21,8 @@ struct VolumeFlashView: View {
                         Capsule().fill(.white)
                             .frame(width: max(2, 30 * CGFloat(percent) / 100))
                     }
+                    .clipShape(Capsule())
+                    .rubberBandStretch(overshoot, barWidth: 30)
                 Text("\(percent)")
                     .font(.system(size: 11, weight: .semibold).monospacedDigit())
                     .foregroundStyle(.white)

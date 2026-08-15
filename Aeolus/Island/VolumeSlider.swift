@@ -22,6 +22,8 @@ struct VolumeSlider: View {
                         .frame(width: max(3, geo.size.width * CGFloat(volume)))
                 }
                 .frame(height: 4)
+                .clipShape(Capsule())
+                .rubberBandStretch(overshoot, barWidth: geo.size.width)
                 .frame(maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .gesture(
