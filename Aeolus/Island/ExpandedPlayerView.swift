@@ -80,10 +80,11 @@ struct ExpandedPlayerView: View {
     private var controlsRow: some View {
         // Референс #12: пять контролов в ряд — shuffle | назад | play | вперёд | устройство.
         HStack {
-            ControlButton(systemName: "shuffle", size: 15, action: media.toggleShuffle)
+            ControlButton(
+                systemName: "shuffle", size: 15,
+                tint: shuffleOn ? nowPlaying.displayAccent : .white,
+                action: media.toggleShuffle)
                 .opacity(shuffleOn ? 1 : 0.45)
-                .foregroundStyle(shuffleOn ? AnyShapeStyle(nowPlaying.displayAccent)
-                                           : AnyShapeStyle(.white))
             Spacer()
             ControlButton(systemName: "backward.fill", size: 20, action: media.previous)
             Spacer()

@@ -3,6 +3,7 @@ import SwiftUI
 struct ControlButton: View {
     let systemName: String
     var size: CGFloat = 16
+    var tint: Color = .white
     let action: () -> Void
 
     @State private var pressed = false
@@ -10,7 +11,7 @@ struct ControlButton: View {
     var body: some View {
         Image(systemName: systemName)
             .font(.system(size: size, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(tint)
             .frame(width: 40, height: 32)
             .contentShape(Rectangle())
             .scaleEffect(pressed ? 0.86 : 1)
