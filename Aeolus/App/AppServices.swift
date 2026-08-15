@@ -99,11 +99,13 @@ final class AppServices {
                 self.lockWidget?.beginPollWindow()
             },
             onUnlocked: { [islandVM] in
-                // Пилюля замочка сжимается в вырез (~0.4 с) — и сразу из выреза
-                // вырастает приветствие. До него остров подавлен (suppressed).
+                // Замок открывается на месте (~0.7 с) → пилюля всасывается в
+                // вырез (~0.4 с) → и только теперь распускаются уши острова.
+                let delay: Duration = Preferences.lockScreenWidget
+                    ? .milliseconds(1100) : .milliseconds(100)
                 Task { @MainActor in
-                    try? await Task.sleep(for: .milliseconds(400))
-                    islandVM.handle(.unlockFlash)
+                    try? await Task.sleep(for: delay)
+                    islandVM.handle(.screenUnlocked)
                 }
             },
             onLocked: { [islandVM] in

@@ -83,9 +83,6 @@ struct IslandRootView: View {
             case .trackIntro:
                 TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
                     .transition(.blurReplace)
-            case .unlocked:
-                UnlockFlashView(notchSize: metrics.closedSize)
-                    .transition(.blurReplace)
             }
             }
         }
@@ -97,7 +94,7 @@ struct IslandRootView: View {
 
     private func animation(for surface: IslandState.Surface) -> Animation {
         switch surface {
-        case .expanded, .trackIntro, .unlocked: .spring(response: 0.42, dampingFraction: 0.8)
+        case .expanded, .trackIntro: .spring(response: 0.42, dampingFraction: 0.8)
         case .peek: .interactiveSpring(response: 0.38, dampingFraction: 0.8)
         case .collapsed, .battery, .volume: .spring(response: 0.45, dampingFraction: 1.0)
         }

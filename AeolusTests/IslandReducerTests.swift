@@ -194,7 +194,7 @@ struct IslandReducerTests {
         #expect(!s.volumeOverlay)
     }
 
-    @Test func screenLockSuppressesIsland() {
+    @Test func screenLockSuppressesIslandAndUnlockReleases() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)
         let fx = IslandReducer.reduce(&s, .screenLocked)
@@ -204,35 +204,10 @@ struct IslandReducerTests {
         // пока подавлен — уши не возвращаются даже при живой музыке
         _ = IslandReducer.reduce(&s, .musicChanged(playing: true, hasSession: true))
         #expect(s.suppressed)
-        // приветствие снимает подавление
-        _ = IslandReducer.reduce(&s, .unlockFlash)
+        // разблокировка снимает подавление, уши распускаются сами
+        _ = IslandReducer.reduce(&s, .screenUnlocked)
         #expect(!s.suppressed)
-        #expect(s.surface == .unlocked)
-    }
-
-    @Test func unlockFlashShowsAndEnds() {
-        var s = IslandState() // работает и без музыки
-        let fx = IslandReducer.reduce(&s, .unlockFlash)
-        #expect(s.surface == .unlocked)
-        #expect(fx == [.scheduleUnlockFlashEnd])
-        _ = IslandReducer.reduce(&s, .unlockFlashEnded)
         #expect(s.surface == .collapsed)
-    }
-
-    @Test func unlockFlashIgnoredWhileExpandedAndBatteryWins() {
-        var s = playingState()
-        _ = IslandReducer.reduce(&s, .hoverBegan)
-        _ = IslandReducer.reduce(&s, .dwellFired)
-        #expect(IslandReducer.reduce(&s, .unlockFlash).isEmpty)
-        #expect(s.surface == .expanded)
-
-        var u = IslandState()
-        _ = IslandReducer.reduce(&u, .unlockFlash)
-        let flash = BatteryFlash(kind: .pluggedIn, percentage: 77)
-        _ = IslandReducer.reduce(&u, .battery(flash))
-        #expect(u.surface == .battery(flash))
-        _ = IslandReducer.reduce(&u, .unlockFlashEnded)
-        #expect(u.surface == .battery(flash))
     }
 
     @Test func trackChangeShowsIntroAndEnds() {

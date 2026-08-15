@@ -66,7 +66,6 @@
 		C2B8612B71D847A036CCCB3F /* IslandLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */; };
 		C7045CF80DB79C987A4008D0 /* ExpandedRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */; };
 		C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */; };
-		D02E155C8418ED001D647BD2 /* UnlockFlashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038BE2B0AC1DFAF6FA8E7B4E /* UnlockFlashView.swift */; };
 		D6024E3D65B900B1E8AF1156 /* CarouselTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD571C72B0878636452A6D5 /* CarouselTransition.swift */; };
 		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D7A63E2BBDCC1BDF7E80A8A4 /* PowerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */; };
@@ -111,7 +110,6 @@
 
 /* Begin PBXFileReference section */
 		0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedEarsView.swift; sourceTree = "<group>"; };
-		038BE2B0AC1DFAF6FA8E7B4E /* UnlockFlashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockFlashView.swift; sourceTree = "<group>"; };
 		055B267B6E5A6F144ADF093B /* IslandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandViewModel.swift; sourceTree = "<group>"; };
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				3D428198FAF9B6AED0080D2D /* ScrollGestureRecognizer.swift */,
 				0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */,
 				EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */,
-				038BE2B0AC1DFAF6FA8E7B4E /* UnlockFlashView.swift */,
 				561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */,
 				409D1BAE9229009395399A91 /* VolumeSlider.swift */,
 			);
@@ -578,7 +575,6 @@
 				1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */,
 				2AA21D6CFBB9E37934D202B4 /* TrackIntroView.swift in Sources */,
 				552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */,
-				D02E155C8418ED001D647BD2 /* UnlockFlashView.swift in Sources */,
 				7E477DF18E0F5711ECF4D736 /* VolumeController.swift in Sources */,
 				A994F168C660DA3AA277A331 /* VolumeFlashView.swift in Sources */,
 				B2CF1A36A7C71651B88D0C8F /* VolumeSlider.swift in Sources */,

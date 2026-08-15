@@ -89,6 +89,7 @@ final class LockWidgetController {
         guard !notchVisible else { return }
         notchVisible = true
         notchPresentation.grown = false
+        notchPresentation.opened = false
         panel.alphaValue = 1
         panel.orderFrontRegardless() // голый вырез — визуально ничего
         // Хореография: остров сжался (~0.5 с) → пилюля вырастает из выреза.
@@ -103,11 +104,20 @@ final class LockWidgetController {
     private func hideNotchLock() {
         guard notchVisible else { return }
         notchVisible = false
-        notchPresentation.grown = false // пилюля сжимается в вырез
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+        // Непрерывная история разблокировки: замок открывается НА МЕСТЕ,
+        // держится мгновение, затем пилюля всасывается в вырез.
+        notchPresentation.opened = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, !self.notchVisible else { return }
+                self.notchPresentation.grown = false
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) { [weak self] in
             MainActor.assumeIsolated {
                 guard let self, !self.notchVisible else { return }
                 self.notchPanel?.orderOut(nil)
+                self.notchPresentation.opened = false
             }
         }
     }

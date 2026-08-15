@@ -80,7 +80,7 @@ enum IslandReducer {
             case .peek:
                 s.surface = .battery(flash)
                 return [.cancelDwellTimer, .scheduleBatteryEnd]
-            case .collapsed, .battery, .volume, .trackIntro, .unlocked:
+            case .collapsed, .battery, .volume, .trackIntro:
                 s.surface = .battery(flash)
                 return [.scheduleBatteryEnd]
             }
@@ -104,7 +104,7 @@ enum IslandReducer {
             case .peek:
                 s.surface = .volume(percent)
                 return [.cancelDwellTimer, .scheduleVolumeFlashEnd]
-            case .collapsed, .battery, .volume, .trackIntro, .unlocked:
+            case .collapsed, .battery, .volume, .trackIntro:
                 s.surface = .volume(percent)
                 return [.scheduleVolumeFlashEnd]
             }
@@ -126,7 +126,7 @@ enum IslandReducer {
             case .peek:
                 s.surface = .trackIntro
                 return [.cancelDwellTimer, .scheduleTrackIntroEnd]
-            case .collapsed, .volume, .trackIntro, .unlocked:
+            case .collapsed, .volume, .trackIntro:
                 s.surface = .trackIntro
                 return [.scheduleTrackIntroEnd]
             }
@@ -144,22 +144,8 @@ enum IslandReducer {
             s.pendingBattery = nil
             return [.cancelDwellTimer, .cancelCloseDebounce]
 
-        case .unlockFlash:
+        case .screenUnlocked:
             s.suppressed = false
-            switch s.surface {
-            case .expanded, .battery:
-                return []
-            case .peek:
-                s.surface = .unlocked
-                return [.cancelDwellTimer, .scheduleUnlockFlashEnd]
-            case .collapsed, .volume, .trackIntro, .unlocked:
-                s.surface = .unlocked
-                return [.scheduleUnlockFlashEnd]
-            }
-
-        case .unlockFlashEnded:
-            guard case .unlocked = s.surface else { return [] }
-            s.surface = .collapsed
             return []
         }
     }

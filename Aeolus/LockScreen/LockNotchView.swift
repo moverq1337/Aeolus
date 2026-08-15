@@ -6,6 +6,7 @@ import Observation
 @Observable
 final class LockNotchPresentation {
     var grown = false
+    var opened = false
 }
 
 /// Замочек у выреза на экране блокировки: пилюля ВЫРАСТАЕТ из выреза пружиной
@@ -22,9 +23,12 @@ struct LockNotchView: View {
             .fill(Color.black)
             .overlay {
                 HStack {
-                    Image(systemName: "lock.fill")
+                    Image(systemName: presentation.opened ? "lock.open.fill" : "lock.fill")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.85))
+                        .contentTransition(.symbolEffect(.replace))
+                        .animation(.spring(response: 0.42, dampingFraction: 0.8),
+                                   value: presentation.opened)
                         .opacity(grown ? 1 : 0)
                     Spacer(minLength: notchSize.width)
                     Spacer().frame(width: 18)
