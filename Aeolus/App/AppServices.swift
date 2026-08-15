@@ -23,6 +23,9 @@ final class AppServices {
 
     func start() {
         Preferences.registerDefaults()
+        volume.onExternalChange = { [islandVM] value in
+            islandVM.handle(.volumeGesture(Int((value * 100).rounded())))
+        }
         volume.start()
 
         if let paths = AdapterPaths.bundled() {

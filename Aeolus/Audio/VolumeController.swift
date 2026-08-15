@@ -9,6 +9,8 @@ import Observation
 @Observable
 final class VolumeController {
     private(set) var volume: Float = 0
+    /// Внешнее изменение громкости (клавиши, Control Center) — для транзиента.
+    @ObservationIgnored var onExternalChange: ((Float) -> Void)?
     /// SF Symbol текущего устройства вывода (AirPods и т.п.) для правой
     /// иконки слайдера.
     private(set) var outputIcon = "speaker.wave.3.fill"
@@ -63,7 +65,9 @@ final class VolumeController {
         var v: Float32 = 0
         var size = UInt32(MemoryLayout<Float32>.size)
         if AudioObjectGetPropertyData(deviceID, &volumeAddress, 0, nil, &size, &v) == noErr {
+            let changed = abs(v - volume) > 0.001
             volume = v
+            if changed { onExternalChange?(v) }
         }
     }
 

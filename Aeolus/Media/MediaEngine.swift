@@ -95,7 +95,9 @@ actor MediaEngine {
                 current = merged
                 let blocked = await MainActor.run {
                     MediaSourceFilter.isBlocked(
-                        merged?.bundleIdentifier, extra: Preferences.ignoredBundleIDs)
+                        merged?.bundleIdentifier,
+                        artist: merged?.artist,
+                        extra: Preferences.ignoredBundleIDs)
                 }
                 await pushState(blocked ? nil : merged)
             }
