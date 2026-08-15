@@ -71,9 +71,7 @@ struct IslandRootView: View {
                 notchSize: metrics.closedSize)
         case .trackIntro:
             TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
-                .transition(.push(
-                    from: nowPlaying.lastNavigationDirection == .forward
-                        ? .trailing : .leading))
+                .transition(.carousel(nowPlaying.lastNavigationDirection))
         }
     }
 

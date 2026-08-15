@@ -65,6 +65,7 @@
 		C2B8612B71D847A036CCCB3F /* IslandLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */; };
 		C7045CF80DB79C987A4008D0 /* ExpandedRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */; };
 		C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */; };
+		D6024E3D65B900B1E8AF1156 /* CarouselTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD571C72B0878636452A6D5 /* CarouselTransition.swift */; };
 		D73796AB4238222A6BF37816 /* MediaRemoteAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D7A63E2BBDCC1BDF7E80A8A4 /* PowerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB280132C8C79D9DBD69824 /* PowerSnapshotTests.swift */; };
 		DCCBB0F4286A995A0F8C1632 /* SkyLightSpaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B51188A1755A7D251E5B1B0 /* SkyLightSpaceTests.swift */; };
@@ -175,6 +176,7 @@
 		E2BCECFA414B124B2FF0B3A7 /* LockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockSession.swift; sourceTree = "<group>"; };
 		E684A040C402F9C991448B41 /* MediaEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaEngine.swift; sourceTree = "<group>"; };
 		EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProgressBar.swift; sourceTree = "<group>"; };
+		ECD571C72B0878636452A6D5 /* CarouselTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselTransition.swift; sourceTree = "<group>"; };
 		F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBuffer.swift; sourceTree = "<group>"; };
 		F75BF96988A1AB755EFCDF25 /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		FAA6B1632D9FA676DABDFF01 /* PrivateSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateSymbols.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				444C642D23B30971D52C3407 /* BatteryActivityView.swift */,
+				ECD571C72B0878636452A6D5 /* CarouselTransition.swift */,
 				0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */,
 				48234AFCC8CA67291AB791D3 /* ControlButton.swift */,
 				C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */,
@@ -525,6 +528,7 @@
 				96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */,
 				6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */,
 				E916AA4C8F15C398170B02A3 /* BatteryActivityView.swift in Sources */,
+				D6024E3D65B900B1E8AF1156 /* CarouselTransition.swift in Sources */,
 				A9D70E18D5AA4C74A83E8A04 /* CollapsedEarsView.swift in Sources */,
 				F5E8D87A7E1A2AD49EF13265 /* ControlButton.swift in Sources */,
 				560EEDD7F5FCC018FC174B5C /* EqualizerBars.swift in Sources */,

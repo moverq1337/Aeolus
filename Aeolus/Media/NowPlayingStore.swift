@@ -1,5 +1,6 @@
 import AppKit
 import Observation
+import SwiftUI
 
 @MainActor
 @Observable
@@ -92,11 +93,16 @@ final class NowPlayingStore {
         guard let s = state else { return }
         let previousTitle = displayTitle
         let artworkFresh = s.artworkData != nil && decodedForData == s.artworkData
-        displayTitle = s.title
-        displayArtist = s.artist
-        displayArtwork = artworkFresh ? artwork : nil
-        if let previousTitle, previousTitle != s.title {
-            onTrackChange?()
+        // Явная анимированная транзакция: коммит приходит из асинхронного
+        // контекста, и только withAnimation гарантирует, что вставки/переходы
+        // (пилюля, карусель) сыграют пружиной, а не телепортом.
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) {
+            displayTitle = s.title
+            displayArtist = s.artist
+            displayArtwork = artworkFresh ? artwork : nil
+            if let previousTitle, previousTitle != s.title {
+                onTrackChange?()
+            }
         }
     }
 

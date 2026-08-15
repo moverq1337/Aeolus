@@ -13,9 +13,7 @@ struct TrackIntroView: View {
             ZStack {
                 content
                     .id(nowPlaying.displayTitle ?? "")
-                    .transition(.push(
-                        from: nowPlaying.lastNavigationDirection == .forward
-                            ? .trailing : .leading))
+                    .transition(.carousel(nowPlaying.lastNavigationDirection))
             }
             .animation(
                 .spring(response: 0.42, dampingFraction: 0.8),

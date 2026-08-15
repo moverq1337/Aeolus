@@ -14,7 +14,7 @@ struct CollapsedEarsView: View {
             ZStack {
                 artworkThumb
                     .id(trackKey)
-                    .transition(.push(from: direction == .forward ? .trailing : .leading))
+                    .transition(.carousel(direction))
             }
             .animation(.spring(response: 0.42, dampingFraction: 0.8), value: trackKey)
             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
