@@ -25,6 +25,8 @@ struct IslandState: Equatable {
     var volumeOverlay = false
     /// Экран заблокирован: остров сжат в голый вырез до приветствия.
     var suppressed = false
+    /// Овершут громкости за пределы 0/100 (−1…1) — rubber-band на шкале.
+    var volumeOvershoot: Double = 0
 }
 
 enum IslandEvent: Equatable {
@@ -39,6 +41,7 @@ enum IslandEvent: Equatable {
     case batteryFlashEnded
     case volumeToggled
     case volumeGesture(Int)
+    case volumeOvershoot(Double)
     case volumeFlashEnded
     case volumeGestureEnded
     case trackChanged

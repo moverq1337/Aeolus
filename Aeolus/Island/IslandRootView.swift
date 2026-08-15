@@ -68,6 +68,7 @@ struct IslandRootView: View {
                     media: media,
                     volume: volume,
                     volumeShown: vm.state.volumeShown || vm.state.volumeOverlay,
+                    volumeOvershoot: vm.state.volumeOvershoot,
                     onToggleVolume: { vm.handle(.volumeToggled) },
                     notchHeight: metrics.closedSize.height)
                     .transition(.blurReplace)
@@ -78,7 +79,8 @@ struct IslandRootView: View {
                 VolumeFlashView(
                     percent: percent,
                     deviceIcon: volume.outputIcon,
-                    notchSize: metrics.closedSize)
+                    notchSize: metrics.closedSize,
+                    overshoot: vm.state.volumeOvershoot)
                     .transition(.blurReplace)
             case .trackIntro:
                 TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)

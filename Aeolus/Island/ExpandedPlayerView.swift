@@ -8,6 +8,7 @@ struct ExpandedPlayerView: View {
     let media: MediaActions
     let volume: VolumeController
     let volumeShown: Bool
+    var volumeOvershoot: Double = 0
     let onToggleVolume: () -> Void
     let notchHeight: CGFloat
 
@@ -21,6 +22,7 @@ struct ExpandedPlayerView: View {
                     volume: volume.volume,
                     showPercent: true,
                     deviceIcon: volume.outputIcon,
+                    overshoot: volumeOvershoot,
                     onChange: volume.setVolume)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }

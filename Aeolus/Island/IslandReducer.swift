@@ -115,8 +115,13 @@ enum IslandReducer {
             s.surface = .collapsed
             return []
 
+        case let .volumeOvershoot(amount):
+            s.volumeOvershoot = amount
+            return []
+
         case .volumeGestureEnded:
             s.volumeOverlay = false
+            s.volumeOvershoot = 0
             return []
 
         case .trackChanged:

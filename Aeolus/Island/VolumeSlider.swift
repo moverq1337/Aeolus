@@ -4,6 +4,8 @@ struct VolumeSlider: View {
     let volume: Float
     var showPercent = false
     var deviceIcon = "speaker.wave.3.fill"
+    /// −1…1: упругое растяжение шкалы при упоре в края (rubber-band).
+    var overshoot: Double = 0
     let onChange: (Float) -> Void
 
     var body: some View {
@@ -27,6 +29,11 @@ struct VolumeSlider: View {
                         })
             }
             .frame(height: 12)
+            .scaleEffect(
+                x: 1 + abs(overshoot) * 0.06,
+                y: max(0.6, 1 - abs(overshoot) * 0.35),
+                anchor: overshoot < 0 ? .leading : .trailing)
+            .animation(.spring(response: 0.3, dampingFraction: 0.55), value: overshoot)
             Image(systemName: deviceIcon)
                 .font(.system(size: 10))
                 .foregroundStyle(.white.opacity(0.55))

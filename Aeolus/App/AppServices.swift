@@ -160,9 +160,19 @@ final class AppServices {
         let haptics = NSHapticFeedbackManager.defaultPerformer
         switch action {
         case .volumeChange(let delta):
-            let newValue = min(max(volume.volume + delta, 0), 1)
+            let raw = volume.volume + delta
+            let newValue = min(max(raw, 0), 1)
             volume.setVolume(newValue)
             islandVM.handle(.volumeGesture(Int((newValue * 100).rounded())))
+            // Rubber-band: упёрлись в край — копим овершут с затуханием (iOS-физика).
+            if raw < 0 || raw > 1 {
+                let past = raw < 0 ? Double(raw) : Double(raw - 1)
+                let current = islandVM.state.volumeOvershoot
+                let dampened = current + past * 0.35 * (1 - abs(current))
+                islandVM.handle(.volumeOvershoot(max(-1, min(1, dampened))))
+            } else if islandVM.state.volumeOvershoot != 0 {
+                islandVM.handle(.volumeOvershoot(0))
+            }
             // Тактильные «ступеньки»: каждые 5%, на краях — чётче.
             let bucket = Int(newValue * 20)
             if bucket != lastVolumeHapticBucket {
