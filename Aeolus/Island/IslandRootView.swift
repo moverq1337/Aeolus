@@ -19,6 +19,17 @@ struct IslandRootView: View {
             islandContent
         }
         .clipShape(NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom))
+        // Кольцо-акцент: едва заметная обводка цветом обложки, пока играет музыка
+        // (фишка Alcove 1.7). Не рисуем в подавленном состоянии и на транзиентах.
+        .overlay {
+            if accentRingVisible {
+                NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom)
+                    .strokeBorder(
+                        nowPlaying.displayAccent.opacity(0.45),
+                        lineWidth: 1)
+                    .transition(.opacity)
+            }
+        }
         // 1px чёрная полоска у кромки — прячет шов между окном и бесселем (спека §6)
         .overlay(alignment: .top) {
             Rectangle().fill(Color.black)
@@ -92,6 +103,14 @@ struct IslandRootView: View {
 
     @ViewBuilder private func batteryContent(_ flash: BatteryFlash) -> some View {
         BatteryActivityView(flash: flash, notchSize: metrics.closedSize)
+    }
+
+    private var accentRingVisible: Bool {
+        guard !vm.state.suppressed, vm.state.isPlaying else { return false }
+        switch vm.state.surface {
+        case .collapsed, .peek, .expanded, .trackIntro: return true
+        case .battery, .volume: return false
+        }
     }
 
     private func animation(for surface: IslandState.Surface) -> Animation {

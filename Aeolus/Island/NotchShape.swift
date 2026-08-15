@@ -2,9 +2,10 @@ import SwiftUI
 
 /// Форма острова: верхние углы вогнуты внутрь (примыкают к кромке экрана),
 /// нижние — выпуклы наружу, как у настоящего Dynamic Island.
-struct NotchShape: Shape {
+struct NotchShape: InsettableShape {
     var topCornerRadius: CGFloat
     var bottomCornerRadius: CGFloat
+    var insetAmount: CGFloat = 0
 
     var animatableData: AnimatablePair<CGFloat, CGFloat> {
         get { AnimatablePair(topCornerRadius, bottomCornerRadius) }
@@ -14,7 +15,14 @@ struct NotchShape: Shape {
         }
     }
 
-    func path(in rect: CGRect) -> Path {
+    func inset(by amount: CGFloat) -> NotchShape {
+        var shape = self
+        shape.insetAmount += amount
+        return shape
+    }
+
+    func path(in outerRect: CGRect) -> Path {
+        let rect = outerRect.insetBy(dx: insetAmount, dy: insetAmount)
         var p = Path()
         p.move(to: CGPoint(x: rect.minX, y: rect.minY))
         p.addQuadCurve(
