@@ -55,6 +55,9 @@ final class NowPlayingStore {
     }
 
     private func artworkDecoded(_ image: NSImage?, accent: NSColor?, for data: Data) {
+        // Гонка быстрых переключений: декоды завершаются не по порядку, и поздний
+        // результат устаревшего трека не должен перетирать актуальный.
+        guard data == lastArtworkData else { return }
         artwork = image
         decodedAccent = accent
         decodedForData = data
