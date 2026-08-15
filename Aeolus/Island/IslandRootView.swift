@@ -62,6 +62,11 @@ struct IslandRootView: View {
                 notchHeight: metrics.closedSize.height)
         case .battery(let flash):
             batteryContent(flash)
+        case .volume(let percent):
+            VolumeFlashView(
+                percent: percent,
+                deviceIcon: volume.outputIcon,
+                notchSize: metrics.closedSize)
         }
     }
 
@@ -73,7 +78,7 @@ struct IslandRootView: View {
         switch surface {
         case .expanded: .spring(response: 0.42, dampingFraction: 0.8)
         case .peek: .interactiveSpring(response: 0.38, dampingFraction: 0.8)
-        case .collapsed, .battery: .spring(response: 0.45, dampingFraction: 1.0)
+        case .collapsed, .battery, .volume: .spring(response: 0.45, dampingFraction: 1.0)
         }
     }
 }

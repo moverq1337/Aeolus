@@ -75,7 +75,7 @@ enum IslandReducer {
             case .peek:
                 s.surface = .battery(flash)
                 return [.cancelDwellTimer, .scheduleBatteryEnd]
-            case .collapsed, .battery:
+            case .collapsed, .battery, .volume:
                 s.surface = .battery(flash)
                 return [.scheduleBatteryEnd]
             }
@@ -89,6 +89,23 @@ enum IslandReducer {
             guard s.surface == .expanded else { return [] }
             s.volumeShown.toggle()
             return [.haptic]
+
+        case let .volumeGesture(percent):
+            switch s.surface {
+            case .expanded:
+                return [] // там слайдер — транзиент не нужен
+            case .peek:
+                s.surface = .volume(percent)
+                return [.cancelDwellTimer, .scheduleVolumeFlashEnd]
+            case .collapsed, .battery, .volume:
+                s.surface = .volume(percent)
+                return [.scheduleVolumeFlashEnd]
+            }
+
+        case .volumeFlashEnded:
+            guard case .volume = s.surface else { return [] }
+            s.surface = .collapsed
+            return []
         }
     }
 }

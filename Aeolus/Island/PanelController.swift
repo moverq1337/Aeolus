@@ -18,6 +18,8 @@ final class PanelController {
     private let makeContent: @MainActor (NotchMetrics) -> AnyView
     private var hidden = false
     private var screenObserver: (any NSObjectProtocol)?
+    /// Обработчик двухпальцевых свайпов; переустанавливается при rebuild.
+    var onScroll: ((NSEvent) -> Void)?
 
     init(makeContent: @escaping @MainActor (NotchMetrics) -> AnyView) {
         self.makeContent = makeContent
@@ -61,7 +63,9 @@ final class PanelController {
         p.isReleasedWhenClosed = false
         p.becomesKeyOnlyIfNeeded = true
         p.appearance = NSAppearance(named: .darkAqua)
-        p.contentView = FirstMouseHostingView(rootView: makeContent(m))
+        let host = FirstMouseHostingView(rootView: makeContent(m))
+        host.onScroll = { [weak self] event in self?.onScroll?(event) }
+        p.contentView = host
         p.setFrame(m.windowFrame, display: true)
         panel = p
         if !hidden { p.orderFrontRegardless() }

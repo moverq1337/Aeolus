@@ -16,6 +16,8 @@ final class AppServices {
     private(set) var mediaActions = MediaActions()
     private var observers: SystemObservers?
     private var lockWidget: LockWidgetController?
+    private var scrollRecognizer = ScrollGestureRecognizer()
+    private var lastVolumeHapticBucket = -1
 
     private init() {}
 
@@ -64,6 +66,10 @@ final class AppServices {
                 volume: volume))
         }
 
+        panelController?.onScroll = { [weak self] event in
+            self?.handleScroll(event)
+        }
+
         observers = SystemObservers(
             onSleep: { [weak self] in
                 Task { await self?.engine?.stop() }
@@ -82,5 +88,51 @@ final class AppServices {
 
     func stopEngine() {
         Task { await engine?.stop() }
+    }
+
+    // MARK: двухпальцевые свайпы по острову
+
+    private func handleScroll(_ event: NSEvent) {
+        guard event.momentumPhase.isEmpty else { return } // инерцию не считаем
+        let phase: ScrollGestureRecognizer.Phase
+        if event.phase.contains(.began) {
+            phase = .began
+        } else if event.phase.contains(.ended) || event.phase.contains(.cancelled) {
+            phase = .ended
+        } else if event.phase.contains(.changed) {
+            phase = .changed
+        } else {
+            return // колёсико мыши без фаз — не жест
+        }
+        let actions = scrollRecognizer.handle(
+            phase: phase,
+            deltaX: event.scrollingDeltaX,
+            deltaY: event.scrollingDeltaY,
+            inverted: event.isDirectionInvertedFromDevice)
+        for action in actions { apply(action) }
+    }
+
+    private func apply(_ action: ScrollGestureRecognizer.Action) {
+        let haptics = NSHapticFeedbackManager.defaultPerformer
+        switch action {
+        case .volumeChange(let delta):
+            let newValue = min(max(volume.volume + delta, 0), 1)
+            volume.setVolume(newValue)
+            islandVM.handle(.volumeGesture(Int((newValue * 100).rounded())))
+            // Тактильные «ступеньки»: каждые 5%, на краях — чётче.
+            let bucket = Int(newValue * 20)
+            if bucket != lastVolumeHapticBucket {
+                lastVolumeHapticBucket = bucket
+                let pattern: NSHapticFeedbackManager.FeedbackPattern =
+                    (newValue <= 0 || newValue >= 1) ? .alignment : .levelChange
+                haptics.perform(pattern, performanceTime: .now)
+            }
+        case .nextTrack:
+            mediaActions.next()
+            haptics.perform(.alignment, performanceTime: .now)
+        case .previousTrack:
+            mediaActions.previous()
+            haptics.perform(.alignment, performanceTime: .now)
+        }
     }
 }

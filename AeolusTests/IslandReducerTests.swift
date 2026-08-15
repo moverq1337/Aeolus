@@ -128,6 +128,46 @@ struct IslandReducerTests {
         #expect(!s.volumeShown)
     }
 
+    @Test func volumeGestureShowsFlashFromCollapsed() {
+        var s = playingState()
+        let fx = IslandReducer.reduce(&s, .volumeGesture(55))
+        #expect(s.surface == .volume(55))
+        #expect(fx == [.scheduleVolumeFlashEnd])
+        // продолжение жеста обновляет процент и продлевает таймер
+        let fx2 = IslandReducer.reduce(&s, .volumeGesture(60))
+        #expect(s.surface == .volume(60))
+        #expect(fx2 == [.scheduleVolumeFlashEnd])
+        _ = IslandReducer.reduce(&s, .volumeFlashEnded)
+        #expect(s.surface == .collapsed)
+    }
+
+    @Test func volumeGestureFromPeekCancelsDwell() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        let fx = IslandReducer.reduce(&s, .volumeGesture(30))
+        #expect(s.surface == .volume(30))
+        #expect(fx == [.cancelDwellTimer, .scheduleVolumeFlashEnd])
+    }
+
+    @Test func volumeGestureIgnoredWhileExpanded() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        #expect(IslandReducer.reduce(&s, .volumeGesture(70)).isEmpty)
+        #expect(s.surface == .expanded) // там слайдер — транзиент не нужен
+    }
+
+    @Test func batteryOverridesVolumeFlash() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .volumeGesture(40))
+        let flash = BatteryFlash(kind: .pluggedIn, percentage: 88)
+        _ = IslandReducer.reduce(&s, .battery(flash))
+        #expect(s.surface == .battery(flash))
+        // залипший volumeFlashEnded не роняет батарейный транзиент
+        _ = IslandReducer.reduce(&s, .volumeFlashEnded)
+        #expect(s.surface == .battery(flash))
+    }
+
     @Test func clickOutsideCollapsesExpanded() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)

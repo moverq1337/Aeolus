@@ -49,6 +49,7 @@
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
 		9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */; };
 		A20D68DCA5BCEB6CEC6823CB /* IslandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B267B6E5A6F144ADF093B /* IslandViewModel.swift */; };
+		A994F168C660DA3AA277A331 /* VolumeFlashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */; };
 		A9D70E18D5AA4C74A83E8A04 /* CollapsedEarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */; };
 		AAC2FC612C382041FE3E9411 /* ScrollGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D428198FAF9B6AED0080D2D /* ScrollGestureRecognizer.swift */; };
 		AD8133F6749ECBF51F473F73 /* OutputDeviceIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ED84E6EF68711511FC63 /* OutputDeviceIcon.swift */; };
@@ -132,6 +133,7 @@
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		526FD550ADF94130B64E139F /* IslandReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducerTests.swift; sourceTree = "<group>"; };
 		53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetController.swift; sourceTree = "<group>"; };
+		561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeFlashView.swift; sourceTree = "<group>"; };
 		5A21F134414CA75739DEDDE6 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		5B51188A1755A7D251E5B1B0 /* SkyLightSpaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpaceTests.swift; sourceTree = "<group>"; };
 		604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedRenderTests.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				CED545AD1604AB0DEAC93B92 /* PanelController.swift */,
 				3D428198FAF9B6AED0080D2D /* ScrollGestureRecognizer.swift */,
 				EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */,
+				561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */,
 				409D1BAE9229009395399A91 /* VolumeSlider.swift */,
 			);
 			path = Island;
@@ -561,6 +564,7 @@
 				1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */,
 				552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */,
 				7E477DF18E0F5711ECF4D736 /* VolumeController.swift in Sources */,
+				A994F168C660DA3AA277A331 /* VolumeFlashView.swift in Sources */,
 				B2CF1A36A7C71651B88D0C8F /* VolumeSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

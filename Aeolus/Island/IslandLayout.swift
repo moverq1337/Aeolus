@@ -20,7 +20,7 @@ struct IslandLayout: Equatable {
                           height: base.height + Self.peekDelta.height)
         case .expanded:
             return state.volumeShown ? Self.expandedVolumeSize : Self.expandedSize
-        case .battery:
+        case .battery, .volume:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)
         }
@@ -30,7 +30,7 @@ struct IslandLayout: Equatable {
         switch state.surface {
         case .expanded: return (15, 20)
         case .peek: return (7, 16)
-        case .collapsed, .battery: return (6, 14)
+        case .collapsed, .battery, .volume: return (6, 14)
         }
     }
 
