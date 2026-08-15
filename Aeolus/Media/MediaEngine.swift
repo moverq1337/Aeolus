@@ -109,6 +109,9 @@ actor MediaEngine {
             spawnStream()
         case .giveUp:
             Self.log.error("adapter failed 5x — giving up, media unavailable")
+            // stopped = true, иначе будущий start() (пробуждение) упрётся в guard
+            // и движок останется мёртвым до перезапуска приложения.
+            stopped = true
             await setAvailable(false)
             await pushState(nil)
         }

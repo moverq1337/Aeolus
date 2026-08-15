@@ -15,6 +15,7 @@ final class AppServices {
     private(set) var engine: MediaEngine?
     private(set) var mediaActions = MediaActions()
     private var observers: SystemObservers?
+    private var lockWidget: LockWidgetController?
 
     private init() {}
 
@@ -35,8 +36,18 @@ final class AppServices {
             nowPlaying.mediaAvailable = false
         }
 
-        nowPlaying.onSessionChange = { [islandVM] hasSession, playing in
+        let lockWidget = LockWidgetController(
+            content: { [nowPlaying] in
+                AnyView(LockWidgetView(
+                    nowPlaying: nowPlaying,
+                    media: AppServices.shared.mediaActions))
+            },
+            hasSession: { [nowPlaying] in nowPlaying.state != nil })
+        self.lockWidget = lockWidget
+
+        nowPlaying.onSessionChange = { [islandVM, weak lockWidget] hasSession, playing in
             islandVM.handle(.musicChanged(playing: playing, hasSession: hasSession))
+            lockWidget?.refresh()
         }
 
         power.onFlash = { [islandVM] flash in
@@ -59,11 +70,13 @@ final class AppServices {
             },
             onWake: { [weak self] in
                 Task { await self?.engine?.start() }
+                self?.lockWidget?.beginPollWindow()
             },
             onVisibilityCheckNeeded: { [weak self] in
                 guard let self else { return }
                 self.panelController?.updateVisibility(
                     locked: self.observers?.isLocked ?? false)
+                self.lockWidget?.beginPollWindow()
             })
     }
 
