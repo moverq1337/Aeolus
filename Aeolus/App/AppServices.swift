@@ -10,8 +10,6 @@ final class AppServices {
     let volume = VolumeController()
     let power = PowerMonitor()
     let lyrics = LyricsEngine()
-    let focus = FocusMonitor()
-    let privacy = PrivacyMonitor()
     let settingsWindow = SettingsWindowController()
     let updater = SPUStandardUpdaterController(
         startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -30,18 +28,19 @@ final class AppServices {
         volume.onExternalChange = { [islandVM] value in
             islandVM.handle(.volumeGesture(Int((value * 100).rounded())))
         }
-        focus.onChange = { [islandVM] active in
-            islandVM.handle(.deviceConnected(DeviceFlash(
-                icon: active ? "moon.fill" : "moon",
-                name: "Focus", percentage: nil)))
-        }
-        focus.start()
-        privacy.start()
-
         volume.onDeviceChange = { [islandVM] name, icon in
-            let levels = BluetoothAudioBattery.levels(matchingName: name)
+            // Мгновенный транзиент; заряд доезжает асинхронно (system_profiler ~1.5 c)
+            let quick = BluetoothAudioBattery.levels(matchingName: name)?.headline
             islandVM.handle(.deviceConnected(DeviceFlash(
-                icon: icon, name: name, percentage: levels?.headline)))
+                icon: icon, name: name, percentage: quick)))
+            if quick == nil {
+                Task {
+                    guard let percent = await BluetoothAudioBattery
+                        .profilerHeadline(matchingName: name) else { return }
+                    islandVM.handle(.deviceConnected(DeviceFlash(
+                        icon: icon, name: name, percentage: percent)))
+                }
+            }
         }
         volume.start()
 
@@ -115,8 +114,7 @@ final class AppServices {
                 nowPlaying: nowPlaying,
                 media: mediaActions,
                 volume: volume,
-                lyrics: lyrics,
-                privacy: privacy))
+                lyrics: lyrics))
         }
 
         panelController?.onScroll = { [weak self] event in
@@ -193,7 +191,9 @@ final class AppServices {
                 let dampened = current + past * 0.35 * (1 - abs(current))
                 islandVM.handle(.volumeOvershoot(max(-1, min(1, dampened))))
             } else if islandVM.state.volumeOvershoot != 0 {
-                islandVM.handle(.volumeOvershoot(0))
+                // Плавное затухание вместо мгновенного сброса.
+                let decayed = islandVM.state.volumeOvershoot * 0.5
+                islandVM.handle(.volumeOvershoot(abs(decayed) < 0.02 ? 0 : decayed))
             }
             // Тактильные «ступеньки»: каждые 5%, на краях — чётче.
             let bucket = Int(newValue * 20)

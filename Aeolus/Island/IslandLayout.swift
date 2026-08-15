@@ -10,7 +10,7 @@ struct IslandLayout: Equatable {
     static let batteryEarWidth: CGFloat = 70
     static let peekDelta = CGSize(width: 10, height: 3)
 
-    func size(for state: IslandState) -> CGSize {
+    func size(for state: IslandState, lyricsEnabled: Bool = false) -> CGSize {
         if state.suppressed { return notchSize }
         switch state.surface {
         case .collapsed:
@@ -20,7 +20,7 @@ struct IslandLayout: Equatable {
             return CGSize(width: base.width + Self.peekDelta.width,
                           height: base.height + Self.peekDelta.height)
         case .expanded:
-            let lyricsExtra: CGFloat = Preferences.syncedLyrics ? 20 : 0
+            let lyricsExtra: CGFloat = lyricsEnabled ? 20 : 0
             let base = (state.volumeShown || state.volumeOverlay)
                 ? Self.expandedVolumeSize : Self.expandedSize
             return CGSize(width: base.width, height: base.height + lyricsExtra)

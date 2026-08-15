@@ -86,11 +86,13 @@ final class PowerMonitor {
         else { return nil }
         for ps in list {
             // Get (не Copy) — объект не удерживается, takeUnretainedValue обязательно.
-            if let desc = IOPSGetPowerSourceDescription(info, ps)?
-                .takeUnretainedValue() as? [String: Any],
-               let snap = PowerSnapshot(description: desc) {
-                return snap
-            }
+            guard let desc = IOPSGetPowerSourceDescription(info, ps)?
+                .takeUnretainedValue() as? [String: Any] else { continue }
+            // Только встроенная батарея: внешние источники (UPS и пр.) давали
+            // мусорные проценты в транзиенте.
+            guard (desc[kIOPSTypeKey] as? String) == kIOPSInternalBatteryType
+            else { continue }
+            if let snap = PowerSnapshot(description: desc) { return snap }
         }
         return nil
     }

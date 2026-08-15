@@ -14,6 +14,7 @@ final class VolumeController {
     /// Смена устройства вывода: (имя, SF Symbol) — для AirPods-момента.
     @ObservationIgnored var onDeviceChange: ((String, String) -> Void)?
     @ObservationIgnored private var lastDeviceName: String?
+    var currentDeviceName: String { lastDeviceName ?? "" }
     /// SF Symbol текущего устройства вывода (AirPods и т.п.) для правой
     /// иконки слайдера.
     private(set) var outputIcon = "speaker.wave.3.fill"

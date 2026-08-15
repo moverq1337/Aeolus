@@ -18,6 +18,47 @@ enum BluetoothAudioBattery {
         }
     }
 
+    /// Запасной источник (AirPods Max и др.): system_profiler -json, одноразово
+    /// по событию подключения. Ключи device_batteryLevelMain/Left/Right/Case.
+    static func profilerHeadline(matchingName name: String) async -> Int? {
+        let data: Data? = await Task.detached(priority: .utility) {
+            let proc = Process()
+            proc.executableURL = URL(fileURLWithPath: "/usr/sbin/system_profiler")
+            proc.arguments = ["SPBluetoothDataType", "-json"]
+            let pipe = Pipe()
+            proc.standardOutput = pipe
+            proc.standardError = FileHandle.nullDevice
+            do { try proc.run() } catch { return nil }
+            let output = pipe.fileHandleForReading.readDataToEndOfFile()
+            proc.waitUntilExit()
+            return output
+        }.value
+        guard let data,
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let sections = json["SPBluetoothDataType"] as? [[String: Any]]
+        else { return nil }
+        for section in sections {
+            guard let connected = section["device_connected"] as? [[String: Any]]
+            else { continue }
+            for device in connected {
+                for (deviceName, rawProps) in device {
+                    guard deviceName.lowercased().contains(name.lowercased())
+                        || name.lowercased().contains(deviceName.lowercased()),
+                        let props = rawProps as? [String: Any] else { continue }
+                    func level(_ key: String) -> Int? {
+                        guard let s = props[key] as? String else { return nil }
+                        return Int(s.replacingOccurrences(of: "%", with: ""))
+                    }
+                    let buds = [level("device_batteryLevelLeft"),
+                                level("device_batteryLevelRight")].compactMap { $0 }
+                    if !buds.isEmpty { return buds.min() }
+                    if let main = level("device_batteryLevelMain") { return main }
+                }
+            }
+        }
+        return nil
+    }
+
     static func levels(matchingName name: String?) -> Levels? {
         var iterator: io_iterator_t = 0
         guard IOServiceGetMatchingServices(

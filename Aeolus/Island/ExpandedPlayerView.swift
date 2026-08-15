@@ -13,6 +13,8 @@ struct ExpandedPlayerView: View {
     let onToggleVolume: () -> Void
     let notchHeight: CGFloat
 
+    @State private var showOutputPicker = false
+
     var body: some View {
         VStack(spacing: 8) {
             header
@@ -20,13 +22,20 @@ struct ExpandedPlayerView: View {
             progress
             controlsRow
             if volumeShown {
-                VolumeSlider(
-                    volume: volume.volume,
-                    showPercent: true,
-                    deviceIcon: volume.outputIcon,
-                    overshoot: volumeOvershoot,
-                    onDeviceTap: { showOutputMenu() },
-                    onChange: volume.setVolume)
+                Group {
+                    if showOutputPicker {
+                        outputPickerRow
+                    } else {
+                        VolumeSlider(
+                            volume: volume.volume,
+                            showPercent: true,
+                            deviceIcon: volume.outputIcon,
+                            overshoot: volumeOvershoot,
+                            onDeviceTap: { withAnimation(.spring(response: 0.42,
+                                dampingFraction: 0.8)) { showOutputPicker = true } },
+                            onChange: volume.setVolume)
+                    }
+                }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -77,13 +86,17 @@ struct ExpandedPlayerView: View {
             TimelineView(.animation(minimumInterval: 0.5, paused: !state.playing)) { ctx in
                 let line = LyricsParser.currentLine(
                     lyrics.lines, at: state.position(at: ctx.date))
-                Text(line?.text ?? "…")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(nowPlaying.displayAccent.opacity(0.9))
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity)
-                    .contentTransition(.opacity)
-                    .animation(.easeInOut(duration: 0.25), value: line?.text)
+                ZStack {
+                    Text(line?.text ?? "…")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(nowPlaying.displayAccent.opacity(0.9))
+                        .lineLimit(1)
+                        .id(line?.text ?? "")
+                        .transition(.blurReplace) // наш fluid-язык
+                }
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.42, dampingFraction: 0.8),
+                           value: line?.text)
             }
             .frame(height: 14)
         }
@@ -129,16 +142,34 @@ struct ExpandedPlayerView: View {
         (nowPlaying.state?.shuffleMode ?? 1) >= 2
     }
 
-    /// Свитчер аудио-выхода: системное меню у курсора со списком устройств.
-    private func showOutputMenu() {
-        let menu = NSMenu()
-        for device in volume.outputDevices() {
-            let item = NSMenuItem(title: device.name, action: nil, keyEquivalent: "")
-            item.representedObject = device.id
-            let id = device.id
-            item.setAction { [weak volume] in volume?.setDefaultOutput(id) }
-            menu.addItem(item)
+    /// Свитчер аудио-выхода: ряд иконок устройств в нашем стиле (не NSMenu).
+    private var outputPickerRow: some View {
+        HStack(spacing: 18) {
+            ForEach(volume.outputDevices(), id: \.id) { device in
+                let icon = OutputDeviceIcon.symbol(
+                    deviceName: device.name, transportType: 0)
+                let isCurrent = device.name == volume.currentDeviceName
+                ControlButton(
+                    systemName: icon == "speaker.wave.3.fill" ? "hifispeaker" : icon,
+                    size: 14,
+                    tint: isCurrent ? nowPlaying.displayAccent : .white
+                ) {
+                    volume.setDefaultOutput(device.id)
+                    withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) {
+                        showOutputPicker = false
+                    }
+                }
+                .opacity(isCurrent ? 1 : 0.55)
+                .help(device.name)
+            }
+            Spacer()
+            ControlButton(systemName: "xmark", size: 11) {
+                withAnimation(.spring(response: 0.42, dampingFraction: 0.8)) {
+                    showOutputPicker = false
+                }
+            }
+            .opacity(0.5)
         }
-        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        .transition(.blurReplace)
     }
 }

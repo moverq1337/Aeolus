@@ -7,12 +7,11 @@ struct IslandRootView: View {
     let media: MediaActions
     let volume: VolumeController
     let lyrics: LyricsEngine
-    let privacy: PrivacyMonitor
 
     private var layout: IslandLayout { IslandLayout(notchSize: metrics.closedSize) }
 
     var body: some View {
-        let size = layout.size(for: vm.state)
+        let size = layout.size(for: vm.state, lyricsEnabled: Preferences.syncedLyrics)
         let radii = layout.radii(for: vm.state)
 
         ZStack(alignment: .top) {
@@ -21,37 +20,11 @@ struct IslandRootView: View {
             islandContent
         }
         .clipShape(NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom))
-        // Кольцо-акцент: едва заметная обводка цветом обложки, пока играет музыка
-        // (фишка Alcove 1.7). Не рисуем в подавленном состоянии и на транзиентах.
-        .overlay {
-            if accentRingVisible {
-                NotchShape(topCornerRadius: radii.top, bottomCornerRadius: radii.bottom)
-                    .strokeBorder(
-                        nowPlaying.displayAccent.opacity(0.45),
-                        lineWidth: 1)
-                    .transition(.opacity)
-            }
-        }
         // 1px чёрная полоска у кромки — прячет шов между окном и бесселем (спека §6)
         .overlay(alignment: .top) {
             Rectangle().fill(Color.black)
                 .frame(height: 1)
                 .padding(.horizontal, radii.top)
-        }
-        .overlay(alignment: .topTrailing) {
-            if !vm.state.suppressed, privacy.cameraActive || privacy.micActive {
-                HStack(spacing: 3) {
-                    if privacy.cameraActive {
-                        Circle().fill(.green).frame(width: 4, height: 4)
-                    }
-                    if privacy.micActive {
-                        Circle().fill(.orange).frame(width: 4, height: 4)
-                    }
-                }
-                .padding(.top, 6)
-                .padding(.trailing, 7)
-                .transition(.opacity)
-            }
         }
         .compositingGroup()
         .shadow(
@@ -63,7 +36,9 @@ struct IslandRootView: View {
             vm.handle(inside ? .hoverBegan : .hoverEnded)
         }
         .onTapGesture { vm.handle(.tapped) }
-        .onLongPressGesture(minimumDuration: 0.5) { vm.handle(.longPressed) }
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5)
+                .onEnded { _ in vm.handle(.longPressed) })
         .animation(animation(for: vm.state.surface), value: vm.state)
         .frame(
             width: metrics.windowFrame.width,
@@ -125,14 +100,6 @@ struct IslandRootView: View {
 
     @ViewBuilder private func batteryContent(_ flash: BatteryFlash) -> some View {
         BatteryActivityView(flash: flash, notchSize: metrics.closedSize)
-    }
-
-    private var accentRingVisible: Bool {
-        guard !vm.state.suppressed, vm.state.isPlaying else { return false }
-        switch vm.state.surface {
-        case .collapsed, .peek, .expanded, .trackIntro: return true
-        case .battery, .volume, .device: return false
-        }
     }
 
     private func animation(for surface: IslandState.Surface) -> Animation {
