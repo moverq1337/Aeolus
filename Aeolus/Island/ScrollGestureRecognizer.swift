@@ -39,10 +39,11 @@ struct ScrollGestureRecognizer {
             return wasVertical ? [.verticalGestureEnded] : []
         case .changed:
             // Нормализация: fingersUp > 0 = пальцы вверх; fingersLeft > 0 = влево.
-            // natural scrolling (inverted=true): пальцы вверх дают deltaY < 0,
-            // пальцы влево дают deltaX > 0; классика — наоборот.
+            // natural scrolling (inverted=true): движение пальцев в сторону даёт
+            // ОТРИЦАТЕЛЬНУЮ дельту по обеим осям (проверено логом реальных
+            // событий 2026-08-15); классика — наоборот.
             let fingersUp = inverted ? -deltaY : deltaY
-            let fingersLeft = inverted ? deltaX : -deltaX
+            let fingersLeft = inverted ? -deltaX : deltaX
             accX += fingersLeft
             accY += fingersUp
 
