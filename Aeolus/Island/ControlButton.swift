@@ -12,6 +12,8 @@ struct ControlButton: View {
         Image(systemName: systemName)
             .font(.system(size: size, weight: .semibold))
             .foregroundStyle(tint)
+            .contentTransition(.symbolEffect(.replace))
+            .animation(.spring(response: 0.42, dampingFraction: 0.8), value: systemName)
             .frame(width: 40, height: 32)
             .contentShape(Rectangle())
             .scaleEffect(pressed ? 0.86 : 1)

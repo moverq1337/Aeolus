@@ -43,37 +43,47 @@ struct IslandRootView: View {
         .environment(\.colorScheme, .dark)
     }
 
+    /// Fluid transitions: каждый surface морфится через blurReplace —
+    /// фирменное «жидкое» перетекание Dynamic Island.
     @ViewBuilder private var islandContent: some View {
-        switch vm.state.surface {
-        case .collapsed, .peek:
-            if vm.state.hasSession {
-                CollapsedEarsView(
-                    notchSize: metrics.closedSize,
-                    artwork: nowPlaying.displayArtwork,
-                    isPlaying: vm.state.isPlaying,
-                    accent: nowPlaying.displayAccent,
-                    trackKey: nowPlaying.displayTitle ?? "",
-                    direction: nowPlaying.lastNavigationDirection)
+        Group {
+            switch vm.state.surface {
+            case .collapsed, .peek:
+                if vm.state.hasSession {
+                    CollapsedEarsView(
+                        notchSize: metrics.closedSize,
+                        artwork: nowPlaying.displayArtwork,
+                        isPlaying: vm.state.isPlaying,
+                        accent: nowPlaying.displayAccent,
+                        trackKey: nowPlaying.displayTitle ?? "",
+                        direction: nowPlaying.lastNavigationDirection)
+                        .transition(.blurReplace)
+                }
+            case .expanded:
+                ExpandedPlayerView(
+                    nowPlaying: nowPlaying,
+                    media: media,
+                    volume: volume,
+                    volumeShown: vm.state.volumeShown || vm.state.volumeOverlay,
+                    onToggleVolume: { vm.handle(.volumeToggled) },
+                    notchHeight: metrics.closedSize.height)
+                    .transition(.blurReplace)
+            case .battery(let flash):
+                batteryContent(flash)
+                    .transition(.blurReplace)
+            case .volume(let percent):
+                VolumeFlashView(
+                    percent: percent,
+                    deviceIcon: volume.outputIcon,
+                    notchSize: metrics.closedSize)
+                    .transition(.blurReplace)
+            case .trackIntro:
+                TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
+                    .transition(.blurReplace)
+            case .unlocked:
+                UnlockFlashView(notchSize: metrics.closedSize)
+                    .transition(.blurReplace)
             }
-        case .expanded:
-            ExpandedPlayerView(
-                nowPlaying: nowPlaying,
-                media: media,
-                volume: volume,
-                volumeShown: vm.state.volumeShown || vm.state.volumeOverlay,
-                onToggleVolume: { vm.handle(.volumeToggled) },
-                notchHeight: metrics.closedSize.height)
-        case .battery(let flash):
-            batteryContent(flash)
-        case .volume(let percent):
-            VolumeFlashView(
-                percent: percent,
-                deviceIcon: volume.outputIcon,
-                notchSize: metrics.closedSize)
-        case .trackIntro:
-            TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
-        case .unlocked:
-            UnlockFlashView(notchSize: metrics.closedSize)
         }
     }
 
