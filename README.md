@@ -31,6 +31,10 @@ on the floating island of Aeolia.
 
 ## Feel
 
+- **Event-driven to the bone.** Nothing runs unless something changes: no
+  timers, no polling, no background loops. Media, battery, volume, focus,
+  lock state — all observed, never asked. When nothing happens, Aeolus
+  does nothing, and Activity Monitor proves it.
 - 120 Hz ProMotion springs, tuned to match the iPhone Dynamic Island.
 - **0.0% measured CPU** — even while music plays, the equalizer breathes
   inside the render server, not the app. Zero timers, zero polling;
