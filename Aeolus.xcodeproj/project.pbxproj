@@ -40,6 +40,7 @@
 		8741E191D472A27FCD70FB30 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */; };
 		8805AD39E818CF02BEFE630D /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 69EAB8D8ABC8504ED58B4A67 /* Sparkle */; };
 		8841BF3D2A3B593E3284ECA3 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A33BD776DCA6DE0EC14E7C /* LaunchAtLogin.swift */; };
+		8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */; };
 		8E1C1FFDE7812FFA70350C67 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE10EFA83D4848598448303 /* SmokeTests.swift */; };
 		96F4FDC7A6F6F5AE89B92280 /* AeolusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9059928910C46519885FBF0 /* AeolusApp.swift */; };
 		9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */; };
@@ -68,6 +69,7 @@
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
 		F5E8D87A7E1A2AD49EF13265 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48234AFCC8CA67291AB791D3 /* ControlButton.swift */; };
+		FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +141,7 @@
 		B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLayoutTests.swift; sourceTree = "<group>"; };
 		B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMergeTests.swift; sourceTree = "<group>"; };
 		C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDeviceIconTests.swift; sourceTree = "<group>"; };
+		C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetLayoutTests.swift; sourceTree = "<group>"; };
 		C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizerBars.swift; sourceTree = "<group>"; };
 		C6E255473532B6C7B4CB412A /* IslandRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandRootView.swift; sourceTree = "<group>"; };
 		C7C96177058A338C5B463E2C /* NotchShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShape.swift; sourceTree = "<group>"; };
@@ -146,6 +149,7 @@
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
 		CED545AD1604AB0DEAC93B92 /* PanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelController.swift; sourceTree = "<group>"; };
 		D38FCD5B7530884BEEA5D003 /* IslandReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducer.swift; sourceTree = "<group>"; };
+		D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetLayout.swift; sourceTree = "<group>"; };
 		D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometryTests.swift; sourceTree = "<group>"; };
 		E136054B173458593C199362 /* PowerSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerSnapshot.swift; sourceTree = "<group>"; };
 		E2BCECFA414B124B2FF0B3A7 /* LockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockSession.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 				526FD550ADF94130B64E139F /* IslandReducerTests.swift */,
 				3A3BA73B412631507638371E /* LineBufferTests.swift */,
 				23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */,
+				C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */,
 				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */,
 				C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */,
@@ -348,6 +353,7 @@
 			children = (
 				E2BCECFA414B124B2FF0B3A7 /* LockSession.swift */,
 				20227042E7892D90CF93B99C /* LockWidgetDecision.swift */,
+				D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */,
 			);
 			path = LockScreen;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				39343A94260F2D35250D02FF /* IslandReducerTests.swift in Sources */,
 				E0C192966439D5662EA27100 /* LineBufferTests.swift in Sources */,
 				9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */,
+				8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */,
 				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */,
 				BDEF0BD692855C0DC44FFD2D /* OutputDeviceIconTests.swift in Sources */,
@@ -499,6 +506,7 @@
 				23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */,
 				B887C44472035F68E2E87AD1 /* LockSession.swift in Sources */,
 				578A4BC650F80F7194FFFE1A /* LockWidgetDecision.swift in Sources */,
+				FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
 				EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */,
