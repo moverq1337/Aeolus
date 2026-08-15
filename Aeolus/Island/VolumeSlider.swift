@@ -3,6 +3,7 @@ import SwiftUI
 struct VolumeSlider: View {
     let volume: Float
     var showPercent = false
+    var deviceIcon = "speaker.wave.3.fill"
     let onChange: (Float) -> Void
 
     var body: some View {
@@ -26,7 +27,7 @@ struct VolumeSlider: View {
                         })
             }
             .frame(height: 12)
-            Image(systemName: "speaker.wave.3.fill")
+            Image(systemName: deviceIcon)
                 .font(.system(size: 10))
                 .foregroundStyle(.white.opacity(0.55))
             if showPercent {

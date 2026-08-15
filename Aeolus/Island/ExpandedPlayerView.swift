@@ -20,6 +20,7 @@ struct ExpandedPlayerView: View {
                 VolumeSlider(
                     volume: volume.volume,
                     showPercent: true,
+                    deviceIcon: volume.outputIcon,
                     onChange: volume.setVolume)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -95,7 +96,7 @@ struct ExpandedPlayerView: View {
             Spacer()
             ControlButton(systemName: "forward.fill", size: 20, action: media.next)
             Spacer()
-            ControlButton(systemName: volume.outputIcon, size: 15, action: onToggleVolume)
+            ControlButton(systemName: "speaker.wave.2", size: 15, action: onToggleVolume)
                 .opacity(volumeShown ? 1 : 0.45)
         }
         .padding(.horizontal, 6)
