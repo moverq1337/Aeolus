@@ -19,7 +19,8 @@ struct IslandLayout: Equatable {
             return CGSize(width: base.width + Self.peekDelta.width,
                           height: base.height + Self.peekDelta.height)
         case .expanded:
-            return state.volumeShown ? Self.expandedVolumeSize : Self.expandedSize
+            return (state.volumeShown || state.volumeOverlay)
+                ? Self.expandedVolumeSize : Self.expandedSize
         case .battery, .volume:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)

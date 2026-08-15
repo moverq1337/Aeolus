@@ -21,7 +21,7 @@ struct ExpandedPlayerView: View {
                     volume: volume.volume,
                     showPercent: true,
                     onChange: volume.setVolume)
-                .transition(.opacity)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
         .padding(.top, notchHeight - 2)

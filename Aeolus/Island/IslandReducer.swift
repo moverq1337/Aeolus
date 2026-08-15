@@ -9,6 +9,7 @@ enum IslandReducer {
                 case .expanded:
                     s.surface = .collapsed
                     s.volumeShown = false
+                    s.volumeOverlay = false
                     return [.cancelCloseDebounce]
                 case .peek:
                     s.surface = .collapsed
@@ -62,6 +63,7 @@ enum IslandReducer {
         case .closeDebounceFired, .clickedOutside:
             guard s.surface == .expanded else { return [] }
             s.volumeShown = false
+            s.volumeOverlay = false
             if let flash = s.pendingBattery {
                 s.pendingBattery = nil
                 s.surface = .battery(flash)
@@ -96,7 +98,9 @@ enum IslandReducer {
         case let .volumeGesture(percent):
             switch s.surface {
             case .expanded:
-                return [] // там слайдер — транзиент не нужен
+                // Живой оверлей громкости на время жеста + страховочный таймер.
+                s.volumeOverlay = true
+                return [.scheduleVolumeFlashEnd]
             case .peek:
                 s.surface = .volume(percent)
                 return [.cancelDwellTimer, .scheduleVolumeFlashEnd]
@@ -106,8 +110,13 @@ enum IslandReducer {
             }
 
         case .volumeFlashEnded:
+            if s.volumeOverlay { s.volumeOverlay = false }
             guard case .volume = s.surface else { return [] }
             s.surface = .collapsed
+            return []
+
+        case .volumeGestureEnded:
+            s.volumeOverlay = false
             return []
 
         case .trackChanged:

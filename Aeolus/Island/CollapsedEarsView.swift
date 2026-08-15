@@ -5,12 +5,14 @@ struct CollapsedEarsView: View {
     let artwork: NSImage?
     let isPlaying: Bool
     var trackKey: String = ""
+    var direction: TrackDirection = .forward
 
     var body: some View {
         HStack(spacing: 0) {
             artworkThumb
-                .id(trackKey) // смена трека — новая обложка въезжает справа
-                .transition(.push(from: .trailing))
+                // Карусель: вперёд — новая въезжает справа, назад — слева.
+                .id(trackKey)
+                .transition(.push(from: direction == .forward ? .trailing : .leading))
                 .animation(.spring(response: 0.42, dampingFraction: 0.8), value: trackKey)
                 .padding(.leading, 13)
             Spacer(minLength: notchSize.width)

@@ -21,6 +21,8 @@ struct IslandState: Equatable {
     var pendingBattery: BatteryFlash?
     /// Слайдер громкости раскрыт отдельной кнопкой внутри Expanded (решение 2026-08-14).
     var volumeShown = false
+    /// Временная шкала громкости в Expanded, пока идёт двухпальцевый жест.
+    var volumeOverlay = false
 }
 
 enum IslandEvent: Equatable {
@@ -36,6 +38,7 @@ enum IslandEvent: Equatable {
     case volumeToggled
     case volumeGesture(Int)
     case volumeFlashEnded
+    case volumeGestureEnded
     case trackChanged
     case trackIntroEnded
 }

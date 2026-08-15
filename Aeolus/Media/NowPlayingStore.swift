@@ -11,6 +11,8 @@ final class NowPlayingStore {
     @ObservationIgnored var onSessionChange: ((_ hasSession: Bool, _ playing: Bool) -> Void)?
     /// Смена трека внутри живой сессии (оба названия непустые и различаются).
     @ObservationIgnored var onTrackChange: (() -> Void)?
+    /// Направление последней навигации — для карусельного перехода обложки.
+    @ObservationIgnored var lastNavigationDirection: TrackDirection = .forward
 
     private var lastArtworkData: Data?
 
@@ -42,4 +44,8 @@ final class NowPlayingStore {
 
 enum MediaCommand: Int, Sendable {
     case play = 0, pause = 1, toggle = 2, next = 4, previous = 5
+}
+
+enum TrackDirection: Sendable {
+    case forward, backward
 }

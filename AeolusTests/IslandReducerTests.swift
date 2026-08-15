@@ -149,14 +149,6 @@ struct IslandReducerTests {
         #expect(fx == [.cancelDwellTimer, .scheduleVolumeFlashEnd])
     }
 
-    @Test func volumeGestureIgnoredWhileExpanded() {
-        var s = playingState()
-        _ = IslandReducer.reduce(&s, .hoverBegan)
-        _ = IslandReducer.reduce(&s, .dwellFired)
-        #expect(IslandReducer.reduce(&s, .volumeGesture(70)).isEmpty)
-        #expect(s.surface == .expanded) // там слайдер — транзиент не нужен
-    }
-
     @Test func batteryOverridesVolumeFlash() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .volumeGesture(40))
@@ -166,6 +158,40 @@ struct IslandReducerTests {
         // залипший volumeFlashEnded не роняет батарейный транзиент
         _ = IslandReducer.reduce(&s, .volumeFlashEnded)
         #expect(s.surface == .battery(flash))
+    }
+
+    @Test func volumeGestureInExpandedShowsOverlay() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        let fx = IslandReducer.reduce(&s, .volumeGesture(65))
+        #expect(s.surface == .expanded)
+        #expect(s.volumeOverlay)
+        #expect(fx == [.scheduleVolumeFlashEnd]) // страховочный таймер
+        // отпустили пальцы — оверлей прячется сразу
+        _ = IslandReducer.reduce(&s, .volumeGestureEnded)
+        #expect(!s.volumeOverlay)
+        #expect(s.surface == .expanded)
+    }
+
+    @Test func volumeOverlayFallbackTimerHides() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        _ = IslandReducer.reduce(&s, .volumeGesture(65))
+        _ = IslandReducer.reduce(&s, .volumeFlashEnded)
+        #expect(!s.volumeOverlay)
+    }
+
+    @Test func collapseResetsVolumeOverlay() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        _ = IslandReducer.reduce(&s, .volumeGesture(65))
+        _ = IslandReducer.reduce(&s, .hoverEnded)
+        _ = IslandReducer.reduce(&s, .closeDebounceFired)
+        #expect(s.surface == .collapsed)
+        #expect(!s.volumeOverlay)
     }
 
     @Test func trackChangeShowsIntroAndEnds() {

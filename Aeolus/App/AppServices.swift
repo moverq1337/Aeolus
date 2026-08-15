@@ -30,8 +30,14 @@ final class AppServices {
             self.engine = engine
             mediaActions = MediaActions(
                 toggle: { Task { await engine.send(.toggle) } },
-                next: { Task { await engine.send(.next) } },
-                previous: { Task { await engine.send(.previous) } },
+                next: { [nowPlaying] in
+                    nowPlaying.lastNavigationDirection = .forward
+                    Task { await engine.send(.next) }
+                },
+                previous: { [nowPlaying] in
+                    nowPlaying.lastNavigationDirection = .backward
+                    Task { await engine.send(.previous) }
+                },
                 seek: { seconds in Task { await engine.seek(to: seconds) } })
             Task { await engine.start() }
         } else {
@@ -137,6 +143,8 @@ final class AppServices {
         case .previousTrack:
             mediaActions.previous()
             haptics.perform(.alignment, performanceTime: .now)
+        case .verticalGestureEnded:
+            islandVM.handle(.volumeGestureEnded)
         }
     }
 }

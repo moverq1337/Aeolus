@@ -51,14 +51,15 @@ struct IslandRootView: View {
                     notchSize: metrics.closedSize,
                     artwork: nowPlaying.artwork,
                     isPlaying: vm.state.isPlaying,
-                    trackKey: nowPlaying.state?.title ?? "")
+                    trackKey: nowPlaying.state?.title ?? "",
+                    direction: nowPlaying.lastNavigationDirection)
             }
         case .expanded:
             ExpandedPlayerView(
                 nowPlaying: nowPlaying,
                 media: media,
                 volume: volume,
-                volumeShown: vm.state.volumeShown,
+                volumeShown: vm.state.volumeShown || vm.state.volumeOverlay,
                 onToggleVolume: { vm.handle(.volumeToggled) },
                 notchHeight: metrics.closedSize.height)
         case .battery(let flash):

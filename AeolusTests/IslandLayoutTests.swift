@@ -46,6 +46,12 @@ struct IslandLayoutTests {
                 == CGSize(width: 204 + 140, height: 32)) // +2*70
     }
 
+    @Test func expandedGrowsWithVolumeOverlay() {
+        var s = state(.expanded)
+        s.volumeOverlay = true
+        #expect(layout.size(for: s) == IslandLayout.expandedVolumeSize)
+    }
+
     @Test func trackIntroSitsBetweenCollapsedAndExpanded() {
         let intro = layout.size(for: state(.trackIntro))
         let playing = layout.size(for: state(.collapsed))

@@ -57,6 +57,21 @@ struct ScrollGestureRecognizerTests {
         #expect(r.handle(phase: .changed, deltaX: 0, deltaY: -30, inverted: true).isEmpty)
     }
 
+    @Test func verticalGestureEndEmitsEndAction() {
+        var r = ScrollGestureRecognizer()
+        _ = r.handle(phase: .began, deltaX: 0, deltaY: 0, inverted: true)
+        _ = r.handle(phase: .changed, deltaX: 0, deltaY: -15, inverted: true)
+        #expect(r.handle(phase: .ended, deltaX: 0, deltaY: 0, inverted: true)
+                == [.verticalGestureEnded])
+    }
+
+    @Test func horizontalGestureEndEmitsNothing() {
+        var r = ScrollGestureRecognizer()
+        _ = r.handle(phase: .began, deltaX: 0, deltaY: 0, inverted: true)
+        _ = r.handle(phase: .changed, deltaX: 45, deltaY: 0, inverted: true)
+        #expect(r.handle(phase: .ended, deltaX: 0, deltaY: 0, inverted: true).isEmpty)
+    }
+
     @Test func newGestureResetsState() {
         var r = ScrollGestureRecognizer()
         _ = r.handle(phase: .began, deltaX: 0, deltaY: 0, inverted: true)

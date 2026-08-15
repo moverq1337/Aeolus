@@ -12,6 +12,7 @@ struct ScrollGestureRecognizer {
         case volumeChange(Float)
         case nextTrack
         case previousTrack
+        case verticalGestureEnded
     }
 
     static let deadZone: CGFloat = 8
@@ -30,11 +31,12 @@ struct ScrollGestureRecognizer {
     ) -> [Action] {
         switch phase {
         case .began, .ended:
+            let wasVertical = axis == .vertical && phase == .ended
             accX = 0
             accY = 0
             axis = nil
             firedTrack = false
-            return []
+            return wasVertical ? [.verticalGestureEnded] : []
         case .changed:
             // Нормализация: fingersUp > 0 = пальцы вверх; fingersLeft > 0 = влево.
             // natural scrolling (inverted=true): пальцы вверх дают deltaY < 0,

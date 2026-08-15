@@ -16,6 +16,12 @@ struct TrackIntroView: View {
                     .foregroundStyle(.white)
                     .lineLimit(1)
             }
+            .id(nowPlaying.state?.title ?? "")
+            .transition(.push(
+                from: nowPlaying.lastNavigationDirection == .forward ? .trailing : .leading))
+            .animation(
+                .spring(response: 0.42, dampingFraction: 0.8),
+                value: nowPlaying.state?.title)
             .frame(maxHeight: .infinity)
         }
         .padding(.horizontal, 20)
