@@ -22,11 +22,13 @@
 		3702FBB2ACA438555FFCEBB6 /* ExpandedPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027307A2D113FC420C515B8 /* ExpandedPlayerView.swift */; };
 		39343A94260F2D35250D02FF /* IslandReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526FD550ADF94130B64E139F /* IslandReducerTests.swift */; };
 		45F18A364D1E6447B47FA5A4 /* IslandState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D67F7D5B4A7AA99343B0B8 /* IslandState.swift */; };
+		49C554BF477174848D74575E /* LockWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61317FF1D372C71CA4F908FD /* LockWidgetView.swift */; };
 		52A7467905F0DD9552B0AF46 /* NotchSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F2D0947F722887D56FB659 /* NotchSpace.swift */; };
 		54AB4EE1C99E551D43C9CD48 /* PowerEventDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418F5FFEB50E067A033A733 /* PowerEventDetectorTests.swift */; };
 		552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */; };
 		560EEDD7F5FCC018FC174B5C /* EqualizerBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */; };
 		578A4BC650F80F7194FFFE1A /* LockWidgetDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20227042E7892D90CF93B99C /* LockWidgetDecision.swift */; };
+		64901DAFA5FDD5A5294415F5 /* LockWidgetRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA6CFE1CD1CED7D530CCF72 /* LockWidgetRenderTests.swift */; };
 		6EB4D71F1D0E44D665EADDC4 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = FD8923BEAF3CB48647995900 /* AppIcon.icns */; };
 		6FC372DB12BC45820915BC31 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A21F134414CA75739DEDDE6 /* AppServices.swift */; };
 		74656EC835C29815D0233821 /* SystemObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF98799C089CBFD5671263E /* SystemObservers.swift */; };
@@ -128,6 +130,7 @@
 		5B51188A1755A7D251E5B1B0 /* SkyLightSpaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpaceTests.swift; sourceTree = "<group>"; };
 		604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedRenderTests.swift; sourceTree = "<group>"; };
 		61311880734F4A47D102F3DB /* TimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatterTests.swift; sourceTree = "<group>"; };
+		61317FF1D372C71CA4F908FD /* LockWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetView.swift; sourceTree = "<group>"; };
 		64F2D0947F722887D56FB659 /* NotchSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchSpace.swift; sourceTree = "<group>"; };
 		6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerMonitor.swift; sourceTree = "<group>"; };
 		71B4FAB2F197DAD9B26A4296 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -152,6 +155,7 @@
 		C86645998989D59D5427741C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
 		CED545AD1604AB0DEAC93B92 /* PanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelController.swift; sourceTree = "<group>"; };
+		CFA6CFE1CD1CED7D530CCF72 /* LockWidgetRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetRenderTests.swift; sourceTree = "<group>"; };
 		D38FCD5B7530884BEEA5D003 /* IslandReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducer.swift; sourceTree = "<group>"; };
 		D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetLayout.swift; sourceTree = "<group>"; };
 		D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometryTests.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 				3A3BA73B412631507638371E /* LineBufferTests.swift */,
 				23F7321F5CF798B8041DA7E6 /* LockWidgetDecisionTests.swift */,
 				C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */,
+				CFA6CFE1CD1CED7D530CCF72 /* LockWidgetRenderTests.swift */,
 				D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */,
 				B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */,
 				C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */,
@@ -359,6 +364,7 @@
 				E2BCECFA414B124B2FF0B3A7 /* LockSession.swift */,
 				20227042E7892D90CF93B99C /* LockWidgetDecision.swift */,
 				D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */,
+				61317FF1D372C71CA4F908FD /* LockWidgetView.swift */,
 				795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */,
 			);
 			path = LockScreen;
@@ -478,6 +484,7 @@
 				E0C192966439D5662EA27100 /* LineBufferTests.swift in Sources */,
 				9D8369844155910CBC3E7B8B /* LockWidgetDecisionTests.swift in Sources */,
 				8B3625E0E5E0DCC974C4C9A5 /* LockWidgetLayoutTests.swift in Sources */,
+				64901DAFA5FDD5A5294415F5 /* LockWidgetRenderTests.swift in Sources */,
 				F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */,
 				07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */,
 				BDEF0BD692855C0DC44FFD2D /* OutputDeviceIconTests.swift in Sources */,
@@ -514,6 +521,7 @@
 				B887C44472035F68E2E87AD1 /* LockSession.swift in Sources */,
 				578A4BC650F80F7194FFFE1A /* LockWidgetDecision.swift in Sources */,
 				FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */,
+				49C554BF477174848D74575E /* LockWidgetView.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,
 				EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */,
