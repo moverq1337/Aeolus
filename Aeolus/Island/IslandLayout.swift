@@ -25,8 +25,8 @@ struct IslandLayout: Equatable {
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)
         case .trackIntro:
-            // «Стикер из сторис»: между свёрнутым и раскрытым.
-            return CGSize(width: 340, height: notchSize.height + 56)
+            // Широкая тонкая пилюля (референс #13): между свёрнутым и раскрытым.
+            return CGSize(width: 380, height: notchSize.height + 30)
         }
     }
 

@@ -1,35 +1,45 @@
 import SwiftUI
 
-/// «Играет вот этот трек»: пилюля-анонс при смене трека. Референс владельца:
-/// обложка слева (квадрат со скруглением), справа — название жирным сверху
-/// и исполнитель приглушённым снизу.
+/// «Играет вот этот трек»: широкая тонкая пилюля (референс владельца):
+/// маленькая обложка в верхнем-левом углу, тонированный эквалайзер справа,
+/// по центру строка «♪ Название · Артист».
 struct TrackIntroView: View {
     let nowPlaying: NowPlayingStore
     let notchSize: CGSize
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer().frame(height: notchSize.height)
-            content
-                .frame(maxHeight: .infinity)
-        }
-        .padding(.horizontal, 24)
-    }
-
-    private var content: some View {
-        HStack(spacing: 12) {
-            artwork
-            VStack(alignment: .leading, spacing: 2) {
-                Text(nowPlaying.displayTitle ?? "")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                Text(nowPlaying.displayArtist ?? "")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.55))
-                    .lineLimit(1)
+        ZStack(alignment: .top) {
+            // Уголки на уровне выреза
+            HStack {
+                artwork
+                Spacer(minLength: notchSize.width)
+                EqualizerBars(animating: true, tint: nowPlaying.displayAccent)
             }
-            Spacer(minLength: 0)
+            .padding(.horizontal, 12)
+            .frame(height: notchSize.height)
+
+            // Центральная строка под вырезом
+            VStack(spacing: 0) {
+                Spacer().frame(height: notchSize.height - 2)
+                HStack(spacing: 5) {
+                    Image(systemName: "music.note")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(nowPlaying.displayAccent)
+                    Text(nowPlaying.displayTitle ?? "")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                    Text("·")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(.white.opacity(0.4))
+                    Text(nowPlaying.displayArtist ?? "")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .lineLimit(1)
+                }
+                .frame(maxHeight: .infinity)
+            }
+            .padding(.horizontal, 24)
         }
     }
 
@@ -38,16 +48,12 @@ struct TrackIntroView: View {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 44, height: 44)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .frame(width: 20, height: 20)
+                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
         } else {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
+            RoundedRectangle(cornerRadius: 5, style: .continuous)
                 .fill(.white.opacity(0.15))
-                .frame(width: 44, height: 44)
-                .overlay {
-                    Image(systemName: "music.note")
-                        .foregroundStyle(.white.opacity(0.4))
-                }
+                .frame(width: 20, height: 20)
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 struct EqualizerBars: NSViewRepresentable {
     var animating: Bool
     var barCount = 5
+    var tint: Color = .white
 
     func makeNSView(context: Context) -> EqualizerBarsView {
         EqualizerBarsView(barCount: barCount)
@@ -17,6 +18,7 @@ struct EqualizerBars: NSViewRepresentable {
     func updateNSView(_ view: EqualizerBarsView, context: Context) {
         view.setAnimating(
             animating && !ProcessInfo.processInfo.isLowPowerModeEnabled)
+        view.setTint(NSColor(tint))
     }
 
     // Без этого representable растягивается на всю предложенную ширину
@@ -70,6 +72,13 @@ final class EqualizerBarsView: NSView {
             bar.bounds = CGRect(x: 0, y: 0, width: 2, height: height)
             bar.position = CGPoint(x: CGFloat(i) * 4 + 1, y: midY)
         }
+        CATransaction.commit()
+    }
+
+    func setTint(_ color: NSColor) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        for bar in bars { bar.backgroundColor = color.cgColor }
         CATransaction.commit()
     }
 
