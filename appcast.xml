@@ -6,6 +6,17 @@
     <description>Aeolus release feed</description>
     <language>en</language>
     <item>
+      <title>0.5.0</title>
+      <sparkle:version>5</sparkle:version>
+      <sparkle:shortVersionString>0.5.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+      <enclosure
+        url="https://github.com/moverq1337/Aeolus/releases/download/v0.5.0/Aeolus-0.5.0.zip"
+        sparkle:edSignature="IVfVQg0wiek7G+YdTybonK/l6+vxskgFOd3FU9xaY8AReAVHzMevNrFWjcuSsl2m59BisxVizdn2qtuAnfu6Dg=="
+        length="2935582"
+        type="application/octet-stream"/>
+    </item>
+    <item>
       <title>0.4.0</title>
       <sparkle:version>4</sparkle:version>
       <sparkle:shortVersionString>0.4.0</sparkle:shortVersionString>
