@@ -91,6 +91,7 @@
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
 		F5E8D87A7E1A2AD49EF13265 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48234AFCC8CA67291AB791D3 /* ControlButton.swift */; };
+		FA7667E9DFA1E0C4CF2494FE /* EarsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549F73DC6553D2E581B56B5C /* EarsLayout.swift */; };
 		FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +151,7 @@
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		526FD550ADF94130B64E139F /* IslandReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducerTests.swift; sourceTree = "<group>"; };
 		53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetController.swift; sourceTree = "<group>"; };
+		549F73DC6553D2E581B56B5C /* EarsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarsLayout.swift; sourceTree = "<group>"; };
 		561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeFlashView.swift; sourceTree = "<group>"; };
 		5A21F134414CA75739DEDDE6 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		5B51188A1755A7D251E5B1B0 /* SkyLightSpaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpaceTests.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */,
 				48234AFCC8CA67291AB791D3 /* ControlButton.swift */,
 				BA116340484B06489ED84FCA /* DeviceFlashView.swift */,
+				549F73DC6553D2E581B56B5C /* EarsLayout.swift */,
 				C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */,
 				3027307A2D113FC420C515B8 /* ExpandedPlayerView.swift */,
 				883D2C4C6E8ADB7F7BE5CD52 /* FullscreenDetector.swift */,
@@ -569,6 +572,7 @@
 				A9D70E18D5AA4C74A83E8A04 /* CollapsedEarsView.swift in Sources */,
 				F5E8D87A7E1A2AD49EF13265 /* ControlButton.swift in Sources */,
 				192A24368610EC7412AECD20 /* DeviceFlashView.swift in Sources */,
+				FA7667E9DFA1E0C4CF2494FE /* EarsLayout.swift in Sources */,
 				560EEDD7F5FCC018FC174B5C /* EqualizerBars.swift in Sources */,
 				3702FBB2ACA438555FFCEBB6 /* ExpandedPlayerView.swift in Sources */,
 				25848C2BC8B9ACEDA082E993 /* FullscreenDetector.swift in Sources */,

@@ -9,11 +9,11 @@ struct DeviceFlashView: View {
     @State private var arcShown = false
 
     var body: some View {
-        HStack {
+        EarsLayout(notchSize: notchSize) {
             Image(systemName: flash.icon)
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(.white)
-            Spacer(minLength: notchSize.width)
+        } right: {
             if let percent = flash.percentage {
                 HStack(spacing: 6) {
                     ZStack {
@@ -35,8 +35,6 @@ struct DeviceFlashView: View {
                     .foregroundStyle(.green)
             }
         }
-        .padding(.horizontal, 14)
-        .frame(height: notchSize.height)
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.2)) {
                 arcShown = true

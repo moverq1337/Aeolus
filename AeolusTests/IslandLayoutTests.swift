@@ -43,7 +43,7 @@ struct IslandLayoutTests {
     @Test func batteryAddsWideEars() {
         let flash = BatteryFlash(kind: .pluggedIn, percentage: 90)
         #expect(layout.size(for: state(.battery(flash)))
-                == CGSize(width: 204 + 140, height: 32)) // +2*70
+                == CGSize(width: 372, height: 32)) // 204 + 2*84
     }
 
     @Test func expandedGrowsWithVolumeOverlay() {

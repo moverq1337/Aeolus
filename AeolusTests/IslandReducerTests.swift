@@ -168,8 +168,12 @@ struct IslandReducerTests {
         #expect(s.surface == .expanded)
         #expect(s.volumeOverlay)
         #expect(fx == [.scheduleVolumeFlashEnd]) // страховочный таймер
-        // отпустили пальцы — оверлей прячется сразу
-        _ = IslandReducer.reduce(&s, .volumeGestureEnded)
+        // отпустили пальцы — оверлей задерживается, таймер перезаведён
+        let endFx = IslandReducer.reduce(&s, .volumeGestureEnded)
+        #expect(s.volumeOverlay)
+        #expect(endFx == [.scheduleVolumeFlashEnd])
+        // секунда прошла — таймер прячет
+        _ = IslandReducer.reduce(&s, .volumeFlashEnded)
         #expect(!s.volumeOverlay)
         #expect(s.surface == .expanded)
     }

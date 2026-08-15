@@ -7,7 +7,7 @@ struct BatteryActivityView: View {
     @State private var arcShown = false
 
     var body: some View {
-        HStack {
+        EarsLayout(notchSize: notchSize) {
             // Дуга заряда вокруг иконки — как у AirPods-момента в iOS.
             ZStack {
                 Circle()
@@ -21,14 +21,13 @@ struct BatteryActivityView: View {
                     .foregroundStyle(color)
             }
             .frame(width: 19, height: 19)
-            Spacer(minLength: notchSize.width)
+        } right: {
             Text(detailText)
                 .font(.system(size: 12, weight: .semibold).monospacedDigit())
                 .foregroundStyle(color)
                 .lineLimit(1)
+                .minimumScaleFactor(0.85)
         }
-        .padding(.horizontal, 14)
-        .frame(height: notchSize.height)
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.15)) {
                 arcShown = true

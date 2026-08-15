@@ -9,11 +9,11 @@ struct VolumeFlashView: View {
     var overshoot: Double = 0
 
     var body: some View {
-        HStack {
+        EarsLayout(notchSize: notchSize) {
             Image(systemName: deviceIcon)
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(.white)
-            Spacer(minLength: notchSize.width)
+        } right: {
             HStack(spacing: 6) {
                 Capsule().fill(.white.opacity(0.25))
                     .frame(width: 30, height: 3)
@@ -28,7 +28,5 @@ struct VolumeFlashView: View {
                     .foregroundStyle(.white)
             }
         }
-        .padding(.horizontal, 14)
-        .frame(height: notchSize.height)
     }
 }

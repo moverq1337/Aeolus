@@ -7,7 +7,8 @@ struct IslandLayout: Equatable {
     /// С раскрытым слайдером громкости остров дорастает вниз.
     static let expandedVolumeSize = CGSize(width: 360, height: 194)
     static let earWidth: CGFloat = 44
-    static let batteryEarWidth: CGFloat = 70
+    // 84: правое ухо должно вмещать «48% · 96W» целиком (текст под вырезом невидим).
+    static let batteryEarWidth: CGFloat = 84
     static let peekDelta = CGSize(width: 10, height: 3)
 
     func size(for state: IslandState, lyricsEnabled: Bool = false) -> CGSize {

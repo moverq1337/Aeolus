@@ -125,9 +125,10 @@ enum IslandReducer {
             return []
 
         case .volumeGestureEnded:
-            s.volumeOverlay = false
             s.volumeOvershoot = 0
-            return []
+            // Оверлей не выдёргиваем сразу: перезаводим таймер — шкала
+            // задерживается ещё на секунду после отпускания пальцев.
+            return s.volumeOverlay ? [.scheduleVolumeFlashEnd] : []
 
         case .trackChanged:
             switch s.surface {
