@@ -4,10 +4,14 @@ struct CollapsedEarsView: View {
     let notchSize: CGSize
     let artwork: NSImage?
     let isPlaying: Bool
+    var trackKey: String = ""
 
     var body: some View {
         HStack(spacing: 0) {
             artworkThumb
+                .id(trackKey) // смена трека — новая обложка въезжает справа
+                .transition(.push(from: .trailing))
+                .animation(.spring(response: 0.42, dampingFraction: 0.8), value: trackKey)
                 .padding(.leading, 13)
             Spacer(minLength: notchSize.width)
             EqualizerBars(animating: isPlaying)

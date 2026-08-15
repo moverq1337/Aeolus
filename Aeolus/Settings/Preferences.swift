@@ -4,6 +4,7 @@ enum Preferences {
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             "hoverDelay": 0.45,
+            "expandOnHover": true,
             "hideInFullscreen": false,
             "batteryAlerts": true,
             "lockScreenWidget": false,
@@ -13,6 +14,10 @@ enum Preferences {
 
     static var hoverDelay: TimeInterval {
         UserDefaults.standard.double(forKey: "hoverDelay")
+    }
+
+    static var expandOnHover: Bool {
+        UserDefaults.standard.bool(forKey: "expandOnHover")
     }
 
     static var hideInFullscreen: Bool {

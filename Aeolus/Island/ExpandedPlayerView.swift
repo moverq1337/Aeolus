@@ -19,6 +19,7 @@ struct ExpandedPlayerView: View {
             if volumeShown {
                 VolumeSlider(
                     volume: volume.volume,
+                    showPercent: true,
                     onChange: volume.setVolume)
                 .transition(.opacity)
             }

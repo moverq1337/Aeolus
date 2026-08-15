@@ -10,6 +10,7 @@ final class IslandViewModel {
     @ObservationIgnored private var closeTask: Task<Void, Never>?
     @ObservationIgnored private var batteryTask: Task<Void, Never>?
     @ObservationIgnored private var volumeFlashTask: Task<Void, Never>?
+    @ObservationIgnored private var trackIntroTask: Task<Void, Never>?
 
     func handle(_ event: IslandEvent) {
         for effect in IslandReducer.reduce(&state, event) {
@@ -20,6 +21,8 @@ final class IslandViewModel {
     private func run(_ effect: IslandEffect) {
         switch effect {
         case .startDwellTimer:
+            // Настройка «Expand on hover» выключена — раскрытие только по клику.
+            guard Preferences.expandOnHover else { return }
             dwellTask?.cancel()
             dwellTask = Task { [weak self] in
                 try? await Task.sleep(for: .seconds(Preferences.hoverDelay))
@@ -51,6 +54,13 @@ final class IslandViewModel {
                 try? await Task.sleep(for: .seconds(1.0))
                 guard !Task.isCancelled else { return }
                 self?.handle(.volumeFlashEnded)
+            }
+        case .scheduleTrackIntroEnd:
+            trackIntroTask?.cancel()
+            trackIntroTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(2.5))
+                guard !Task.isCancelled else { return }
+                self?.handle(.trackIntroEnded)
             }
         case .haptic:
             NSHapticFeedbackManager.defaultPerformer

@@ -4,6 +4,7 @@ struct SettingsView: View {
     let nowPlaying: NowPlayingStore
 
     @AppStorage("hoverDelay") private var hoverDelay = 0.45
+    @AppStorage("expandOnHover") private var expandOnHover = true
     @AppStorage("hideInFullscreen") private var hideInFullscreen = false
     @AppStorage("batteryAlerts") private var batteryAlerts = true
     @AppStorage("lockScreenWidget") private var lockScreenWidget = false
@@ -28,6 +29,8 @@ struct SettingsView: View {
                     set: { AppServices.shared.updater.updater.automaticallyChecksForUpdates = $0 }))
             }
             Section {
+                Toggle("Expand on hover", isOn: $expandOnHover)
+                if expandOnHover {
                 VStack(alignment: .leading) {
                     Slider(value: $hoverDelay, in: 0...1, step: 0.05) {
                         Text("Hover delay")
@@ -37,6 +40,11 @@ struct SettingsView: View {
                         Text("1s")
                     }
                     Text(String(format: "Open after %.2f s of hover", hoverDelay))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                } else {
+                    Text("Click the island to expand it")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

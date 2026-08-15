@@ -52,6 +52,10 @@ final class AppServices {
             lockWidget?.refresh()
         }
 
+        nowPlaying.onTrackChange = { [islandVM] in
+            islandVM.handle(.trackChanged)
+        }
+
         power.onFlash = { [islandVM] flash in
             islandVM.handle(.battery(flash))
         }

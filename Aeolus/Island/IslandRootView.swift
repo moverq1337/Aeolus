@@ -50,7 +50,8 @@ struct IslandRootView: View {
                 CollapsedEarsView(
                     notchSize: metrics.closedSize,
                     artwork: nowPlaying.artwork,
-                    isPlaying: vm.state.isPlaying)
+                    isPlaying: vm.state.isPlaying,
+                    trackKey: nowPlaying.state?.title ?? "")
             }
         case .expanded:
             ExpandedPlayerView(
@@ -67,6 +68,8 @@ struct IslandRootView: View {
                 percent: percent,
                 deviceIcon: volume.outputIcon,
                 notchSize: metrics.closedSize)
+        case .trackIntro:
+            TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
         }
     }
 
@@ -76,7 +79,7 @@ struct IslandRootView: View {
 
     private func animation(for surface: IslandState.Surface) -> Animation {
         switch surface {
-        case .expanded: .spring(response: 0.42, dampingFraction: 0.8)
+        case .expanded, .trackIntro: .spring(response: 0.42, dampingFraction: 0.8)
         case .peek: .interactiveSpring(response: 0.38, dampingFraction: 0.8)
         case .collapsed, .battery, .volume: .spring(response: 0.45, dampingFraction: 1.0)
         }

@@ -46,9 +46,19 @@ struct IslandLayoutTests {
                 == CGSize(width: 204 + 140, height: 32)) // +2*70
     }
 
+    @Test func trackIntroSitsBetweenCollapsedAndExpanded() {
+        let intro = layout.size(for: state(.trackIntro))
+        let playing = layout.size(for: state(.collapsed))
+        #expect(intro == CGSize(width: 340, height: 32 + 44))
+        #expect(intro.width * intro.height > playing.width * playing.height)
+        #expect(intro.width * intro.height
+                < IslandLayout.expandedSize.width * IslandLayout.expandedSize.height)
+    }
+
     @Test func radiiPerSurface() {
         #expect(layout.radii(for: state(.collapsed)) == (6, 14))
         #expect(layout.radii(for: state(.peek)) == (7, 16))
         #expect(layout.radii(for: state(.expanded)) == (15, 20))
+        #expect(layout.radii(for: state(.trackIntro)) == (10, 18))
     }
 }

@@ -19,6 +19,7 @@
 		208E8914616075D6EFC43AF9 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773966156F4CAB653EAE5FE6 /* Preferences.swift */; };
 		23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C71F1E089EAAF96DD2010 /* LineBuffer.swift */; };
 		25848C2BC8B9ACEDA082E993 /* FullscreenDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883D2C4C6E8ADB7F7BE5CD52 /* FullscreenDetector.swift */; };
+		2AA21D6CFBB9E37934D202B4 /* TrackIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */; };
 		31C0C358FC83CA3D5F45D441 /* ScrollGestureRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B47E5DD201447FBB955857C /* ScrollGestureRecognizerTests.swift */; };
 		33B131D5A946F2C97DCF3D78 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */; };
 		3702FBB2ACA438555FFCEBB6 /* ExpandedPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027307A2D113FC420C515B8 /* ExpandedPlayerView.swift */; };
@@ -111,6 +112,7 @@
 		0A8C667A5F5D412460A76CDC /* AeolusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeolusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B56EEC5BDEC5B8F4D5157FC /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		0C8DE53B2A7068B44ED0EF84 /* NotchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchPanel.swift; sourceTree = "<group>"; };
+		0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackIntroView.swift; sourceTree = "<group>"; };
 		0FB545E21797CD145F71834D /* IslandLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLayout.swift; sourceTree = "<group>"; };
 		190A429536053029AA5FF651 /* RestartPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartPolicy.swift; sourceTree = "<group>"; };
 		1B06033138DF2421186F2B37 /* MediaActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaActions.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				64F2D0947F722887D56FB659 /* NotchSpace.swift */,
 				CED545AD1604AB0DEAC93B92 /* PanelController.swift */,
 				3D428198FAF9B6AED0080D2D /* ScrollGestureRecognizer.swift */,
+				0D4CBA362A8605A3DAAB420F /* TrackIntroView.swift */,
 				EC6D3C4E25953FD0A0C9E80F /* TrackProgressBar.swift */,
 				561E00A0A994848CC0E3CCCF /* VolumeFlashView.swift */,
 				409D1BAE9229009395399A91 /* VolumeSlider.swift */,
@@ -562,6 +565,7 @@
 				C7824A75FFCEBA43C6C98BA2 /* SkyLightSpace.swift in Sources */,
 				74656EC835C29815D0233821 /* SystemObservers.swift in Sources */,
 				1A0F2160078BCD5A57FF1B80 /* TimeFormatter.swift in Sources */,
+				2AA21D6CFBB9E37934D202B4 /* TrackIntroView.swift in Sources */,
 				552EA7CC1088C49900DF0337 /* TrackProgressBar.swift in Sources */,
 				7E477DF18E0F5711ECF4D736 /* VolumeController.swift in Sources */,
 				A994F168C660DA3AA277A331 /* VolumeFlashView.swift in Sources */,

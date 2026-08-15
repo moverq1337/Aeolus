@@ -23,12 +23,16 @@ struct IslandLayout: Equatable {
         case .battery, .volume:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)
+        case .trackIntro:
+            // «Стикер из сторис»: между свёрнутым и раскрытым.
+            return CGSize(width: 340, height: notchSize.height + 44)
         }
     }
 
     func radii(for state: IslandState) -> (top: CGFloat, bottom: CGFloat) {
         switch state.surface {
         case .expanded: return (15, 20)
+        case .trackIntro: return (10, 18)
         case .peek: return (7, 16)
         case .collapsed, .battery, .volume: return (6, 14)
         }

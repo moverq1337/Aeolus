@@ -13,6 +13,9 @@ enum IslandReducer {
                 case .peek:
                     s.surface = .collapsed
                     return [.cancelDwellTimer]
+                case .trackIntro:
+                    s.surface = .collapsed
+                    return []
                 default:
                     return []
                 }
@@ -21,7 +24,7 @@ enum IslandReducer {
 
         case .hoverBegan:
             switch s.surface {
-            case .collapsed:
+            case .collapsed, .trackIntro:
                 s.surface = .peek
                 return s.hasSession ? [.haptic, .startDwellTimer] : [.haptic]
             case .expanded:
@@ -48,7 +51,7 @@ enum IslandReducer {
 
         case .tapped:
             switch s.surface {
-            case .collapsed, .peek:
+            case .collapsed, .peek, .trackIntro:
                 guard s.hasSession else { return [] }
                 s.surface = .expanded
                 return [.haptic, .cancelDwellTimer]
@@ -75,7 +78,7 @@ enum IslandReducer {
             case .peek:
                 s.surface = .battery(flash)
                 return [.cancelDwellTimer, .scheduleBatteryEnd]
-            case .collapsed, .battery, .volume:
+            case .collapsed, .battery, .volume, .trackIntro:
                 s.surface = .battery(flash)
                 return [.scheduleBatteryEnd]
             }
@@ -97,13 +100,30 @@ enum IslandReducer {
             case .peek:
                 s.surface = .volume(percent)
                 return [.cancelDwellTimer, .scheduleVolumeFlashEnd]
-            case .collapsed, .battery, .volume:
+            case .collapsed, .battery, .volume, .trackIntro:
                 s.surface = .volume(percent)
                 return [.scheduleVolumeFlashEnd]
             }
 
         case .volumeFlashEnded:
             guard case .volume = s.surface else { return [] }
+            s.surface = .collapsed
+            return []
+
+        case .trackChanged:
+            switch s.surface {
+            case .expanded, .battery:
+                return []
+            case .peek:
+                s.surface = .trackIntro
+                return [.cancelDwellTimer, .scheduleTrackIntroEnd]
+            case .collapsed, .volume, .trackIntro:
+                s.surface = .trackIntro
+                return [.scheduleTrackIntroEnd]
+            }
+
+        case .trackIntroEnded:
+            guard case .trackIntro = s.surface else { return [] }
             s.surface = .collapsed
             return []
         }

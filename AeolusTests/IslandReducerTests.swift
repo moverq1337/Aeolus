@@ -168,6 +168,61 @@ struct IslandReducerTests {
         #expect(s.surface == .battery(flash))
     }
 
+    @Test func trackChangeShowsIntroAndEnds() {
+        var s = playingState()
+        let fx = IslandReducer.reduce(&s, .trackChanged)
+        #expect(s.surface == .trackIntro)
+        #expect(fx == [.scheduleTrackIntroEnd])
+        _ = IslandReducer.reduce(&s, .trackIntroEnded)
+        #expect(s.surface == .collapsed)
+    }
+
+    @Test func trackChangeIgnoredWhileExpandedAndBattery() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        #expect(IslandReducer.reduce(&s, .trackChanged).isEmpty)
+        #expect(s.surface == .expanded)
+
+        var b = playingState()
+        let flash = BatteryFlash(kind: .pluggedIn, percentage: 50)
+        _ = IslandReducer.reduce(&b, .battery(flash))
+        #expect(IslandReducer.reduce(&b, .trackChanged).isEmpty)
+        #expect(b.surface == .battery(flash))
+    }
+
+    @Test func hoverDuringIntroPeeks() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .trackChanged)
+        let fx = IslandReducer.reduce(&s, .hoverBegan)
+        #expect(s.surface == .peek)
+        #expect(fx == [.haptic, .startDwellTimer])
+    }
+
+    @Test func tapDuringIntroExpands() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .trackChanged)
+        _ = IslandReducer.reduce(&s, .tapped)
+        #expect(s.surface == .expanded)
+    }
+
+    @Test func batteryOverridesIntro() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .trackChanged)
+        let flash = BatteryFlash(kind: .unplugged, percentage: 42)
+        _ = IslandReducer.reduce(&s, .battery(flash))
+        #expect(s.surface == .battery(flash))
+        _ = IslandReducer.reduce(&s, .trackIntroEnded)
+        #expect(s.surface == .battery(flash)) // залипший таймер не роняет батарею
+    }
+
+    @Test func sessionEndDuringIntroCollapses() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .trackChanged)
+        _ = IslandReducer.reduce(&s, .musicChanged(playing: false, hasSession: false))
+        #expect(s.surface == .collapsed)
+    }
+
     @Test func clickOutsideCollapsesExpanded() {
         var s = playingState()
         _ = IslandReducer.reduce(&s, .hoverBegan)

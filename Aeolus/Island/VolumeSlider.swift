@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VolumeSlider: View {
     let volume: Float
+    var showPercent = false
     let onChange: (Float) -> Void
 
     var body: some View {
@@ -28,6 +29,12 @@ struct VolumeSlider: View {
             Image(systemName: "speaker.wave.3.fill")
                 .font(.system(size: 10))
                 .foregroundStyle(.white.opacity(0.55))
+            if showPercent {
+                Text("\(Int((volume * 100).rounded()))")
+                    .font(.system(size: 10, weight: .medium).monospacedDigit())
+                    .foregroundStyle(.white.opacity(0.55))
+                    .frame(width: 24, alignment: .trailing)
+            }
         }
     }
 }
