@@ -21,6 +21,7 @@ final class LockWidgetController {
     private var notchVisible = false
     private var pollTask: Task<Void, Never>?
     let presentation = LockWidgetPresentation()
+    private let notchPresentation = LockNotchPresentation()
 
     init(content: @escaping @MainActor () -> AnyView,
          hasSession: @escaping @MainActor () -> Bool) {
@@ -87,18 +88,14 @@ final class LockWidgetController {
         let panel = ensureNotchPanel()
         guard !notchVisible else { return }
         notchVisible = true
-        panel.alphaValue = 0
-        panel.orderFrontRegardless()
-        // Хореография блокировки: остров дорастворяется (~0.5 с), пауза,
-        // и только затем замочек проявляется очень мягко.
+        notchPresentation.grown = false
+        panel.alphaValue = 1
+        panel.orderFrontRegardless() // голый вырез — визуально ничего
+        // Хореография: остров сжался (~0.5 с) → пилюля вырастает из выреза.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { [weak self] in
             MainActor.assumeIsolated {
                 guard let self, self.notchVisible else { return }
-                NSAnimationContext.runAnimationGroup { ctx in
-                    ctx.duration = 0.7
-                    ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                    panel.animator().alphaValue = 1
-                }
+                self.notchPresentation.grown = true
             }
         }
     }
@@ -106,15 +103,13 @@ final class LockWidgetController {
     private func hideNotchLock() {
         guard notchVisible else { return }
         notchVisible = false
-        guard let notchPanel else { return }
-        NSAnimationContext.runAnimationGroup({ ctx in
-            ctx.duration = 0.2
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            notchPanel.animator().alphaValue = 0
-        }, completionHandler: { [weak self] in
-            guard let self, !self.notchVisible else { return }
-            notchPanel.orderOut(nil)
-        })
+        notchPresentation.grown = false // пилюля сжимается в вырез
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, !self.notchVisible else { return }
+                self.notchPanel?.orderOut(nil)
+            }
+        }
     }
 
     private func ensureNotchPanel() -> LockWidgetPanel {
@@ -145,7 +140,10 @@ final class LockWidgetController {
         p.sharingType = .none
         p.appearance = NSAppearance(named: .darkAqua)
         p.contentView = FirstMouseHostingView(
-            rootView: LockNotchView(notchSize: notchSize, earWidth: earWidth))
+            rootView: LockNotchView(
+                notchSize: notchSize,
+                earWidth: earWidth,
+                presentation: notchPresentation))
         if let screen = NSScreen.builtIn {
             p.setFrame(CGRect(
                 x: screen.frame.midX - size.width / 2,

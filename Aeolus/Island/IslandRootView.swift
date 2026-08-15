@@ -47,6 +47,9 @@ struct IslandRootView: View {
     /// фирменное «жидкое» перетекание Dynamic Island.
     @ViewBuilder private var islandContent: some View {
         Group {
+            if vm.state.suppressed {
+                EmptyView()
+            } else {
             switch vm.state.surface {
             case .collapsed, .peek:
                 if vm.state.hasSession {
@@ -83,6 +86,7 @@ struct IslandRootView: View {
             case .unlocked:
                 UnlockFlashView(notchSize: metrics.closedSize)
                     .transition(.blurReplace)
+            }
             }
         }
     }

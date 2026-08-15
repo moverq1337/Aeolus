@@ -99,11 +99,15 @@ final class AppServices {
                 self.lockWidget?.beginPollWindow()
             },
             onUnlocked: { [islandVM] in
-                // Даём панели острова вернуться на экран, потом здороваемся.
+                // Пилюля замочка сжимается в вырез (~0.4 с) — и сразу из выреза
+                // вырастает приветствие. До него остров подавлен (suppressed).
                 Task { @MainActor in
-                    try? await Task.sleep(for: .milliseconds(250))
+                    try? await Task.sleep(for: .milliseconds(400))
                     islandVM.handle(.unlockFlash)
                 }
+            },
+            onLocked: { [islandVM] in
+                islandVM.handle(.screenLocked)
             })
     }
 

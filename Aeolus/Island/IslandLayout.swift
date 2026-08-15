@@ -11,6 +11,7 @@ struct IslandLayout: Equatable {
     static let peekDelta = CGSize(width: 10, height: 3)
 
     func size(for state: IslandState) -> CGSize {
+        if state.suppressed { return notchSize }
         switch state.surface {
         case .collapsed:
             return collapsedSize(hasSession: state.hasSession)

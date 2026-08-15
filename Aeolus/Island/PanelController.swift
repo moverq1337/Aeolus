@@ -77,23 +77,17 @@ final class PanelController {
         hidden = value
         guard let panel else { return }
         if value {
-            // Плавное растворение (блокировка): никакого резкого исчезновения.
-            NSAnimationContext.runAnimationGroup({ ctx in
-                ctx.duration = 0.5
-                ctx.timingFunction = CAMediaTimingFunction(name: .easeIn)
-                panel.animator().alphaValue = 0
-            }, completionHandler: { [weak self] in
-                guard let self, self.hidden else { return }
-                panel.orderOut(nil)
-            })
-        } else {
-            panel.alphaValue = 0
-            panel.orderFrontRegardless()
-            NSAnimationContext.runAnimationGroup { ctx in
-                ctx.duration = 0.45
-                ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                panel.animator().alphaValue = 1
+            // Без прозрачности: остров сжимается в вырез (suppressed в редьюсере),
+            // окно снимаем после того, как пружина доиграла.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { [weak self] in
+                MainActor.assumeIsolated {
+                    guard let self, self.hidden else { return }
+                    panel.orderOut(nil)
+                }
             }
+        } else {
+            panel.alphaValue = 1
+            panel.orderFrontRegardless()
         }
     }
 

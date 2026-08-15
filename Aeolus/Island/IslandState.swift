@@ -24,6 +24,8 @@ struct IslandState: Equatable {
     var volumeShown = false
     /// Временная шкала громкости в Expanded, пока идёт двухпальцевый жест.
     var volumeOverlay = false
+    /// Экран заблокирован: остров сжат в голый вырез до приветствия.
+    var suppressed = false
 }
 
 enum IslandEvent: Equatable {
@@ -44,6 +46,7 @@ enum IslandEvent: Equatable {
     case trackIntroEnded
     case unlockFlash
     case unlockFlashEnded
+    case screenLocked
 }
 
 enum IslandEffect: Equatable {

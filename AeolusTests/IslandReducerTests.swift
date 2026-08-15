@@ -194,6 +194,22 @@ struct IslandReducerTests {
         #expect(!s.volumeOverlay)
     }
 
+    @Test func screenLockSuppressesIsland() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        let fx = IslandReducer.reduce(&s, .screenLocked)
+        #expect(s.suppressed)
+        #expect(s.surface == .collapsed)
+        #expect(fx == [.cancelDwellTimer, .cancelCloseDebounce])
+        // пока подавлен — уши не возвращаются даже при живой музыке
+        _ = IslandReducer.reduce(&s, .musicChanged(playing: true, hasSession: true))
+        #expect(s.suppressed)
+        // приветствие снимает подавление
+        _ = IslandReducer.reduce(&s, .unlockFlash)
+        #expect(!s.suppressed)
+        #expect(s.surface == .unlocked)
+    }
+
     @Test func unlockFlashShowsAndEnds() {
         var s = IslandState() // работает и без музыки
         let fx = IslandReducer.reduce(&s, .unlockFlash)

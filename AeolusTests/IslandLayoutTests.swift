@@ -61,6 +61,12 @@ struct IslandLayoutTests {
                 < IslandLayout.expandedSize.width * IslandLayout.expandedSize.height)
     }
 
+    @Test func suppressedAlwaysBareNotch() {
+        var s = state(.expanded)
+        s.suppressed = true
+        #expect(layout.size(for: s) == CGSize(width: 204, height: 32))
+    }
+
     @Test func radiiPerSurface() {
         #expect(layout.radii(for: state(.collapsed)) == (6, 14))
         #expect(layout.radii(for: state(.peek)) == (7, 16))

@@ -136,7 +136,16 @@ enum IslandReducer {
             s.surface = .collapsed
             return []
 
+        case .screenLocked:
+            s.suppressed = true
+            s.surface = .collapsed
+            s.volumeShown = false
+            s.volumeOverlay = false
+            s.pendingBattery = nil
+            return [.cancelDwellTimer, .cancelCloseDebounce]
+
         case .unlockFlash:
+            s.suppressed = false
             switch s.surface {
             case .expanded, .battery:
                 return []
