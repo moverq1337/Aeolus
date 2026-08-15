@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00CA852B4F95FCD3FAC88D3D /* LockWidgetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */; };
 		017DF393AB7CB253C8EFCA81 /* PowerMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BACB070EB5D0131F2CD764A /* PowerMonitor.swift */; };
 		01E64FD639416137629A70AF /* PowerEventDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26671F348319AD7AC26BFD9C /* PowerEventDetector.swift */; };
 		07A348A91900B1D752B94BC1 /* NowPlayingMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */; };
@@ -49,6 +50,7 @@
 		A20D68DCA5BCEB6CEC6823CB /* IslandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B267B6E5A6F144ADF093B /* IslandViewModel.swift */; };
 		A9D70E18D5AA4C74A83E8A04 /* CollapsedEarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313CAE6E7083113C7EC4919 /* CollapsedEarsView.swift */; };
 		AD8133F6749ECBF51F473F73 /* OutputDeviceIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ED84E6EF68711511FC63 /* OutputDeviceIcon.swift */; };
+		ADF2586912FBB18932AB5420 /* LockWidgetPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2826D20E7C1CA9F71846546 /* LockWidgetPanel.swift */; };
 		B2C661978466F31D4E03154C /* AdapterPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EE347A5AC93DF0B267570B /* AdapterPaths.swift */; };
 		B2CF1A36A7C71651B88D0C8F /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D1BAE9229009395399A91 /* VolumeSlider.swift */; };
 		B33C8D7CBA041DBF8E56746F /* MediaRemoteAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBFB411F9789724458C23E5 /* MediaRemoteAdapter.framework */; };
@@ -126,6 +128,7 @@
 		48234AFCC8CA67291AB791D3 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
 		511C243A4D79FA48028D0101 /* NotchGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchGeometry.swift; sourceTree = "<group>"; };
 		526FD550ADF94130B64E139F /* IslandReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandReducerTests.swift; sourceTree = "<group>"; };
+		53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetController.swift; sourceTree = "<group>"; };
 		5A21F134414CA75739DEDDE6 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		5B51188A1755A7D251E5B1B0 /* SkyLightSpaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLightSpaceTests.swift; sourceTree = "<group>"; };
 		604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedRenderTests.swift; sourceTree = "<group>"; };
@@ -149,6 +152,7 @@
 		B95A0CBC7C3DB4CD76F257E3 /* NowPlayingMergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingMergeTests.swift; sourceTree = "<group>"; };
 		C089848D6541918E078230D8 /* OutputDeviceIconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDeviceIconTests.swift; sourceTree = "<group>"; };
 		C2597A544E1D3A145AF3ABDA /* LockWidgetLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetLayoutTests.swift; sourceTree = "<group>"; };
+		C2826D20E7C1CA9F71846546 /* LockWidgetPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetPanel.swift; sourceTree = "<group>"; };
 		C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizerBars.swift; sourceTree = "<group>"; };
 		C6E255473532B6C7B4CB412A /* IslandRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandRootView.swift; sourceTree = "<group>"; };
 		C7C96177058A338C5B463E2C /* NotchShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShape.swift; sourceTree = "<group>"; };
@@ -362,8 +366,10 @@
 			isa = PBXGroup;
 			children = (
 				E2BCECFA414B124B2FF0B3A7 /* LockSession.swift */,
+				53DDB9A0D453C88C21A2D8FF /* LockWidgetController.swift */,
 				20227042E7892D90CF93B99C /* LockWidgetDecision.swift */,
 				D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */,
+				C2826D20E7C1CA9F71846546 /* LockWidgetPanel.swift */,
 				61317FF1D372C71CA4F908FD /* LockWidgetView.swift */,
 				795AC9343F68424B9DE1F8D1 /* SkyLightSpace.swift */,
 			);
@@ -519,8 +525,10 @@
 				8841BF3D2A3B593E3284ECA3 /* LaunchAtLogin.swift in Sources */,
 				23A67F628A74C6722FF572F7 /* LineBuffer.swift in Sources */,
 				B887C44472035F68E2E87AD1 /* LockSession.swift in Sources */,
+				00CA852B4F95FCD3FAC88D3D /* LockWidgetController.swift in Sources */,
 				578A4BC650F80F7194FFFE1A /* LockWidgetDecision.swift in Sources */,
 				FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */,
+				ADF2586912FBB18932AB5420 /* LockWidgetPanel.swift in Sources */,
 				49C554BF477174848D74575E /* LockWidgetView.swift in Sources */,
 				76F2EE3F425E20E7912FEE70 /* MediaActions.swift in Sources */,
 				801A096A4DDABA01BEDB7FE5 /* MediaEngine.swift in Sources */,

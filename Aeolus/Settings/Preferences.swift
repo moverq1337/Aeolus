@@ -6,6 +6,8 @@ enum Preferences {
             "hoverDelay": 0.45,
             "hideInFullscreen": false,
             "batteryAlerts": true,
+            "lockScreenWidget": false,
+            "lockScreenOffset": 0.0,
         ])
     }
 
@@ -19,5 +21,13 @@ enum Preferences {
 
     static var batteryAlerts: Bool {
         UserDefaults.standard.bool(forKey: "batteryAlerts")
+    }
+
+    static var lockScreenWidget: Bool {
+        UserDefaults.standard.bool(forKey: "lockScreenWidget")
+    }
+
+    static var lockScreenOffset: Double {
+        UserDefaults.standard.double(forKey: "lockScreenOffset")
     }
 }
