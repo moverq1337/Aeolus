@@ -76,6 +76,11 @@ struct SettingsView: View {
                 LabeledContent(
                     "Media engine",
                     value: nowPlaying.mediaAvailable ? "Active" : "Unavailable on this macOS")
+                if let health = PowerMonitor.batteryHealth() {
+                    LabeledContent(
+                        "Battery health",
+                        value: "\(health.capacityPercent)% · \(health.cycles) cycles")
+                }
                 LabeledContent(
                     "Version",
                     value: Bundle.main.infoDictionary?["CFBundleShortVersionString"]

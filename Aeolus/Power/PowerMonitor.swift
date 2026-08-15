@@ -37,15 +37,47 @@ final class PowerMonitor {
             let flash: BatteryFlash
             switch event {
             case .pluggedIn(let p):
-                flash = BatteryFlash(kind: .pluggedIn, percentage: p)
+                flash = BatteryFlash(
+                    kind: .pluggedIn, percentage: p,
+                    watts: Self.adapterWatts(), minutes: snap.minutesToFull)
             case .unplugged(let p):
-                flash = BatteryFlash(kind: .unplugged, percentage: p)
+                flash = BatteryFlash(
+                    kind: .unplugged, percentage: p, minutes: snap.minutesToEmpty)
             case .lowBattery(let p, let critical):
                 guard Preferences.batteryAlerts else { continue }
-                flash = BatteryFlash(kind: critical ? .critical : .low, percentage: p)
+                flash = BatteryFlash(
+                    kind: critical ? .critical : .low, percentage: p,
+                    minutes: snap.minutesToEmpty)
             }
             onFlash?(flash)
         }
+    }
+
+    /// Мощность подключённого адаптера (Вт), если система её сообщает.
+    static func adapterWatts() -> Int? {
+        guard let details = IOPSCopyExternalPowerAdapterDetails()?
+            .takeRetainedValue() as? [String: Any] else { return nil }
+        return details[kIOPSPowerAdapterWattsKey] as? Int
+    }
+
+    /// Здоровье батареи из AppleSmartBattery: (процент ёмкости, циклы).
+    static func batteryHealth() -> (capacityPercent: Int, cycles: Int)? {
+        let service = IOServiceGetMatchingService(
+            kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
+        guard service != 0 else { return nil }
+        defer { IOObjectRelease(service) }
+        func prop(_ key: String) -> Int? {
+            IORegistryEntryCreateCFProperty(
+                service, key as CFString, kCFAllocatorDefault, 0)?
+                .takeRetainedValue() as? Int
+        }
+        guard let cycles = prop("CycleCount") else { return nil }
+        // Яблочная математика здоровья: текущая максимальная ёмкость к паспортной.
+        let nominal = prop("NominalChargeCapacity") ?? prop("AppleRawMaxCapacity")
+        let design = prop("DesignCapacity")
+        guard let nominal, let design, design > 0 else { return nil }
+        let percent = Int((Double(nominal) / Double(design) * 100).rounded())
+        return (min(percent, 100), cycles)
     }
 
     static func currentSnapshot() -> PowerSnapshot? {

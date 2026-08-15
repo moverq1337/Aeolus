@@ -4,6 +4,10 @@ struct BatteryFlash: Equatable, Sendable {
     }
     var kind: Kind
     var percentage: Int
+    /// Мощность адаптера при подключении (Вт), если известна.
+    var watts: Int? = nil
+    /// Оценка времени (мин): до полной при зарядке, до разрядки при отключении.
+    var minutes: Int? = nil
 }
 
 struct IslandState: Equatable {
