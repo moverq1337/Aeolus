@@ -49,9 +49,9 @@ struct IslandRootView: View {
             if vm.state.hasSession {
                 CollapsedEarsView(
                     notchSize: metrics.closedSize,
-                    artwork: nowPlaying.artwork,
+                    artwork: nowPlaying.displayArtwork,
                     isPlaying: vm.state.isPlaying,
-                    trackKey: nowPlaying.state?.title ?? "",
+                    trackKey: nowPlaying.displayTitle ?? "",
                     direction: nowPlaying.lastNavigationDirection)
             }
         case .expanded:
@@ -71,6 +71,9 @@ struct IslandRootView: View {
                 notchSize: metrics.closedSize)
         case .trackIntro:
             TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
+                .transition(.push(
+                    from: nowPlaying.lastNavigationDirection == .forward
+                        ? .trailing : .leading))
         }
     }
 

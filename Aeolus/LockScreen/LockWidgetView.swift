@@ -12,11 +12,11 @@ struct LockWidgetView: View {
             HStack(spacing: 12) {
                 artwork
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(nowPlaying.state?.title ?? "")
+                    Text(nowPlaying.displayTitle ?? "")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundStyle(.white)
                         .lineLimit(1)
-                    Text(nowPlaying.state?.artist ?? "")
+                    Text(nowPlaying.displayArtist ?? "")
                         .font(.system(size: 12))
                         .foregroundStyle(.white.opacity(0.55))
                         .lineLimit(1)
@@ -36,7 +36,7 @@ struct LockWidgetView: View {
     }
 
     @ViewBuilder private var artwork: some View {
-        if let image = nowPlaying.artwork {
+        if let image = nowPlaying.displayArtwork {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)

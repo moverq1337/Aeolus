@@ -12,14 +12,14 @@ struct TrackIntroView: View {
             Spacer().frame(height: notchSize.height)
             ZStack {
                 content
-                    .id(nowPlaying.state?.title ?? "")
+                    .id(nowPlaying.displayTitle ?? "")
                     .transition(.push(
                         from: nowPlaying.lastNavigationDirection == .forward
                             ? .trailing : .leading))
             }
             .animation(
                 .spring(response: 0.42, dampingFraction: 0.8),
-                value: nowPlaying.state?.title)
+                value: nowPlaying.displayTitle)
             .frame(maxHeight: .infinity)
         }
         .padding(.horizontal, 24)
@@ -29,11 +29,11 @@ struct TrackIntroView: View {
         HStack(spacing: 12) {
             artwork
             VStack(alignment: .leading, spacing: 2) {
-                Text(nowPlaying.state?.title ?? "")
+                Text(nowPlaying.displayTitle ?? "")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(.white)
                     .lineLimit(1)
-                Text(nowPlaying.state?.artist ?? "")
+                Text(nowPlaying.displayArtist ?? "")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.white.opacity(0.55))
                     .lineLimit(1)
@@ -43,7 +43,7 @@ struct TrackIntroView: View {
     }
 
     @ViewBuilder private var artwork: some View {
-        if let image = nowPlaying.artwork {
+        if let image = nowPlaying.displayArtwork {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)

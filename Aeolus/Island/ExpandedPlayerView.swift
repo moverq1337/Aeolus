@@ -33,11 +33,11 @@ struct ExpandedPlayerView: View {
         HStack(spacing: 10) {
             artwork
             VStack(alignment: .leading, spacing: 2) {
-                Text(nowPlaying.state?.title ?? "")
+                Text(nowPlaying.displayTitle ?? "")
                     .font(.system(size: 15, weight: .bold))
                     .foregroundStyle(.white)
                     .lineLimit(1)
-                Text(nowPlaying.state?.artist ?? "")
+                Text(nowPlaying.displayArtist ?? "")
                     .font(.system(size: 14))
                     .foregroundStyle(.white.opacity(0.55))
                     .lineLimit(1)
@@ -48,7 +48,7 @@ struct ExpandedPlayerView: View {
     }
 
     @ViewBuilder private var artwork: some View {
-        if let image = nowPlaying.artwork {
+        if let image = nowPlaying.displayArtwork {
             Image(nsImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
