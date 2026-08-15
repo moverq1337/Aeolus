@@ -2,6 +2,20 @@
 
 All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog.com).
 
+## [0.2.0] — 2026-08-15
+
+### Added
+- Lock Screen Now Playing widget (opt-in): artwork, title, artist, progress and
+  island-sized play/pause/next controls pinned above the password field, via a
+  SkyLight level-400 space. Off by default; enable in Settings, raise with a slider.
+
+### Fixed
+- Private CoreGraphics symbols now load via dlsym instead of `@_silgen_name`,
+  so a future macOS removing a symbol degrades gracefully instead of crashing
+  the app at launch.
+- Media engine can now be revived by wake events after repeated stream
+  failures (previously stayed dead until app restart).
+
 ## [0.1.0] — 2026-08-15
 
 ### Added

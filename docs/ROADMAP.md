@@ -1,15 +1,10 @@
 # Roadmap
 
-## v1.1 — кандидаты
+## Сделано
 
-- **Lock Screen music widget** (идея владельца, 2026-08-14): виджет Now Playing
-  на экране блокировки — не остров, а отдельная плашка над полем пароля
-  (обложка, трек, исполнитель; возможно controls). Реализация: SkyLight SPI
-  (Lakr233/SkyLightWindow, `SLSRemoveWindowsFromSpaces` / delegate window) —
-  как у boring.notch `showOnLockScreen` и Alcove Live Activities.
-  ОБЯЗАТЕЛЬНО: за выключателем в настройках (default off), dlsym-проверка
-  символов, тщательное тестирование (известны случаи полной блокировки
-  машины при экспериментах с локскрин-рендером).
+- **Lock Screen music widget** (v0.2.0): карточка Now Playing над зоной пароля
+  через SkyLight-пространство уровня 400, opt-in, кнопки работают до
+  аутентификации. См. docs/superpowers/specs/2026-08-15-lockscreen-widget-design.md.
 
 ## Не делаем (философия)
 
