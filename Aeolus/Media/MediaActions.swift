@@ -4,4 +4,5 @@ struct MediaActions {
     var next: () -> Void = {}
     var previous: () -> Void = {}
     var seek: (Double) -> Void = { _ in }
+    var toggleShuffle: () -> Void = {}
 }

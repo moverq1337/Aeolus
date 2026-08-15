@@ -25,11 +25,12 @@ struct NowPlayingPayload: Decodable {
     var timestamp: Date?
     var artworkData: String?
     var artworkMimeType: String?
+    var shuffleMode: Int?
 
     init(
         bundleIdentifier: String?, playing: Bool?, title: String?, artist: String?,
         album: String?, duration: Double?, elapsedTime: Double?, timestamp: Date?,
-        artworkData: String?, artworkMimeType: String?
+        artworkData: String?, artworkMimeType: String?, shuffleMode: Int? = nil
     ) {
         self.bundleIdentifier = bundleIdentifier
         self.playing = playing
@@ -41,11 +42,13 @@ struct NowPlayingPayload: Decodable {
         self.timestamp = timestamp
         self.artworkData = artworkData
         self.artworkMimeType = artworkMimeType
+        self.shuffleMode = shuffleMode
     }
 
     private enum CodingKeys: String, CodingKey {
         case bundleIdentifier, playing, title, artist, album
         case duration, elapsedTime, timestamp, artworkData, artworkMimeType
+        case shuffleMode
     }
 
     init(from decoder: any Decoder) throws {
@@ -59,6 +62,7 @@ struct NowPlayingPayload: Decodable {
         elapsedTime = try c.decodeIfPresent(Double.self, forKey: .elapsedTime)
         artworkData = try c.decodeIfPresent(String.self, forKey: .artworkData)
         artworkMimeType = try c.decodeIfPresent(String.self, forKey: .artworkMimeType)
+        shuffleMode = try c.decodeIfPresent(Int.self, forKey: .shuffleMode)
         if let epoch = try? c.decodeIfPresent(Double.self, forKey: .timestamp) {
             timestamp = Date(timeIntervalSince1970: epoch)
         } else if let iso = try? c.decodeIfPresent(String.self, forKey: .timestamp) {
@@ -90,6 +94,8 @@ struct NowPlayingState: Equatable {
     /// Момент, в который был снят elapsedTime; позиция интерполируется от него.
     var timestamp: Date
     var artworkData: Data?
+    /// 1 = выкл, 2/3 = включён (семантика адаптера).
+    var shuffleMode: Int?
 
     func position(at date: Date) -> Double {
         let raw = playing
@@ -124,6 +130,7 @@ enum NowPlayingMerge {
                 s.timestamp = t
             }
             if let v = p.artworkData { s.artworkData = Data(base64Encoded: v) }
+            if let v = p.shuffleMode { s.shuffleMode = v }
             return s
         }
         return fullState(from: p, now: now)
@@ -141,7 +148,8 @@ enum NowPlayingMerge {
             duration: p.duration.flatMap(sanitize(duration:)),
             elapsedTime: p.elapsedTime ?? 0,
             timestamp: p.timestamp ?? now,
-            artworkData: p.artworkData.flatMap { Data(base64Encoded: $0) })
+            artworkData: p.artworkData.flatMap { Data(base64Encoded: $0) },
+            shuffleMode: p.shuffleMode)
     }
 
     private static func sanitize(duration: Double) -> Double? {

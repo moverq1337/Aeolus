@@ -87,10 +87,23 @@ struct NowPlayingMergeTests {
         #expect(next.artist == nil) // полный payload замещает, а не мёржит
     }
 
+    @Test func shuffleModePassesThrough() throws {
+        let base = try #require(NowPlayingMerge.apply(try envelope(#"""
+        {"type":"data","payload":{"title":"T","playing":true,"shuffleMode":1}}
+        """#), to: nil, now: now))
+        #expect(base.shuffleMode == 1)
+        let merged = try #require(NowPlayingMerge.apply(try envelope(#"""
+        {"type":"data","diff":true,"payload":{"shuffleMode":2}}
+        """#), to: base, now: now))
+        #expect(merged.shuffleMode == 2)
+        #expect(merged.title == "T")
+    }
+
     @Test func positionInterpolatesWhilePlaying() throws {
         let s = NowPlayingState(
             bundleIdentifier: nil, playing: true, title: "T", artist: nil, album: nil,
-            duration: 100, elapsedTime: 20, timestamp: now, artworkData: nil)
+            duration: 100, elapsedTime: 20, timestamp: now, artworkData: nil,
+            shuffleMode: nil)
         #expect(s.position(at: now.addingTimeInterval(5)) == 25)
         var paused = s
         paused.playing = false

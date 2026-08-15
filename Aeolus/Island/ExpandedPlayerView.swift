@@ -78,23 +78,29 @@ struct ExpandedPlayerView: View {
     }
 
     private var controlsRow: some View {
-        ZStack {
-            HStack(spacing: 34) {
-                ControlButton(systemName: "backward.fill", action: media.previous)
-                ControlButton(
-                    systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
-                    size: 24,
-                    action: media.toggle)
-                ControlButton(systemName: "forward.fill", action: media.next)
-            }
-            HStack {
-                Spacer()
-                ControlButton(
-                    systemName: volume.outputIcon,
-                    size: 13,
-                    action: onToggleVolume)
-                .opacity(volumeShown ? 1 : 0.6)
-            }
+        // Референс #12: пять контролов в ряд — shuffle | назад | play | вперёд | устройство.
+        HStack {
+            ControlButton(systemName: "shuffle", size: 15, action: media.toggleShuffle)
+                .opacity(shuffleOn ? 1 : 0.45)
+                .foregroundStyle(shuffleOn ? AnyShapeStyle(nowPlaying.displayAccent)
+                                           : AnyShapeStyle(.white))
+            Spacer()
+            ControlButton(systemName: "backward.fill", size: 20, action: media.previous)
+            Spacer()
+            ControlButton(
+                systemName: (nowPlaying.state?.playing ?? false) ? "pause.fill" : "play.fill",
+                size: 26,
+                action: media.toggle)
+            Spacer()
+            ControlButton(systemName: "forward.fill", size: 20, action: media.next)
+            Spacer()
+            ControlButton(systemName: volume.outputIcon, size: 15, action: onToggleVolume)
+                .opacity(volumeShown ? 1 : 0.45)
         }
+        .padding(.horizontal, 6)
+    }
+
+    private var shuffleOn: Bool {
+        (nowPlaying.state?.shuffleMode ?? 1) >= 2
     }
 }

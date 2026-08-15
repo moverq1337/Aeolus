@@ -38,7 +38,8 @@ final class AppServices {
                     nowPlaying.lastNavigationDirection = .backward
                     Task { await engine.send(.previous) }
                 },
-                seek: { seconds in Task { await engine.seek(to: seconds) } })
+                seek: { seconds in Task { await engine.seek(to: seconds) } },
+                toggleShuffle: { Task { await engine.send(.shuffle) } })
             Task { await engine.start() }
         } else {
             nowPlaying.mediaAvailable = false

@@ -156,7 +156,7 @@ final class NowPlayingStore {
 }
 
 enum MediaCommand: Int, Sendable {
-    case play = 0, pause = 1, toggle = 2, next = 4, previous = 5
+    case play = 0, pause = 1, toggle = 2, next = 4, previous = 5, shuffle = 6
 }
 
 enum TrackDirection: Sendable {
