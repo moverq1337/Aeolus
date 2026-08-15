@@ -2,6 +2,29 @@
 
 All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog.com).
 
+## [0.4.0] — 2026-08-15
+
+### Added
+- Fluid transitions: island surfaces morph with blur, play/pause icon morphs
+  as a symbol, all tuned to the same spring family.
+- Track intro pill redesigned: wide slim card with corner artwork and
+  a "♪ Title · Artist" line; equalizer tinted with the album accent color
+  everywhere (ears, pill, expanded player).
+- Shuffle in the expanded player (five-control row per iOS reference),
+  lighter volume glyph, device icon in the volume row.
+- Lock screen player redesigned: frosted glass tinted by the artwork,
+  flanking time labels, five controls, springy entrance.
+- Lock choreography: island squeezes into the notch, a padlock pill grows out;
+  on unlock the padlock opens in place with a system click and the pill is
+  absorbed back into the notch.
+- Volume keys and Control Center changes now show the island volume flash.
+- Smart media-source filter: conference apps are ignored; Telegram voice
+  messages and video circles are filtered by their metadata marker while
+  real music stays. Extendable via `ignoredBundleIDs` defaults array.
+
+### Fixed
+- Stale artwork no longer sticks after rapid track switching.
+
 ## [0.3.0] — 2026-08-15
 
 ### Added
