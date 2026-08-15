@@ -2,6 +2,33 @@
 
 All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog.com).
 
+## [0.5.0] — 2026-08-15
+
+### Added
+- Rubber-band volume: push past 0% or 100% and the capsule stretches toward
+  the wall — iOS 17 squash-and-stretch (clipped silhouette, far-end anchor,
+  Apple's asymptotic resistance) with a springy snap-back on release.
+- Battery Pro moments: the plug-in flash shows a charge arc, percent and
+  adapter wattage; unplug and low-battery flashes show time remaining.
+- AirPods moment: connecting a headset flashes its icon with a battery arc
+  and percent when the device reports charge.
+- Synced lyrics line in the expanded player (LRCLIB, opt-in in Settings).
+- Output switcher inside the island: tap the device icon in the volume row —
+  a row of device icons with short captions, active one tinted with the
+  album accent.
+- Tap any transient (battery, volume, device) to dismiss it.
+
+### Changed
+- Long-press gesture removed — tap and two-finger swipes cover everything.
+- Volume overlay in the expanded player lingers for a second after the
+  gesture ends instead of vanishing instantly.
+
+### Fixed
+- Battery percent on plug/unplug read as its last digit (52% shown as 2%):
+  transient text could slide under the physical notch, hiding the leading
+  digits. Transient content now lives strictly in the ears with a dead zone
+  over the cutout, and the flash uses the stable pre-event percentage.
+
 ## [0.4.0] — 2026-08-15
 
 ### Added

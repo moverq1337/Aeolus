@@ -22,23 +22,24 @@ on the floating island of Aeolia.
 
 - **Now Playing, universally.** Any audio source — Music, Spotify, browsers.
   Hover or click the notch: album art, title, scrubbing, transport controls,
-  and system volume behind an output-device button that shows what you're
-  actually listening on — AirPods Pro look like AirPods Pro.
+  synced lyrics (opt-in), and system volume behind an output-device button
+  that shows what you're actually listening on — AirPods Pro look like
+  AirPods Pro. Switch outputs without leaving the island.
 - **Battery moments.** Plug in, unplug, low battery — a quiet flash around
-  the notch, then silence.
+  the notch with a charge arc, adapter wattage and time remaining, then
+  silence.
 - **Nothing else.** No file shelves, no widgets, no calendars. Minimalism
   is the feature.
 
 ## Feel
 
 - **Event-driven to the bone.** Nothing runs unless something changes: no
-  timers, no polling, no background loops. Media, battery, volume, focus,
-  lock state — all observed, never asked. When nothing happens, Aeolus
-  does nothing, and Activity Monitor proves it.
+  timers, no polling, no background loops. Media, battery, volume, lock
+  state — all observed, never asked. When nothing happens, Aeolus does
+  nothing, and Activity Monitor proves it.
 - 120 Hz ProMotion springs, tuned to match the iPhone Dynamic Island.
 - **0.0% measured CPU** — even while music plays, the equalizer breathes
-  inside the render server, not the app. Zero timers, zero polling;
-  everything is event-driven. When nothing happens, Aeolus does nothing.
+  inside the render server, not the app.
 - Pure black, native SF typography. Indistinguishable from the system.
 - Stays put across three-finger Space swipes and full-screen apps.
 
