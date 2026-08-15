@@ -22,6 +22,7 @@ final class LockWidgetController {
     private var pollTask: Task<Void, Never>?
     let presentation = LockWidgetPresentation()
     private let notchPresentation = LockNotchPresentation()
+    private var unlockSound: NSSound?
 
     init(content: @escaping @MainActor () -> AnyView,
          hasSession: @escaping @MainActor () -> Bool) {
@@ -107,6 +108,11 @@ final class LockWidgetController {
         // Непрерывная история разблокировки: замок открывается НА МЕСТЕ,
         // держится мгновение, затем пилюля всасывается в вырез.
         notchPresentation.opened = true
+        // «Тсык» в момент открытия дужки.
+        let sound = NSSound(named: "Tink")
+        sound?.volume = 0.4
+        unlockSound = sound
+        sound?.play()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
             MainActor.assumeIsolated {
                 guard let self, !self.notchVisible else { return }
