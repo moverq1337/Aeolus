@@ -27,6 +27,11 @@ final class AppServices {
         volume.onExternalChange = { [islandVM] value in
             islandVM.handle(.volumeGesture(Int((value * 100).rounded())))
         }
+        volume.onDeviceChange = { [islandVM] name, icon in
+            let levels = BluetoothAudioBattery.levels(matchingName: name)
+            islandVM.handle(.deviceConnected(DeviceFlash(
+                icon: icon, name: name, percentage: levels?.headline)))
+        }
         volume.start()
 
         if let paths = AdapterPaths.bundled() {

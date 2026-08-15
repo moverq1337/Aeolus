@@ -1,3 +1,9 @@
+struct DeviceFlash: Equatable, Sendable {
+    var icon: String
+    var name: String
+    var percentage: Int?
+}
+
 struct BatteryFlash: Equatable, Sendable {
     enum Kind: Equatable, Sendable {
         case pluggedIn, unplugged, low, critical
@@ -18,6 +24,7 @@ struct IslandState: Equatable {
         case battery(BatteryFlash)
         case volume(Int)
         case trackIntro
+        case device(DeviceFlash)
     }
     var surface: Surface = .collapsed
     var hasSession = false
@@ -52,6 +59,8 @@ enum IslandEvent: Equatable {
     case trackIntroEnded
     case screenLocked
     case screenUnlocked
+    case deviceConnected(DeviceFlash)
+    case deviceFlashEnded
 }
 
 enum IslandEffect: Equatable {
@@ -62,5 +71,6 @@ enum IslandEffect: Equatable {
     case scheduleBatteryEnd
     case scheduleVolumeFlashEnd
     case scheduleTrackIntroEnd
+    case scheduleDeviceFlashEnd
     case haptic
 }

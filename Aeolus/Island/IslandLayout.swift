@@ -22,7 +22,7 @@ struct IslandLayout: Equatable {
         case .expanded:
             return (state.volumeShown || state.volumeOverlay)
                 ? Self.expandedVolumeSize : Self.expandedSize
-        case .battery, .volume:
+        case .battery, .volume, .device:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)
         case .trackIntro:
@@ -36,7 +36,7 @@ struct IslandLayout: Equatable {
         case .expanded: return (15, 20)
         case .trackIntro: return (10, 18)
         case .peek: return (7, 16)
-        case .collapsed, .battery, .volume: return (6, 14)
+        case .collapsed, .battery, .volume, .device: return (6, 14)
         }
     }
 

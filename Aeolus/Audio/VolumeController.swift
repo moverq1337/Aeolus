@@ -11,6 +11,9 @@ final class VolumeController {
     private(set) var volume: Float = 0
     /// Внешнее изменение громкости (клавиши, Control Center) — для транзиента.
     @ObservationIgnored var onExternalChange: ((Float) -> Void)?
+    /// Смена устройства вывода: (имя, SF Symbol) — для AirPods-момента.
+    @ObservationIgnored var onDeviceChange: ((String, String) -> Void)?
+    @ObservationIgnored private var lastDeviceName: String?
     /// SF Symbol текущего устройства вывода (AirPods и т.п.) для правой
     /// иконки слайдера.
     private(set) var outputIcon = "speaker.wave.3.fill"
@@ -72,6 +75,7 @@ final class VolumeController {
     }
 
     private func updateOutputIcon() {
+        let previousName = lastDeviceName
         var nameAddress = AudioObjectPropertyAddress(
             mSelector: kAudioObjectPropertyName,
             mScope: kAudioObjectPropertyScopeGlobal,
@@ -91,11 +95,19 @@ final class VolumeController {
         _ = AudioObjectGetPropertyData(
             deviceID, &transportAddress, 0, nil, &transportSize, &transport)
 
+        let deviceName = name as String
         let candidate = OutputDeviceIcon.symbol(
-            deviceName: name as String, transportType: transport)
+            deviceName: deviceName, transportType: transport)
         // Защита от отсутствующего символа на конкретной версии macOS.
         outputIcon = NSImage(systemSymbolName: candidate, accessibilityDescription: nil) != nil
             ? candidate
             : "speaker.wave.3.fill"
+        lastDeviceName = deviceName
+        // AirPods-момент только на реальную СМЕНУ на беспроводное аудио.
+        let isWireless = transport == kAudioDeviceTransportTypeBluetooth
+            || transport == kAudioDeviceTransportTypeBluetoothLE
+        if let previousName, previousName != deviceName, isWireless {
+            onDeviceChange?(deviceName, outputIcon)
+        }
     }
 }

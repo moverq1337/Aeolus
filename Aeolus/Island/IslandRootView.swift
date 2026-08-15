@@ -96,6 +96,9 @@ struct IslandRootView: View {
             case .trackIntro:
                 TrackIntroView(nowPlaying: nowPlaying, notchSize: metrics.closedSize)
                     .transition(.blurReplace)
+            case .device(let flash):
+                DeviceFlashView(flash: flash, notchSize: metrics.closedSize)
+                    .transition(.blurReplace)
             }
             }
         }
@@ -109,7 +112,7 @@ struct IslandRootView: View {
         guard !vm.state.suppressed, vm.state.isPlaying else { return false }
         switch vm.state.surface {
         case .collapsed, .peek, .expanded, .trackIntro: return true
-        case .battery, .volume: return false
+        case .battery, .volume, .device: return false
         }
     }
 
@@ -117,7 +120,7 @@ struct IslandRootView: View {
         switch surface {
         case .expanded, .trackIntro: .spring(response: 0.42, dampingFraction: 0.8)
         case .peek: .interactiveSpring(response: 0.38, dampingFraction: 0.8)
-        case .collapsed, .battery, .volume: .spring(response: 0.45, dampingFraction: 1.0)
+        case .collapsed, .battery, .volume, .device: .spring(response: 0.45, dampingFraction: 1.0)
         }
     }
 }
