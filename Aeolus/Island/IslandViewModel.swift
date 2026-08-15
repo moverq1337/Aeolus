@@ -11,6 +11,7 @@ final class IslandViewModel {
     @ObservationIgnored private var batteryTask: Task<Void, Never>?
     @ObservationIgnored private var volumeFlashTask: Task<Void, Never>?
     @ObservationIgnored private var trackIntroTask: Task<Void, Never>?
+    @ObservationIgnored private var unlockFlashTask: Task<Void, Never>?
 
     func handle(_ event: IslandEvent) {
         for effect in IslandReducer.reduce(&state, event) {
@@ -61,6 +62,13 @@ final class IslandViewModel {
                 try? await Task.sleep(for: .seconds(2.5))
                 guard !Task.isCancelled else { return }
                 self?.handle(.trackIntroEnded)
+            }
+        case .scheduleUnlockFlashEnd:
+            unlockFlashTask?.cancel()
+            unlockFlashTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(1.5))
+                guard !Task.isCancelled else { return }
+                self?.handle(.unlockFlashEnded)
             }
         case .haptic:
             NSHapticFeedbackManager.defaultPerformer

@@ -60,6 +60,18 @@ struct LockWidgetDecisionTests {
             enabled: true, session: other, hasSession: true, spaceAvailable: true))
     }
 
+    @Test func notchLockShowsWithoutMediaSession() {
+        let locked = LockSession(dictionary: [
+            "CGSSessionScreenIsLocked": 1, "kCGSSessionOnConsoleKey": 1])
+        #expect(LockWidgetDecision.shouldShowNotchLock(
+            enabled: true, session: locked, spaceAvailable: true))
+        #expect(!LockWidgetDecision.shouldShowNotchLock(
+            enabled: false, session: locked, spaceAvailable: true))
+        let unlocked = LockSession(dictionary: ["kCGSSessionOnConsoleKey": 1])
+        #expect(!LockWidgetDecision.shouldShowNotchLock(
+            enabled: true, session: unlocked, spaceAvailable: true))
+    }
+
     @Test func hiddenWhenSessionNil() {
         #expect(!LockWidgetDecision.shouldShow(
             enabled: true, session: nil, hasSession: true, spaceAvailable: true))

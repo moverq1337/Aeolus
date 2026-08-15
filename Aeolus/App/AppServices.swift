@@ -45,13 +45,16 @@ final class AppServices {
             nowPlaying.mediaAvailable = false
         }
 
+        var lockWidgetRef: LockWidgetController?
         let lockWidget = LockWidgetController(
             content: { [nowPlaying] in
                 AnyView(LockWidgetView(
                     nowPlaying: nowPlaying,
-                    media: AppServices.shared.mediaActions))
+                    media: AppServices.shared.mediaActions,
+                    presentation: lockWidgetRef?.presentation))
             },
             hasSession: { [nowPlaying] in nowPlaying.state != nil })
+        lockWidgetRef = lockWidget
         self.lockWidget = lockWidget
 
         nowPlaying.onSessionChange = { [islandVM, weak lockWidget] hasSession, playing in
@@ -94,6 +97,9 @@ final class AppServices {
                 self.panelController?.updateVisibility(
                     locked: self.observers?.isLocked ?? false)
                 self.lockWidget?.beginPollWindow()
+            },
+            onUnlocked: { [islandVM] in
+                islandVM.handle(.unlockFlash)
             })
     }
 

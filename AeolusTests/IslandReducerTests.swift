@@ -194,6 +194,31 @@ struct IslandReducerTests {
         #expect(!s.volumeOverlay)
     }
 
+    @Test func unlockFlashShowsAndEnds() {
+        var s = IslandState() // работает и без музыки
+        let fx = IslandReducer.reduce(&s, .unlockFlash)
+        #expect(s.surface == .unlocked)
+        #expect(fx == [.scheduleUnlockFlashEnd])
+        _ = IslandReducer.reduce(&s, .unlockFlashEnded)
+        #expect(s.surface == .collapsed)
+    }
+
+    @Test func unlockFlashIgnoredWhileExpandedAndBatteryWins() {
+        var s = playingState()
+        _ = IslandReducer.reduce(&s, .hoverBegan)
+        _ = IslandReducer.reduce(&s, .dwellFired)
+        #expect(IslandReducer.reduce(&s, .unlockFlash).isEmpty)
+        #expect(s.surface == .expanded)
+
+        var u = IslandState()
+        _ = IslandReducer.reduce(&u, .unlockFlash)
+        let flash = BatteryFlash(kind: .pluggedIn, percentage: 77)
+        _ = IslandReducer.reduce(&u, .battery(flash))
+        #expect(u.surface == .battery(flash))
+        _ = IslandReducer.reduce(&u, .unlockFlashEnded)
+        #expect(u.surface == .battery(flash))
+    }
+
     @Test func trackChangeShowsIntroAndEnds() {
         var s = playingState()
         let fx = IslandReducer.reduce(&s, .trackChanged)

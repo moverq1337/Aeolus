@@ -6,6 +6,9 @@ import SwiftUI
 struct LockWidgetView: View {
     let nowPlaying: NowPlayingStore
     let media: MediaActions
+    var presentation: LockWidgetPresentation? = nil
+
+    private var shown: Bool { presentation?.shown ?? true }
 
     var body: some View {
         VStack(spacing: 10) {
@@ -24,6 +27,10 @@ struct LockWidgetView: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .scaleEffect(shown ? 1 : 0.94)
+        .opacity(shown ? 1 : 0)
+        .offset(y: shown ? 0 : 12)
+        .animation(.spring(response: 0.42, dampingFraction: 0.8), value: shown)
         .environment(\.colorScheme, .dark)
     }
 

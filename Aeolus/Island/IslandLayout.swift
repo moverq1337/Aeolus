@@ -24,6 +24,9 @@ struct IslandLayout: Equatable {
         case .battery, .volume:
             return CGSize(width: notchSize.width + 2 * Self.batteryEarWidth,
                           height: notchSize.height)
+        case .unlocked:
+            return CGSize(width: notchSize.width + 2 * Self.earWidth,
+                          height: notchSize.height)
         case .trackIntro:
             // Широкая тонкая пилюля (референс #13): между свёрнутым и раскрытым.
             return CGSize(width: 380, height: notchSize.height + 30)
@@ -35,7 +38,7 @@ struct IslandLayout: Equatable {
         case .expanded: return (15, 20)
         case .trackIntro: return (10, 18)
         case .peek: return (7, 16)
-        case .collapsed, .battery, .volume: return (6, 14)
+        case .collapsed, .battery, .volume, .unlocked: return (6, 14)
         }
     }
 

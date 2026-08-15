@@ -7,15 +7,18 @@ final class SystemObservers {
     private let onSleep: () -> Void
     private let onWake: () -> Void
     private let onVisibilityCheckNeeded: () -> Void
+    private let onUnlocked: () -> Void
 
     init(
         onSleep: @escaping () -> Void,
         onWake: @escaping () -> Void,
-        onVisibilityCheckNeeded: @escaping () -> Void
+        onVisibilityCheckNeeded: @escaping () -> Void,
+        onUnlocked: @escaping () -> Void = {}
     ) {
         self.onSleep = onSleep
         self.onWake = onWake
         self.onVisibilityCheckNeeded = onVisibilityCheckNeeded
+        self.onUnlocked = onUnlocked
 
         let workspace = NSWorkspace.shared.notificationCenter
         workspace.addObserver(
@@ -46,8 +49,10 @@ final class SystemObservers {
             forName: Notification.Name("com.apple.screenIsUnlocked"), object: nil, queue: .main
         ) { _ in
             MainActor.assumeIsolated {
+                let wasLocked = self.isLocked
                 self.isLocked = false
                 self.onVisibilityCheckNeeded()
+                if wasLocked { self.onUnlocked() }
             }
         }
     }

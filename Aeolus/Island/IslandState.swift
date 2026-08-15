@@ -14,6 +14,7 @@ struct IslandState: Equatable {
         case battery(BatteryFlash)
         case volume(Int)
         case trackIntro
+        case unlocked
     }
     var surface: Surface = .collapsed
     var hasSession = false
@@ -41,6 +42,8 @@ enum IslandEvent: Equatable {
     case volumeGestureEnded
     case trackChanged
     case trackIntroEnded
+    case unlockFlash
+    case unlockFlashEnded
 }
 
 enum IslandEffect: Equatable {
@@ -51,5 +54,6 @@ enum IslandEffect: Equatable {
     case scheduleBatteryEnd
     case scheduleVolumeFlashEnd
     case scheduleTrackIntroEnd
+    case scheduleUnlockFlashEnd
     case haptic
 }
