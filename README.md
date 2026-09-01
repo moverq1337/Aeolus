@@ -20,7 +20,8 @@ Aeolus turns the notch into a Dynamic Island for macOS — media playback
 and battery, nothing else. Named after the keeper of the winds who lived
 on the floating island of Aeolia.
 
-- **Now Playing, universally.** Any audio source — Music, Spotify, browsers.
+- **Now Playing, universally.** Any audio source — Music, Spotify, browsers,
+  Yandex Music.
   Hover or click the notch: album art, title, scrubbing, transport controls,
   synced lyrics (opt-in), and system volume behind an output-device button
   that shows what you're actually listening on — AirPods Pro look like

@@ -19,8 +19,13 @@ final class NowPlayingStore {
 
     /// Уведомляет IslandViewModel о смене (hasSession, playing). Ставится в AppServices.
     @ObservationIgnored var onSessionChange: ((_ hasSession: Bool, _ playing: Bool) -> Void)?
-    /// Смена отображаемого трека (после атомарного коммита тройки).
+    /// Смена отображаемого трека (после атомарного коммита тройки). Пилюля.
     @ObservationIgnored var onTrackChange: (() -> Void)?
+    /// Смена отображаемой пары (название, исполнитель) — включая поздний
+    /// приезд исполнителя у рваных источников. Тексты песен цепляются сюда:
+    /// запрос к LRCLIB должен уйти по верной паре, а не по первой попавшейся.
+    /// Пилюля на это НЕ реагирует — иначе она играла бы дважды на трек.
+    @ObservationIgnored var onDisplayMetadataChange: (() -> Void)?
     /// Направление последней навигации — для карусельного перехода обложки.
     @ObservationIgnored var lastNavigationDirection: TrackDirection = .forward
 
@@ -78,8 +83,20 @@ final class NowPlayingStore {
 
         if s.title == displayTitle {
             // Тот же трек: метаданные/обложка могли доехать позже.
+            let artistChanged = displayArtist != s.artist
             displayArtist = s.artist
-            if artworkFresh { displayArtwork = artwork }
+            if artworkFresh {
+                displayArtwork = artwork
+                // Акцент едет вместе с обложкой. Раньше он ставился только в
+                // commitDisplay — и у поздней обложки (рваный источник) кольцо
+                // вокруг острова оставалось белым до конца трека.
+                displayAccent = decodedAccent.map(Color.init) ?? .white
+            } else if s.artworkData == nil {
+                // Источник снял обложку — чужую не держим.
+                displayArtwork = nil
+                displayAccent = .white
+            }
+            if artistChanged { onDisplayMetadataChange?() }
             return
         }
 
@@ -113,6 +130,7 @@ final class NowPlayingStore {
                 onTrackChange?()
             }
         }
+        onDisplayMetadataChange?()
     }
 
     /// Даунсемпл до превью: исходники бывают 1200px+, а рисуем максимум 64pt —

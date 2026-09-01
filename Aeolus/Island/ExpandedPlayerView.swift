@@ -108,6 +108,7 @@ struct ExpandedPlayerView: View {
                 duration: duration,
                 isPlaying: state.playing,
                 position: { state.position(at: $0) },
+                anchor: state.elapsedTime,
                 onSeek: media.seek)
         } else {
             Spacer().frame(height: 14) // live-стрим: прогресса нет (спека §5.5)
@@ -121,7 +122,11 @@ struct ExpandedPlayerView: View {
                 systemName: "shuffle", size: 15,
                 tint: shuffleOn ? nowPlaying.displayAccent : .white,
                 action: media.toggleShuffle)
-                .opacity(shuffleOn ? 1 : 0.45)
+                // Источник не публикует режим (Chromium/WebKit — Яндекс Музыка,
+                // браузеры) → команда уходит в пустоту. Прячем мёртвый контрол,
+                // но слот держим: иначе play уезжает из центра ряда.
+                .opacity(shuffleSupported ? (shuffleOn ? 1 : 0.45) : 0)
+                .allowsHitTesting(shuffleSupported)
             Spacer()
             ControlButton(systemName: "backward.fill", size: 20, action: media.previous)
             Spacer()
@@ -140,6 +145,10 @@ struct ExpandedPlayerView: View {
 
     private var shuffleOn: Bool {
         (nowPlaying.state?.shuffleMode ?? 1) >= 2
+    }
+
+    private var shuffleSupported: Bool {
+        nowPlaying.state?.shuffleMode != nil
     }
 
     /// Первое слово имени устройства с троеточием, если слов больше.

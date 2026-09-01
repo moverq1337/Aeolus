@@ -99,6 +99,33 @@ struct NowPlayingMergeTests {
         #expect(merged.title == "T")
     }
 
+    @Test func blankMetadataTreatedAsAbsent() throws {
+        // Яндекс Музыка в первом payload'е шлёт artist:"" / album:"".
+        let e = try envelope(#"""
+        {"type":"data","payload":{"title":"FARTANIA","artist":"","album":"",
+         "playing":true,"duration":0.0}}
+        """#)
+        let s = try #require(NowPlayingMerge.apply(e, to: nil, now: now))
+        #expect(s.artist == nil)
+        #expect(s.album == nil)
+        #expect(s.duration == nil) // duration 0 — «ещё не знаем»
+    }
+
+    @Test func blankFieldInDiffKeepsPreviousValue() throws {
+        let base = try #require(NowPlayingMerge.apply(try envelope(#"""
+        {"type":"data","payload":{"title":"T","artist":"Real Artist","playing":true}}
+        """#), to: nil, now: now))
+        let merged = try #require(NowPlayingMerge.apply(try envelope(#"""
+        {"type":"data","diff":true,"payload":{"artist":"  "}}
+        """#), to: base, now: now))
+        #expect(merged.artist == "Real Artist")
+    }
+
+    @Test func blankTitleYieldsNoSession() throws {
+        let e = try envelope(#"{"type":"data","payload":{"title":"  ","playing":true}}"#)
+        #expect(NowPlayingMerge.apply(e, to: nil, now: now) == nil)
+    }
+
     @Test func positionInterpolatesWhilePlaying() throws {
         let s = NowPlayingState(
             bundleIdentifier: nil, playing: true, title: "T", artist: nil, album: nil,

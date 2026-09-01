@@ -6,8 +6,23 @@ actor MediaEngine {
     private let paths: AdapterPaths
     private let store: NowPlayingStore
     private var process: Process?
+    private var streamPipe: Pipe?
+    /// Поколение потока. Колбэки убитого perl-процесса доезжают и после
+    /// `terminate()` — с состоянием, снятым ДО сна. Без метки поколения такой
+    /// хвост публикуется поверх свежего трека, и остров залипает на прошлой
+    /// песне («проснулся — играет новое, показано старое»).
+    private var generation = 0
+    /// Счётчик событий питания. Сон и пробуждение приезжают разными задачами,
+    /// а между ними процесс замораживают — поэтому «уснули» умеет доехать до
+    /// актора уже ПОСЛЕ «проснулись» и убить только что поднятый поток.
+    /// Порядку задач не верим, считаем события.
+    private var powerEpoch = 0
     private var lineBuffer = LineBuffer()
+    /// Истина стрима: последнее смёрженное состояние.
     private var current: NowPlayingState?
+    /// Что из этой истины показывать острову — см. NowPlayingCoalescer.
+    private var coalescer = NowPlayingCoalescer()
+    private var holdTask: Task<Void, Never>?
     private var policy = RestartPolicy()
     private var stopped = true
     private var hadFirstPayload = false
@@ -27,6 +42,10 @@ actor MediaEngine {
         guard !stopped else { return }
         guard ok else {
             Self.log.warning("adapter test failed — media unavailable")
+            // stopped = true по той же причине, что и в giveUp: иначе будущий
+            // start() (пробуждение) упрётся в guard и движок останется мёртвым
+            // до перезапуска приложения.
+            stopped = true
             await setAvailable(false)
             return
         }
@@ -34,13 +53,44 @@ actor MediaEngine {
         spawnStream()
     }
 
-    func stop() {
+    func stop() async {
         stopped = true
+        teardownStream()
+        current = nil
+        coalescer.reset()
+        cancelHold()
+        await pushState(nil)
+    }
+
+    // MARK: сон и пробуждение
+
+    /// `epoch` минтится на MainActor в момент события — см. `powerEpoch`.
+    func suspend(epoch: Int) async {
+        guard epoch > powerEpoch else { return } // событие устарело
+        powerEpoch = epoch
+        await stop()
+    }
+
+    /// Пробуждение перезапускает поток безусловно: во-первых, «уснули» могло не
+    /// успеть выполниться до заморозки процесса (тогда `stopped == false` и
+    /// обычный `start()` молча вернулся бы), во-вторых, MediaRemote после сна
+    /// не всегда досылает состояние в поток, переживший сон формально живым.
+    func resume(epoch: Int) async {
+        guard epoch > powerEpoch else { return }
+        powerEpoch = epoch
+        await stop()
+        await start()
+    }
+
+    /// Снимает поток целиком: без снятого readabilityHandler хвост из трубы
+    /// убитого процесса продолжает капать в актор (и держит `self`).
+    private func teardownStream() {
+        generation &+= 1
+        streamPipe?.fileHandleForReading.readabilityHandler = nil
+        streamPipe = nil
         process?.terminate()
         process = nil
-        current = nil
         lineBuffer = LineBuffer()
-        Task { await pushState(nil) }
     }
 
     // MARK: commands
@@ -58,6 +108,8 @@ actor MediaEngine {
     private func spawnStream() {
         guard !stopped else { return }
         hadFirstPayload = false
+        generation &+= 1
+        let generation = generation
         let proc = Process()
         proc.executableURL = URL(fileURLWithPath: "/usr/bin/perl")
         proc.arguments = [paths.script, paths.framework, "stream", "--debounce=100"]
@@ -67,22 +119,24 @@ actor MediaEngine {
         pipe.fileHandleForReading.readabilityHandler = { handle in
             let data = handle.availableData
             guard !data.isEmpty else { return }
-            Task { await self.ingest(data) }
+            Task { await self.ingest(data, generation: generation) }
         }
         proc.terminationHandler = { _ in
-            Task { await self.streamEnded() }
+            Task { await self.streamEnded(generation: generation) }
         }
         do {
             try proc.run()
             process = proc
+            streamPipe = pipe
             Self.log.info("adapter stream started (pid \(proc.processIdentifier))")
         } catch {
             Self.log.error("adapter spawn failed: \(error.localizedDescription)")
-            Task { await self.streamEnded() }
+            Task { await self.streamEnded(generation: generation) }
         }
     }
 
-    private func ingest(_ chunk: Data) async {
+    private func ingest(_ chunk: Data, generation: Int) async {
+        guard generation == self.generation else { return } // хвост убитого потока
         for line in lineBuffer.lines(appending: chunk) {
             guard let envelope = try? JSONDecoder().decode(AdapterEnvelope.self, from: line)
             else { continue }
@@ -93,20 +147,69 @@ actor MediaEngine {
             }
             if merged != current {
                 current = merged
-                let blocked = await MainActor.run {
-                    MediaSourceFilter.isBlocked(
-                        merged?.bundleIdentifier,
-                        artist: merged?.artist,
-                        extra: Preferences.ignoredBundleIDs)
-                }
-                await pushState(blocked ? nil : merged)
+                await settle(merged)
             }
         }
     }
 
-    private func streamEnded() async {
-        guard !stopped else { return }
+    // MARK: схождение рваных обновлений
+
+    /// Пропускает состояние через NowPlayingCoalescer: либо публикует сразу,
+    /// либо придерживает до дедлайна, давая источнику дослать остальные поля.
+    private func settle(_ state: NowPlayingState?) async {
+        switch coalescer.feed(state, now: Date()) {
+        case .publish(let final):
+            holdTask?.cancel()
+            holdTask = nil
+            await commit(final)
+        case .hold(let deadline):
+            holdTask?.cancel()
+            holdTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(max(0, deadline.timeIntervalSinceNow)))
+                guard !Task.isCancelled else { return }
+                await self?.holdExpired()
+            }
+        case .holding:
+            break // дедлайн уже тикает
+        }
+    }
+
+    /// Источник не дослал остальное — публикуем лучшее из имеющегося.
+    private func holdExpired() async {
+        guard coalescer.isHolding else { return }
+        holdTask = nil
+        guard case .publish(let state) = coalescer.deadlineReached() else { return }
+        // Единственный полевой сигнал схождения: источник не уложился в окно.
+        // Название в сообщении различает случаи — пусто значит истёк мост
+        // через провал сессии, непусто — окно рваной идентичности.
+        Self.log.warning(
+            "coalescer window expired, publishing \(state?.title ?? "nothing", privacy: .public)")
+        await commit(state)
+    }
+
+    private func cancelHold() {
+        holdTask?.cancel()
+        holdTask = nil
+    }
+
+    private func commit(_ state: NowPlayingState?) async {
+        // Фильтр — чистая функция, Preferences читает UserDefaults (потокобезопасно).
+        // Прыжок на MainActor здесь заставлял КАЖДЫЙ payload ждать главный поток:
+        // пока тот занят (например, пересборкой окна на смене разрешения), актор
+        // движка стоял, следующий payload не разбирался — а окно схождения тикало
+        // и истекало на ровном месте, показывая рваное состояние.
+        let blocked = MediaSourceFilter.isBlocked(
+            state?.bundleIdentifier,
+            artist: state?.artist,
+            extra: Preferences.ignoredBundleIDs)
+        await pushState(blocked ? nil : state)
+    }
+
+    private func streamEnded(generation: Int) async {
+        guard !stopped, generation == self.generation else { return }
         process = nil
+        streamPipe?.fileHandleForReading.readabilityHandler = nil
+        streamPipe = nil
         switch policy.recordFailure() {
         case .restart(let delay):
             Self.log.warning("adapter stream died; restart in \(delay)s")
@@ -118,6 +221,8 @@ actor MediaEngine {
             // stopped = true, иначе будущий start() (пробуждение) упрётся в guard
             // и движок останется мёртвым до перезапуска приложения.
             stopped = true
+            coalescer.reset()
+            cancelHold()
             await setAvailable(false)
             await pushState(nil)
         }

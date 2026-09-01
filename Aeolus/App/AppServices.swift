@@ -20,6 +20,9 @@ final class AppServices {
     private var scrollRecognizer = ScrollGestureRecognizer()
     private let spaceHotKey = SpaceToggleHotKey()
     private var lastVolumeHapticBucket = -1
+    /// Номер события питания; минтится здесь, на MainActor, чтобы движок мог
+    /// отбросить «уснули», доехавшее до актора уже после «проснулись».
+    private var powerEpoch = 0
     /// Накопленный ход пальцев за краем шкалы (в поинтах жеста) — сырьё
     /// для асимптотического сопротивления rubber-band.
     private var overshootPoints: Double = 0
@@ -84,8 +87,14 @@ final class AppServices {
             lockWidget?.refresh()
         }
 
-        nowPlaying.onTrackChange = { [islandVM, nowPlaying, lyrics] in
+        nowPlaying.onTrackChange = { [islandVM] in
             islandVM.handle(.trackChanged)
+        }
+
+        // Тексты цепляются к паре (название, исполнитель), а не к смене трека:
+        // рваные источники досылают исполнителя позже, и запрос к LRCLIB по
+        // паре «новое название + прошлый исполнитель» не нашёл бы ничего.
+        nowPlaying.onDisplayMetadataChange = { [nowPlaying, lyrics] in
             lyrics.trackChanged(
                 title: nowPlaying.displayTitle,
                 artist: nowPlaying.displayArtist,
@@ -126,11 +135,19 @@ final class AppServices {
 
         observers = SystemObservers(
             onSleep: { [weak self] in
-                Task { await self?.engine?.stop() }
+                guard let self else { return }
+                powerEpoch += 1
+                let epoch = powerEpoch
+                Task { await self.engine?.suspend(epoch: epoch) }
             },
             onWake: { [weak self] in
-                Task { await self?.engine?.start() }
-                self?.lockWidget?.beginPollWindow()
+                guard let self else { return }
+                powerEpoch += 1
+                let epoch = powerEpoch
+                Task { await self.engine?.resume(epoch: epoch) }
+                self.lockWidget?.beginPollWindow()
+                // Разрешение могло смениться, пока спали (док, внешний монитор).
+                self.panelController?.screenParametersChanged()
             },
             onVisibilityCheckNeeded: { [weak self] in
                 guard let self else { return }

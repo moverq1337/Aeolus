@@ -1,5 +1,14 @@
 import Foundation
 
+private extension String {
+    /// Пустая строка от источника означает «поля нет», а не «поле пустое»:
+    /// Яндекс Музыка в первом payload'е шлёт `artist:""`, `album:""` — в диффе
+    /// такое поле должно оставить прежнее значение, а не затереть его.
+    var nonBlank: String? {
+        trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self
+    }
+}
+
 struct AdapterEnvelope: Decodable {
     let type: String
     let diff: Bool?
@@ -55,9 +64,9 @@ struct NowPlayingPayload: Decodable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         bundleIdentifier = try c.decodeIfPresent(String.self, forKey: .bundleIdentifier)
         playing = try c.decodeIfPresent(Bool.self, forKey: .playing)
-        title = try c.decodeIfPresent(String.self, forKey: .title)
-        artist = try c.decodeIfPresent(String.self, forKey: .artist)
-        album = try c.decodeIfPresent(String.self, forKey: .album)
+        title = try c.decodeIfPresent(String.self, forKey: .title)?.nonBlank
+        artist = try c.decodeIfPresent(String.self, forKey: .artist)?.nonBlank
+        album = try c.decodeIfPresent(String.self, forKey: .album)?.nonBlank
         duration = try c.decodeIfPresent(Double.self, forKey: .duration)
         elapsedTime = try c.decodeIfPresent(Double.self, forKey: .elapsedTime)
         artworkData = try c.decodeIfPresent(String.self, forKey: .artworkData)

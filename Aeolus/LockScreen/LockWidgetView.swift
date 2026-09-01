@@ -108,7 +108,10 @@ struct LockWidgetView: View {
                 systemName: "shuffle", size: 15,
                 tint: shuffleOn ? nowPlaying.displayAccent : .white,
                 action: media.toggleShuffle)
-                .opacity(shuffleOn ? 1 : 0.45)
+                // Источник не публикует режим → контрол мёртвый, прячем его,
+                // сохраняя слот (см. ExpandedPlayerView).
+                .opacity(shuffleSupported ? (shuffleOn ? 1 : 0.45) : 0)
+                .allowsHitTesting(shuffleSupported)
             Spacer()
             ControlButton(systemName: "backward.fill", size: 19, action: media.previous)
             Spacer()
@@ -129,6 +132,10 @@ struct LockWidgetView: View {
 
     private var shuffleOn: Bool {
         (nowPlaying.state?.shuffleMode ?? 1) >= 2
+    }
+
+    private var shuffleSupported: Bool {
+        nowPlaying.state?.shuffleMode != nil
     }
 }
 
