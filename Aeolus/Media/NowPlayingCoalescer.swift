@@ -52,6 +52,13 @@ struct NowPlayingCoalescer {
         case hold(until: Date)
         /// Удержание уже идёт — планировать нечего.
         case holding
+        /// Мост истёк, а сессия не вернулась — и публиковать «ничего» вслепую
+        /// нельзя: последнее, что мы знали, — трек ИГРАЕТ. Источник событийный
+        /// и сам больше ничего не пришлёт, поэтому остров исчез бы до тех пор,
+        /// пока трек не переключат руками (замер 2026-09-01: ровно этим и
+        /// кончалась быстрая серия next в Яндексе). Движок обязан разово
+        /// спросить источник и вернуть ответ через `confirm`.
+        case verify
     }
 
     /// Почему идёт удержание — от этого зависит, что публиковать по дедлайну.
@@ -98,9 +105,12 @@ struct NowPlayingCoalescer {
             return .publish(state)
         case .wait(let provisional, let reason, let deadline):
             pending = provisional
+            // Причину обновляем всегда: удержание, начатое ради недоехавших
+            // полей, переходит в мост, если сессия следом падает. Дедлайн при
+            // этом не двигаем — он считается от начала удержания.
+            heldReason = reason
             guard heldSince == nil else { return .holding }
             heldSince = now
-            heldReason = reason
             return .hold(until: deadline)
         }
     }
@@ -108,6 +118,8 @@ struct NowPlayingCoalescer {
     /// Окно схождения истекло, источник ничего не дослал — показываем лучшее
     /// из имеющегося.
     mutating func deadlineReached() -> Outcome {
+        // Сессия так и не вернулась, а играла. Угадывать не будем — см. .verify.
+        if pending == nil, published?.playing == true { return .verify }
         var state = pending
         if heldReason == .identity, var torn = state {
             // Название мы знаем точно — оно и приехало. А исполнитель, альбом
@@ -124,6 +136,17 @@ struct NowPlayingCoalescer {
         heldSince = nil
         heldReason = nil
         pending = nil
+        published = state
+        return .publish(state)
+    }
+
+    /// Ответ разового опроса источника. Ему верим без правил — это факт,
+    /// а не очередной кусок рваного обновления.
+    mutating func confirm(_ state: NowPlayingState?) -> Outcome {
+        heldSince = nil
+        heldReason = nil
+        pending = nil
+        if let state { lastAnchor = Anchor(state) }
         published = state
         return .publish(state)
     }

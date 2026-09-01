@@ -87,12 +87,46 @@ struct NowPlayingCoalescerTests {
         #expect(c.feed(nil, now: now.addingTimeInterval(0.6)) == .holding)
     }
 
-    @Test func bridgeExpiresIntoEmptyState() {
-        var c = seeded(with: state())
+    /// Мост истёк, а трек играл — гасить остров вслепую нельзя. Источник
+    /// событийный: если ошибиться, он сам ничего больше не пришлёт, и остров
+    /// останется пустым, пока трек не переключат руками. Замер 2026-09-01:
+    /// ровно этим кончалась быстрая серия next в Яндекс Музыке.
+    @Test func bridgeExpiringOnAPlayingTrackAsksTheSource() {
+        var c = seeded(with: state(playing: true))
         _ = c.feed(nil, now: now)
-        #expect(c.deadlineReached() == .publish(nil))
+        #expect(c.deadlineReached() == .verify)
+        #expect(c.published?.title == "Track A") // остров всё ещё показывает трек
+    }
+
+    /// Ответ разового опроса — факт, а не очередной кусок рваного обновления:
+    /// публикуем как есть, без правил.
+    @Test func confirmPublishesWhateverTheSourceSaid() {
+        var c = seeded(with: state(playing: true))
+        _ = c.feed(nil, now: now)
+        _ = c.deadlineReached()
+        #expect(c.confirm(nil) == .publish(nil))
         #expect(c.published == nil)
         #expect(!c.isHolding)
+
+        var c2 = seeded(with: state(playing: true))
+        _ = c2.feed(nil, now: now)
+        _ = c2.deadlineReached()
+        let fresh = state(title: "Track B", duration: 200)
+        #expect(c2.confirm(fresh) == .publish(fresh))
+        #expect(!c2.isHolding)
+    }
+
+    /// Удержание, начатое ради недоехавших полей, обязано перейти в мост,
+    /// если сессия следом падает — иначе по дедлайну публиковалось «ничего»
+    /// с причиной «рваная идентичность», и остров гас на играющем треке.
+    @Test func identityHoldTurnsIntoABridgeWhenTheSessionDrops() {
+        let old = state(title: "FARTANIA", duration: 90.975782)
+        var c = seeded(with: old)
+        var torn = old
+        torn.title = "Loser"
+        #expect(c.feed(torn, now: now).isHold)
+        #expect(c.feed(nil, now: now.addingTimeInterval(0.5)) == .holding)
+        #expect(c.deadlineReached() == .verify)
     }
 
     @Test func sourceOutlivingBridgeWindowIsFinallyBelieved() {
@@ -151,14 +185,6 @@ struct NowPlayingCoalescerTests {
         // Длительность оставляем: чужая цифра остатка заметна меньше, чем
         // мигание всей полосы прогресса.
         #expect(shown.duration == 90.975782)
-    }
-
-    /// Мост через провал сессии по дедлайну публикует пустоту как есть —
-    /// вычищать там нечего.
-    @Test func expiredSessionBridgePublishesNothing() {
-        var c = seeded(with: state(playing: true))
-        _ = c.feed(nil, now: now)
-        #expect(c.deadlineReached() == .publish(nil))
     }
 
     /// Окно идентичности обязано перекрывать худший замер источника с запасом.

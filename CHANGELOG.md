@@ -12,6 +12,16 @@ All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog
   Spotify, Safari) are never delayed by it.
 
 ### Fixed
+- **A fast run of next no longer leaves the island hidden and unresponsive.**
+  When the source dropped its session while the island was already holding a
+  torn update, the hold expired as "nothing is playing" and published an empty
+  state — on a track that was in fact playing. Since the source only speaks on
+  events, nothing brought the island back until the track was changed by hand.
+  A hold that starts as "waiting for missing fields" now becomes a bridge if
+  the session drops, and an expiring bridge no longer guesses: it asks the
+  source for a one-shot snapshot (~25 ms) and publishes the answer. If the
+  source really has no session, the island clears — because that is a fact and
+  not a timeout.
 - The island no longer collapses into the notch and reopens on every track
   change in Yandex Music: the source drops its media session for ~0.7 s
   between tracks, and that gap is now bridged instead of read as "nothing

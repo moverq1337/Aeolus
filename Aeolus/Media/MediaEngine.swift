@@ -171,6 +171,8 @@ actor MediaEngine {
             }
         case .holding:
             break // дедлайн уже тикает
+        case .verify:
+            break // из feed не возвращается — только из deadlineReached
         }
     }
 
@@ -178,7 +180,19 @@ actor MediaEngine {
     private func holdExpired() async {
         guard coalescer.isHolding else { return }
         holdTask = nil
-        guard case .publish(let state) = coalescer.deadlineReached() else { return }
+        let outcome = coalescer.deadlineReached()
+        if case .verify = outcome {
+            // Мост истёк на играющем треке — спрашиваем факт вместо догадки.
+            let answer = await queryNowPlaying()
+            let confirmed = answer.ok ? answer.state : coalescer.published
+            if case .publish(let state) = coalescer.confirm(confirmed) {
+                Self.log.warning(
+                    "session bridge expired, source says \(state?.title ?? "nothing", privacy: .public)")
+                await commit(state)
+            }
+            return
+        }
+        guard case .publish(let state) = outcome else { return }
         // Единственный полевой сигнал схождения: источник не уложился в окно.
         // Название в сообщении различает случаи — пусто значит истёк мост
         // через провал сессии, непусто — окно рваной идентичности.
@@ -244,6 +258,33 @@ actor MediaEngine {
             return false
         }
         return proc.terminationStatus == 0
+    }
+
+    /// Разовый снимок состояния источника (`get`, замер ~25 мс). Запускается
+    /// только по событию — истёкшему мосту, — поэтому инвариант «ноль опросов
+    /// в простое» (спека §6.7) цел. `ok == false` означает, что спросить не
+    /// удалось: тогда лучше оставить остров как есть, чем гасить его догадкой.
+    private func queryNowPlaying() async -> (ok: Bool, state: NowPlayingState?) {
+        let paths = paths
+        let output = await Task.detached(priority: .userInitiated) { () -> Data? in
+            let proc = Process()
+            proc.executableURL = URL(fileURLWithPath: "/usr/bin/perl")
+            proc.arguments = [paths.script, paths.framework, "get"]
+            let pipe = Pipe()
+            proc.standardOutput = pipe
+            proc.standardError = FileHandle.nullDevice
+            do { try proc.run() } catch { return nil }
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            proc.waitUntilExit()
+            return proc.terminationStatus == 0 ? data : nil
+        }.value
+        guard let output else { return (false, nil) }
+        // `get` печатает голый payload, без конверта потока.
+        guard let payload = try? JSONDecoder().decode(NowPlayingPayload.self, from: output)
+        else { return (true, nil) } // пустой ответ = сессии нет, это тоже факт
+        return (true, NowPlayingMerge.apply(
+            AdapterEnvelope(type: "data", diff: false, payload: payload),
+            to: nil, now: Date()))
     }
 
     private func runOneShot(_ args: [String]) {
