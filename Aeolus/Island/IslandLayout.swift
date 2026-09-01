@@ -74,12 +74,26 @@ struct IslandLayout: Equatable {
         return CGSize(width: width, height: height)
     }
 
+    /// Во сколько раз вырез крупнее эталонного. Тем же множителем живут
+    /// скругления поверхностей, обнимающих вырез.
+    private var notchScale: CGFloat { notchSize.height / Self.referenceNotchHeight }
+
     func radii(for state: IslandState) -> (top: CGFloat, bottom: CGFloat) {
         switch state.surface {
+        // Раскрытый плеер и пилюля смены трека — обычные панели интерфейса:
+        // их углы живут в поинтах, как шрифты и отступы, и физического выреза
+        // не касаются.
         case .expanded: return (15, 20)
         case .trackIntro: return (10, 18)
-        case .peek: return (7, 16)
-        case .collapsed, .battery, .volume, .device: return (6, 14)
+        // А эти поверхности обнимают сам вырез — их углы обязаны совпасть с
+        // ним. Скругление тоже физическое, а не точечное, по той же причине,
+        // что и перекрытие (см. NotchGeometry): вырез один и тот же, а его
+        // размер в поинтах меняется вчетверо. Фиксированные 14pt давали от
+        // 23.5 до 37 физических пикселей — нижние углы формы то острее
+        // настоящего выреза, то круглее его.
+        case .peek: return (7 * notchScale, 16 * notchScale)
+        case .collapsed, .battery, .volume, .device:
+            return (6 * notchScale, 14 * notchScale)
         }
     }
 

@@ -95,6 +95,7 @@
 		EF8B2F7934FD44C911DA289F /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C243A4D79FA48028D0101 /* NotchGeometry.swift */; };
 		F54E6B55D89E0B515A97EBA9 /* NotchGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8488AD9D73D303FFBD86C /* NotchGeometryTests.swift */; };
 		F5E8D87A7E1A2AD49EF13265 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48234AFCC8CA67291AB791D3 /* ControlButton.swift */; };
+		F78C4BBB0B1BC84BD6119B38 /* ArtworkDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A6D6FDC07BFEF0EA4D82D1 /* ArtworkDecodeTests.swift */; };
 		FA7667E9DFA1E0C4CF2494FE /* EarsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549F73DC6553D2E581B56B5C /* EarsLayout.swift */; };
 		FE65A520B5DE6AB8C3E33EE4 /* LockWidgetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69D405CAC4ABC9FCCAB640E /* LockWidgetLayout.swift */; };
 /* End PBXBuildFile section */
@@ -194,6 +195,7 @@
 		C2826D20E7C1CA9F71846546 /* LockWidgetPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetPanel.swift; sourceTree = "<group>"; };
 		C34FB23DA2D3AE183531B11D /* EqualizerBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizerBars.swift; sourceTree = "<group>"; };
 		C6E255473532B6C7B4CB412A /* IslandRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandRootView.swift; sourceTree = "<group>"; };
+		C7A6D6FDC07BFEF0EA4D82D1 /* ArtworkDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDecodeTests.swift; sourceTree = "<group>"; };
 		C7C96177058A338C5B463E2C /* NotchShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShape.swift; sourceTree = "<group>"; };
 		C86645998989D59D5427741C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C9059928910C46519885FBF0 /* AeolusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeolusApp.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		126FF3ABED3D00A4F792B15F /* AeolusTests */ = {
 			isa = PBXGroup;
 			children = (
+				C7A6D6FDC07BFEF0EA4D82D1 /* ArtworkDecodeTests.swift */,
 				604C6F84A3FEAD71B08E07A6 /* ExpandedRenderTests.swift */,
 				270CF2EF436AA3E178AD642F /* FullscreenDetectorTests.swift */,
 				B4109BC994C389FC2D3B6049 /* IslandLayoutTests.swift */,
@@ -546,6 +549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F78C4BBB0B1BC84BD6119B38 /* ArtworkDecodeTests.swift in Sources */,
 				C7045CF80DB79C987A4008D0 /* ExpandedRenderTests.swift in Sources */,
 				0C05CB3CC66EE5D44E1FFACC /* FullscreenDetectorTests.swift in Sources */,
 				C2B8612B71D847A036CCCB3F /* IslandLayoutTests.swift in Sources */,

@@ -116,6 +116,33 @@ struct IslandLayoutTests {
         }
     }
 
+    /// Скругление свёрнутого острова обязано совпадать с физическим вырезом.
+    /// Вырез один и тот же в любом режиме экрана, но в поинтах вдвое крупнее
+    /// при масштабе 1:1 — значит и радиус в поинтах обязан вырасти вдвое,
+    /// иначе углы формы острее настоящих.
+    @Test func radiiHuggingTheNotchScaleWithIt() {
+        var s = IslandState()
+        s.surface = .collapsed
+        let reference = IslandLayout(notchSize: CGSize(width: 189, height: 32))
+        #expect(reference.radii(for: s) == (6, 14)) // эталон не сдвинулся
+
+        let big = IslandLayout(notchSize: CGSize(width: 378, height: 64))
+        #expect(big.radii(for: s).bottom == 28)     // вырез вдвое выше
+        #expect(big.radii(for: s).top == 12)
+
+        let small = IslandLayout(notchSize: CGSize(width: 129, height: 22))
+        #expect(abs(small.radii(for: s).bottom - 14 * 22 / 32) < 0.001)
+    }
+
+    /// Раскрытый плеер — панель интерфейса, а не обводка выреза: его углы
+    /// остаются точечными в любом режиме.
+    @Test func expandedRadiiStayInPoints() {
+        var s = IslandState()
+        s.surface = .expanded
+        let big = IslandLayout(notchSize: CGSize(width: 378, height: 64))
+        #expect(big.radii(for: s) == (15, 20))
+    }
+
     @Test func radiiPerSurface() {
         #expect(layout.radii(for: state(.collapsed)) == (6, 14))
         #expect(layout.radii(for: state(.peek)) == (7, 16))

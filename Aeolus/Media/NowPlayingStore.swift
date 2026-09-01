@@ -1,4 +1,5 @@
 import AppKit
+import ImageIO
 import Observation
 import SwiftUI
 
@@ -42,9 +43,11 @@ final class NowPlayingStore {
             lastArtworkData = newState?.artworkData
             if let data = newState?.artworkData {
                 Task.detached(priority: .utility) {
-                    let image = Self.downsampled(data: data, maxSide: 256)
-                    let accent = image.flatMap { Self.accentColor(of: $0) }
-                    await MainActor.run { self.artworkDecoded(image, accent: accent, for: data) }
+                    let decoded = Self.decodeArtwork(data: data, maxSide: 256)
+                    await MainActor.run {
+                        self.artworkDecoded(
+                            decoded?.image, accent: decoded?.accent, for: data)
+                    }
                 }
             } else {
                 artwork = nil
@@ -133,46 +136,67 @@ final class NowPlayingStore {
         onDisplayMetadataChange?()
     }
 
-    /// Даунсемпл до превью: исходники бывают 1200px+, а рисуем максимум 64pt —
-    /// таскать полноразмер сквозь пружины дорого (боль boring.notch #1427).
-    /// Средний цвет обложки, осветлённый и насыщенный под чёрный фон острова.
-    nonisolated private static func accentColor(of image: NSImage) -> NSColor? {
-        guard let tiff = image.tiffRepresentation,
-              let rep = NSBitmapImageRep(data: tiff) else { return nil }
-        var r = 0.0, g = 0.0, b = 0.0
-        var count = 0.0
-        let stepX = max(1, rep.pixelsWide / 16)
-        let stepY = max(1, rep.pixelsHigh / 16)
-        for x in stride(from: 0, to: rep.pixelsWide, by: stepX) {
-            for y in stride(from: 0, to: rep.pixelsHigh, by: stepY) {
-                guard let c = rep.colorAt(x: x, y: y)?
-                    .usingColorSpace(.deviceRGB) else { continue }
-                r += c.redComponent
-                g += c.greenComponent
-                b += c.blueComponent
-                count += 1
-            }
-        }
-        guard count > 0 else { return nil }
-        let base = NSColor(red: r / count, green: g / count, blue: b / count, alpha: 1)
-        let hue = base.hueComponent
-        let sat = min(base.saturationComponent * 1.3, 1)
-        let bright = max(base.brightnessComponent, 0.8)
-        return NSColor(hue: hue, saturation: sat, brightness: bright, alpha: 1)
+    /// Декод обложки целиком в фоне: даунсемпл до превью и акцентный цвет.
+    ///
+    /// Через ImageIO, а не через `NSImage.lockFocus()`. Прежняя реализация
+    /// рисовала средствами AppKit из `Task.detached` — рисование NSImage вне
+    /// главного потока не поддерживается, и результат зависел от того, что в
+    /// этот момент делал UI. ImageIO потокобезопасен, декодирует прямо в
+    /// нужный размер (а не в полный, чтобы потом ужать) и не тащит картинку
+    /// через TIFF ради усреднения цвета.
+    ///
+    /// Даунсемпл нужен, потому что исходники бывают 1200px+, а рисуем максимум
+    /// 64pt — таскать полноразмер сквозь пружины дорого (боль boring.notch #1427).
+    nonisolated static func decodeArtwork(
+        data: Data, maxSide: Int
+    ) -> (image: NSImage, accent: NSColor?)? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
+        let options: [CFString: Any] = [
+            // Всегда из самой картинки: встроенная EXIF-миниатюра бывает
+            // обрезанной или вовсе от другого кадра.
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxSide,
+            // Декодировать здесь, в фоне, а не лениво при первой отрисовке —
+            // иначе работа всё равно всплывёт на главном потоке.
+            kCGImageSourceShouldCacheImmediately: true,
+        ]
+        guard let cg = CGImageSourceCreateThumbnailAtIndex(
+            source, 0, options as CFDictionary) else { return nil }
+        let image = NSImage(
+            cgImage: cg, size: NSSize(width: cg.width, height: cg.height))
+        return (image, accentColor(of: cg))
     }
 
-    nonisolated private static func downsampled(data: Data, maxSide: CGFloat) -> NSImage? {
-        guard let source = NSImage(data: data) else { return nil }
-        let size = source.size
-        guard size.width > maxSide || size.height > maxSide else { return source }
-        let scale = maxSide / max(size.width, size.height)
-        let target = NSSize(width: size.width * scale, height: size.height * scale)
-        let result = NSImage(size: target)
-        result.lockFocus()
-        source.draw(in: NSRect(origin: .zero, size: target),
-                    from: .zero, operation: .copy, fraction: 1)
-        result.unlockFocus()
-        return result
+    /// Средний цвет обложки, осветлённый и насыщенный под чёрный фон острова.
+    /// Считается по отрисовке в контекст 16x16: усреднение и подвыборка одним
+    /// движением, без промежуточного TIFF.
+    nonisolated private static func accentColor(of image: CGImage) -> NSColor? {
+        let side = 16
+        var pixels = [UInt8](repeating: 0, count: side * side * 4)
+        guard let context = pixels.withUnsafeMutableBytes({ buffer in
+            CGContext(
+                data: buffer.baseAddress, width: side, height: side,
+                bitsPerComponent: 8, bytesPerRow: side * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        }) else { return nil }
+        context.draw(image, in: CGRect(x: 0, y: 0, width: side, height: side))
+
+        var r = 0.0, g = 0.0, b = 0.0
+        for pixel in stride(from: 0, to: pixels.count, by: 4) {
+            r += Double(pixels[pixel])
+            g += Double(pixels[pixel + 1])
+            b += Double(pixels[pixel + 2])
+        }
+        let total = Double(side * side) * 255
+        let base = NSColor(
+            red: r / total, green: g / total, blue: b / total, alpha: 1)
+        return NSColor(
+            hue: base.hueComponent,
+            saturation: min(base.saturationComponent * 1.3, 1),
+            brightness: max(base.brightnessComponent, 0.8),
+            alpha: 1)
     }
 }
 

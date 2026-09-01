@@ -38,6 +38,13 @@ All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog
   window on a resolution change, for instance — the engine stalled, the next
   payload went unparsed and the settle window expired for no reason of the
   source's own.
+- Artwork is decoded through ImageIO instead of `NSImage.lockFocus()`. The old
+  path drew with AppKit from a detached task — drawing an NSImage off the main
+  thread is not supported, and the result depended on what the UI happened to
+  be doing. ImageIO is thread-safe, decodes straight to the preview size rather
+  than decoding in full and shrinking afterwards, and no longer round-trips the
+  image through TIFF just to average its colour. This path had no test coverage
+  at all; it does now.
 - Blank `artist`/`album` strings are treated as absent instead of being shown
   as an empty line and instead of wiping known metadata in a diff update.
 - The shuffle control is hidden for sources that do not publish a shuffle mode
@@ -77,6 +84,12 @@ All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog
   clipped by a window too narrow to hold them; the track-intro pill and the
   synced-lyrics line were never accounted for either, so the expanded player's
   shadow was cut off by the bottom edge whenever lyrics were on.
+- The notch shape's corners now match the notch in every mode too. The corner
+  radius was a fixed 14pt, which came out as anywhere from 14 to 41 physical
+  pixels — corners sharper than the real notch at large scalings and rounder at
+  small ones. Surfaces that hug the notch scale their radii with it; the
+  expanded player keeps its own, since it is a panel rather than an outline of
+  the notch.
 - The island survives a resolution change reliably. AppKit posts the
   screen-parameters notification in bursts (measured: two per mode change,
   ~276 ms apart) and does not guarantee that NSScreen already tells the truth
