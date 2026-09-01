@@ -76,18 +76,20 @@ struct IslandLayoutTests {
         s.surface = .expanded
         s.hasSession = true
         let expanded = big.size(for: s)
-        #expect(expanded.width == 378 + 88)          // не уже свёрнутого с ушами
+        // Литералы явно CGFloat: в #expect правая часть выводит тип независимо
+        // от левой, и целочисленное выражение не сходится с CGFloat.
+        #expect(expanded.width == CGFloat(378 + 88))  // не уже свёрнутого с ушами
         #expect(expanded.width > 378)                 // видно из-за выреза
         #expect(expanded.width > IslandLayout.expandedSize.width)
         // Контент рисуется под вырезом — высота растёт на разницу с эталоном.
-        #expect(expanded.height == IslandLayout.expandedSize.height + (64 - 32))
+        #expect(expanded.height == IslandLayout.expandedSize.height + CGFloat(64 - 32))
     }
 
     @Test func trackIntroNeverNarrowerThanNotchWithEars() {
         let big = IslandLayout(notchSize: CGSize(width: 378, height: 64))
         var s = IslandState()
         s.surface = .trackIntro
-        #expect(big.size(for: s).width == 378 + 88)
+        #expect(big.size(for: s).width == CGFloat(378 + 88))
     }
 
     @Test func widestSizeCoversEverySurface() {
