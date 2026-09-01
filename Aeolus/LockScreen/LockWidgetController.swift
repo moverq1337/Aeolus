@@ -23,11 +23,46 @@ final class LockWidgetController {
     let presentation = LockWidgetPresentation()
     private let notchPresentation = LockNotchPresentation()
     private var unlockSound: NSSound?
+    /// Геометрия выреза, под которую собран notchPanel; nil — панели ещё нет.
+    private var notchGeometry: CGSize?
+    private var screenObserver: (any NSObjectProtocol)?
+    private var settleTask: Task<Void, Never>?
+    private static let notchEarWidth: CGFloat = 44
 
     init(content: @escaping @MainActor () -> AnyView,
          hasSession: @escaping @MainActor () -> Bool) {
         self.content = content
         self.hasSession = hasSession
+        // Панели виджета собираются один раз и живут до выхода — без этого
+        // после смены разрешения пилюля у выреза остаётся прежнего размера,
+        // а карточка — на прежнем месте.
+        screenObserver = NotificationCenter.default.addObserver(
+            forName: NSApplication.didChangeScreenParametersNotification,
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.screenParametersChanged() }
+        }
+    }
+
+    /// Та же логика схождения, что у острова (см. ScreenSettle): NSScreen
+    /// отдаёт новую геометрию не в момент нотификации.
+    private func screenParametersChanged() {
+        settleTask?.cancel()
+        applyScreenGeometry()
+        settleTask = Task { [weak self] in
+            for delay in ScreenSettle.probeDelays {
+                try? await Task.sleep(for: delay)
+                guard !Task.isCancelled, let self else { return }
+                applyScreenGeometry()
+            }
+            self?.settleTask = nil
+        }
+    }
+
+    private func applyScreenGeometry() {
+        if let panel, visible { reposition(panel) }
+        guard let notchPanel, notchGeometry != Self.notchSize() else { return }
+        layOutNotchPanel(notchPanel)
     }
 
     /// Короткое окно опроса после системного события: события врут по времени
@@ -139,20 +174,43 @@ final class LockWidgetController {
         }
     }
 
+    /// Размер выреза встроенного экрана. Запасное значение — на случай, когда
+    /// экрана с вырезом нет вовсе (панель тогда всё равно не показывается).
+    private static func notchSize() -> CGSize {
+        let metrics = NSScreen.builtIn.flatMap { screen in
+            NotchGeometry.metrics(
+                screenFrame: screen.frame,
+                auxLeftWidth: screen.auxiliaryTopLeftArea?.width,
+                auxRightWidth: screen.auxiliaryTopRightArea?.width,
+                safeAreaTop: screen.safeAreaInsets.top)
+        }
+        return metrics?.closedSize ?? CGSize(width: 200, height: 32)
+    }
+
+    /// Пересобирает содержимое и фрейм пилюли под текущий вырез. Панель при
+    /// этом та же — она уже делегирована в 400-пространство, а состояние
+    /// анимации живёт снаружи, в notchPresentation.
+    private func layOutNotchPanel(_ panel: LockWidgetPanel) {
+        let notchSize = Self.notchSize()
+        notchGeometry = notchSize
+        let size = CGSize(
+            width: notchSize.width + 2 * Self.notchEarWidth, height: notchSize.height)
+        panel.contentView = FirstMouseHostingView(
+            rootView: LockNotchView(
+                notchSize: notchSize,
+                earWidth: Self.notchEarWidth,
+                presentation: notchPresentation))
+        guard let screen = NSScreen.builtIn else { return }
+        panel.setFrame(CGRect(
+            x: screen.frame.midX - size.width / 2,
+            y: screen.frame.maxY - size.height,
+            width: size.width, height: size.height), display: true)
+    }
+
     private func ensureNotchPanel() -> LockWidgetPanel {
         if let notchPanel { return notchPanel }
-        let notchSize = NSScreen.builtIn.flatMap { screen -> CGSize? in
-            guard let left = screen.auxiliaryTopLeftArea?.width,
-                  let right = screen.auxiliaryTopRightArea?.width,
-                  screen.safeAreaInsets.top > 0 else { return nil }
-            return CGSize(
-                width: screen.frame.width - left - right + 4,
-                height: screen.safeAreaInsets.top)
-        } ?? CGSize(width: 200, height: 32)
-        let earWidth: CGFloat = 44
-        let size = CGSize(width: notchSize.width + 2 * earWidth, height: notchSize.height)
         let p = LockWidgetPanel(
-            contentRect: CGRect(origin: .zero, size: size),
+            contentRect: CGRect(origin: .zero, size: Self.notchSize()),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false)
@@ -166,17 +224,7 @@ final class LockWidgetController {
         p.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         p.sharingType = .none
         p.appearance = NSAppearance(named: .darkAqua)
-        p.contentView = FirstMouseHostingView(
-            rootView: LockNotchView(
-                notchSize: notchSize,
-                earWidth: earWidth,
-                presentation: notchPresentation))
-        if let screen = NSScreen.builtIn {
-            p.setFrame(CGRect(
-                x: screen.frame.midX - size.width / 2,
-                y: screen.frame.maxY - size.height,
-                width: size.width, height: size.height), display: true)
-        }
+        layOutNotchPanel(p)
         notchPanel = p
         space?.delegate(p)
         return p

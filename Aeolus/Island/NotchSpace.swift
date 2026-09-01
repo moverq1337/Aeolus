@@ -18,6 +18,8 @@ final class NotchSpace {
     private var connection: Int32 = 0
     private var spaceID: Int = 0
     private let addWindowsFn: AddWindowsFn?
+    private let setLevelFn: SetLevelFn?
+    private let showSpacesFn: ShowSpacesFn?
 
     private init() {
         let conn = PrivateSymbols.load("CGSMainConnectionID", from: nil, as: MainConnFn.self)
@@ -30,10 +32,14 @@ final class NotchSpace {
         guard let conn, let create, let setLevel, let show, let add else {
             available = false
             addWindowsFn = nil
+            setLevelFn = nil
+            showSpacesFn = nil
             return
         }
         available = true
         addWindowsFn = add
+        setLevelFn = setLevel
+        showSpacesFn = show
         connection = conn()
         // Флаг 0x1 обязателен — иначе Finder перерисовывает иконки рабочего стола.
         spaceID = create(connection, 0x1, nil)
@@ -44,5 +50,14 @@ final class NotchSpace {
     func attach(_ window: NSWindow) {
         guard available, spaceID != 0, let addWindowsFn else { return }
         addWindowsFn(connection, [window.windowNumber] as NSArray, [spaceID] as NSArray)
+    }
+
+    /// Реконфигурация дисплея (смена разрешения, приход/уход монитора) роняет
+    /// пространству уровень и видимость — окно уезжает под чужие окна или
+    /// пропадает вовсе. Повторное применение идемпотентно и стоит два вызова.
+    func refresh() {
+        guard available, spaceID != 0, let setLevelFn, let showSpacesFn else { return }
+        setLevelFn(connection, spaceID, Int32.max)
+        showSpacesFn(connection, [spaceID] as NSArray)
     }
 }

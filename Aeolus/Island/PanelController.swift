@@ -18,6 +18,8 @@ final class PanelController {
     private let makeContent: @MainActor (NotchMetrics) -> AnyView
     private var hidden = false
     private var screenObserver: (any NSObjectProtocol)?
+    /// Живёт только внутри окна схождения геометрии — см. ScreenSettle.
+    private var settleTask: Task<Void, Never>?
     /// Обработчик двухпальцевых свайпов; переустанавливается при rebuild.
     var onScroll: ((NSEvent) -> Void)?
 
@@ -28,27 +30,57 @@ final class PanelController {
             object: nil, queue: .main
         ) { _ in
             MainActor.assumeIsolated {
-                AppServices.shared.panelController?.rebuild()
+                AppServices.shared.panelController?.screenParametersChanged()
             }
         }
-        rebuild()
+        apply(currentMetrics())
     }
 
-    func rebuild() {
+    /// Смена разрешения, подключение монитора, клемшелл, пробуждение.
+    /// Сверяемся сразу и ещё несколько раз по затухающему графику: AppKit
+    /// сообщает о смене раньше, чем NSScreen начинает отдавать новую правду.
+    func screenParametersChanged() {
+        settleTask?.cancel()
+        apply(currentMetrics())
+        // Реконфигурация дисплея сбрасывает пространству уровень и видимость —
+        // без этого остров уезжает под чужие окна.
+        NotchSpace.shared.refresh()
+        if let panel { NotchSpace.shared.attach(panel) }
+        settleTask = Task { [weak self] in
+            for delay in ScreenSettle.probeDelays {
+                try? await Task.sleep(for: delay)
+                guard !Task.isCancelled, let self else { return }
+                apply(currentMetrics())
+            }
+            self?.settleTask = nil
+        }
+    }
+
+    private func currentMetrics() -> NotchMetrics? {
+        guard let screen = NSScreen.builtIn else { return nil }
+        return NotchGeometry.metrics(
+            screenFrame: screen.frame,
+            auxLeftWidth: screen.auxiliaryTopLeftArea?.width,
+            auxRightWidth: screen.auxiliaryTopRightArea?.width,
+            safeAreaTop: screen.safeAreaInsets.top)
+    }
+
+    private func apply(_ fresh: NotchMetrics?) {
+        guard ScreenSettle.step(current: metrics, fresh: fresh) == .rebuild else { return }
+        metrics = fresh
+        guard let fresh else {
+            // Клемшелл, экран без выреза или момент перехода между режимами.
+            panel?.orderOut(nil)
+            panel = nil
+            return
+        }
+        rebuild(with: fresh)
+    }
+
+    private func rebuild(with m: NotchMetrics) {
         panel?.orderOut(nil)
         panel = nil
-        metrics = nil
 
-        guard let screen = NSScreen.builtIn,
-              let m = NotchGeometry.metrics(
-                screenFrame: screen.frame,
-                auxLeftWidth: screen.auxiliaryTopLeftArea?.width,
-                auxRightWidth: screen.auxiliaryTopRightArea?.width,
-                safeAreaTop: screen.safeAreaInsets.top,
-                expandedSize: IslandLayout.expandedVolumeSize)
-        else { return } // клемшелл или экран без выреза — острова нет
-
-        metrics = m
         let p = NotchPanel(
             contentRect: m.windowFrame,
             styleMask: [.borderless, .nonactivatingPanel],

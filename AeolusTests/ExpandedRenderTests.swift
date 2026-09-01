@@ -21,8 +21,7 @@ struct ExpandedRenderTests {
 
         let metrics = try #require(NotchGeometry.metrics(
             screenFrame: CGRect(x: 0, y: 0, width: 1512, height: 982),
-            auxLeftWidth: 656, auxRightWidth: 656, safeAreaTop: 32,
-            expandedSize: IslandLayout.expandedSize))
+            auxLeftWidth: 656, auxRightWidth: 656, safeAreaTop: 32))
 
         let view = IslandRootView(
             metrics: metrics, vm: vm, nowPlaying: store,
