@@ -1,8 +1,8 @@
 # Каск для tap-репозитория moverq1337/homebrew-aeolus.
 # При релизе: обновить version и sha256 (печатает Scripts/release.sh).
 cask "aeolus" do
-  version "0.5.0"
-  sha256 "ec83f46d7cbf30a20dc7d81a167410a4c8d88aa8d257fbe2853c05df335235a6"
+  version "0.6.0"
+  sha256 "25660e786e0c9721747590c3c840a2a3c2c75cd227e08b3ce9e818f6a0c96ced"
 
   url "https://github.com/moverq1337/Aeolus/releases/download/v#{version}/Aeolus-#{version}.zip"
   name "Aeolus"
