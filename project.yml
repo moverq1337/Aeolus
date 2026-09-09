@@ -34,8 +34,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.moverq1337.aeolus
         PRODUCT_NAME: Aeolus
-        MARKETING_VERSION: "0.5.0"
-        CURRENT_PROJECT_VERSION: "5"
+        MARKETING_VERSION: "0.6.0"
+        CURRENT_PROJECT_VERSION: "6"
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: Aeolus/Info.plist
         ENABLE_TESTABILITY: YES

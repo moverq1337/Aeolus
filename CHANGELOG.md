@@ -4,6 +4,8 @@ All notable changes to Aeolus. Format: [Keep a Changelog](https://keepachangelog
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-09-09
+
 ### Added
 - Yandex Music support. The app publishes Now Playing, but it publishes it
   torn — one field first, the rest hundreds of milliseconds later — so the
